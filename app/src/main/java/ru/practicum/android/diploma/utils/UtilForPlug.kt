@@ -7,14 +7,14 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.utils.UtilForPlug.EMPTY_FAVORITES
-import ru.practicum.android.diploma.utils.UtilForPlug.NO_INTERNET
-import ru.practicum.android.diploma.utils.UtilForPlug.NO_REGION
-import ru.practicum.android.diploma.utils.UtilForPlug.NO_RESULTS_CARPET
-import ru.practicum.android.diploma.utils.UtilForPlug.NO_RESULTS_CAT
-import ru.practicum.android.diploma.utils.UtilForPlug.SEARCH
-import ru.practicum.android.diploma.utils.UtilForPlug.SERVER_ERROR_CAT
-import ru.practicum.android.diploma.utils.UtilForPlug.SERVER_ERROR_TOWEL
+import ru.practicum.android.diploma.utils.StringConstants.EMPTY_FAVORITES
+import ru.practicum.android.diploma.utils.StringConstants.NO_INTERNET
+import ru.practicum.android.diploma.utils.StringConstants.NO_REGION
+import ru.practicum.android.diploma.utils.StringConstants.NO_RESULTS_CARPET
+import ru.practicum.android.diploma.utils.StringConstants.NO_RESULTS_CAT
+import ru.practicum.android.diploma.utils.StringConstants.SEARCH
+import ru.practicum.android.diploma.utils.StringConstants.SERVER_ERROR_CAT
+import ru.practicum.android.diploma.utils.StringConstants.SERVER_ERROR_TOWEL
 
 /** заглушки на ошибки или остутствии результата поиска
  *
@@ -29,15 +29,6 @@ import ru.practicum.android.diploma.utils.UtilForPlug.SERVER_ERROR_TOWEL
  * */
 
 object UtilForPlug {
-
-    const val SEARCH = "поиск вакансии"
-    const val NO_INTERNET = "проблемы с подключением к интернету"
-    const val NO_RESULTS_CAT = "Не удалось получить список вакансий"
-    const val NO_REGION = "Такого региона нет"
-    const val NO_RESULTS_CARPET = "Не удалось получить список"
-    const val SERVER_ERROR_TOWEL = "Ошибка сервера"
-    const val SERVER_ERROR_CAT = "Ошибка сервера"
-    const val EMPTY_FAVORITES = "Список пуст"
 
     val plugOptions = listOf(
         SEARCH,
@@ -111,9 +102,4 @@ private fun showServerErrorCatPlug(context: Context, plugText: TextView?, plugIc
 private fun showEmptyFavoritesPlug(context: Context, plugText: TextView?, plugIcon: ImageView?) {
     plugText?.text = context.resources.getString(R.string.favorites_empty)
     plugIcon?.setImageResource(R.drawable.placeholder_empty_favorites)
-}
-
-// показать случайную заглушку (тест, потом удалим)
-fun Fragment.showRandomPlug(context: Context) {
-    showPlug(context, UtilForPlug.plugOptions.random())
 }
