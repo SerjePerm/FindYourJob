@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.utils
 
-
 object StringConstants {
     // заглушки на ошибки или остутствии результата поиска
     const val SEARCH = "поиск вакансии"

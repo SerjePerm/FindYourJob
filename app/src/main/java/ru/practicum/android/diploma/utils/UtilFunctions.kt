@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.utils
 
+@Suppress("detekt.MagicNumber")
 fun getVacanciesText(count: Int): String {
     val lastDigit = count % 10
     val lastTwoDigits = count % 100
