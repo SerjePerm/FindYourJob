@@ -14,6 +14,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
 import ru.practicum.android.diploma.search.ui.adapter.VacanciesAdapter
+import ru.practicum.android.diploma.utils.getVacanciesText
 import ru.practicum.android.diploma.vacancy.ui.VacancyFragment
 
 class SearchFragment : Fragment() {
@@ -113,7 +114,7 @@ class SearchFragment : Fragment() {
         if (screenState.foundVacancies == 0) {
             binding.numberVacancies.text = resources.getString(R.string.search_no_vacancies)
         } else {
-            binding.numberVacancies.text = "Найдено ${screenState.foundVacancies} вакансий"
+            binding.numberVacancies.text = getVacanciesText(screenState.foundVacancies)
         }
         binding.progressBar.isVisible = false
     }
