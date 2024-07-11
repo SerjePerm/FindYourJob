@@ -11,4 +11,5 @@ object StringConstants {
     const val SERVER_ERROR_TOWEL = "Ошибка сервера"
     const val SERVER_ERROR_CAT = "Ошибка сервера"
     const val EMPTY_FAVORITES = "Список пуст"
+    const val HIDE = "Скрыть заглушку"
 }

@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.utils.StringConstants.EMPTY_FAVORITES
+import ru.practicum.android.diploma.utils.StringConstants.HIDE
 import ru.practicum.android.diploma.utils.StringConstants.NO_INTERNET
 import ru.practicum.android.diploma.utils.StringConstants.NO_REGION
 import ru.practicum.android.diploma.utils.StringConstants.NO_RESULTS_CARPET
@@ -60,6 +61,7 @@ fun Fragment.showPlug(
         SERVER_ERROR_TOWEL -> showServerErrorTowelPlug(context, plugText, plugIcon)
         SERVER_ERROR_CAT -> showServerErrorCatPlug(context, plugText, plugIcon)
         EMPTY_FAVORITES -> showEmptyFavoritesPlug(context, plugText, plugIcon)
+        HIDE -> dontShow(context, utilPlugBox, plugText, plugIcon)
         else -> utilPlugBox?.visibility = View.GONE
     }
 }
@@ -102,4 +104,8 @@ private fun showServerErrorCatPlug(context: Context, plugText: TextView?, plugIc
 private fun showEmptyFavoritesPlug(context: Context, plugText: TextView?, plugIcon: ImageView?) {
     plugText?.text = context.resources.getString(R.string.favorites_empty)
     plugIcon?.setImageResource(R.drawable.placeholder_empty_favorites)
+}
+
+private fun dontShow(context: Context, utilPlugBox: LinearLayout?, plugText: TextView?, plugIcon: ImageView?) {
+    utilPlugBox?.visibility = View.GONE
 }
