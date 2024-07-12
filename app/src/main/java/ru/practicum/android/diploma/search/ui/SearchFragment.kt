@@ -20,7 +20,6 @@ import ru.practicum.android.diploma.databinding.FragmentSearchBinding
 import ru.practicum.android.diploma.search.ui.adapter.VacanciesAdapter
 import ru.practicum.android.diploma.utils.Placeholder
 import ru.practicum.android.diploma.utils.StringConstants.SEARCH_LIST_STATE_KEY
-import ru.practicum.android.diploma.utils.getVacanciesText
 import ru.practicum.android.diploma.utils.showPlaceholder
 import ru.practicum.android.diploma.vacancy.ui.VacancyFragment
 
@@ -142,7 +141,7 @@ class SearchFragment : Fragment() {
             binding.numberVacancies.text = resources.getString(R.string.search_no_vacancies)
             showPlaceholder(requireContext(), Placeholder.NO_RESULTS_CAT)
         } else {
-            binding.numberVacancies.text = getVacanciesText(screenState.foundVacancies)
+            binding.numberVacancies.text = getVacanciesText(requireContext(), screenState.foundVacancies)
             showPlaceholder(requireContext(), Placeholder.HIDE)
         }
         binding.progressBar.isVisible = false
@@ -179,5 +178,9 @@ class SearchFragment : Fragment() {
     private fun hideKeyboard() {
         val inputMethodManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
+    }
+
+    fun getVacanciesText(context: Context, count: Int): String {
+        return context.resources.getQuantityString(R.plurals.vacancies, count, count)
     }
 }
