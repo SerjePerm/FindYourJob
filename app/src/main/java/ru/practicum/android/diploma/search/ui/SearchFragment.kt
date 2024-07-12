@@ -21,7 +21,7 @@ import ru.practicum.android.diploma.search.ui.adapter.VacanciesAdapter
 import ru.practicum.android.diploma.utils.Placeholder
 import ru.practicum.android.diploma.utils.StringConstants.SEARCH_LIST_STATE_KEY
 import ru.practicum.android.diploma.utils.getVacanciesText
-import ru.practicum.android.diploma.utils.showPlug
+import ru.practicum.android.diploma.utils.showPlaceholder
 import ru.practicum.android.diploma.vacancy.ui.VacancyFragment
 
 class SearchFragment : Fragment() {
@@ -71,7 +71,7 @@ class SearchFragment : Fragment() {
 
                 binding.ivClear.isVisible = !s.isNullOrEmpty()
                 binding.ivSearch.isVisible = s.isNullOrEmpty()
-                showPlug(requireContext(), Placeholder.HIDE)
+                showPlaceholder(requireContext(), Placeholder.HIDE)
 
             }
 
@@ -140,10 +140,10 @@ class SearchFragment : Fragment() {
         binding.numberVacancies.isVisible = true
         if (screenState.foundVacancies == 0) {
             binding.numberVacancies.text = resources.getString(R.string.search_no_vacancies)
-            showPlug(requireContext(), Placeholder.NO_RESULTS_CAT)
+            showPlaceholder(requireContext(), Placeholder.NO_RESULTS_CAT)
         } else {
             binding.numberVacancies.text = getVacanciesText(screenState.foundVacancies)
-            showPlug(requireContext(), Placeholder.HIDE)
+            showPlaceholder(requireContext(), Placeholder.HIDE)
         }
         binding.progressBar.isVisible = false
 
@@ -156,7 +156,7 @@ class SearchFragment : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     private fun showError() {
         binding.progressBar.isVisible = false
-        showPlug(requireContext(), Placeholder.NO_INTERNET)
+        showPlaceholder(requireContext(), Placeholder.NO_INTERNET)
         hideKeyboard()
     }
 
@@ -165,7 +165,7 @@ class SearchFragment : Fragment() {
         vacanciesAdapter.clearItems()
         binding.numberVacancies.isVisible = false
         binding.progressBar.isVisible = false
-        showPlug(requireContext(), Placeholder.SEARCH)
+        showPlaceholder(requireContext(), Placeholder.SEARCH)
         hideKeyboard()
     }
 

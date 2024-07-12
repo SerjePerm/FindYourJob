@@ -32,7 +32,7 @@ enum class Placeholder {
     HIDE // Скрыть заглушку
 }
 
-fun Fragment.showPlug(
+fun Fragment.showPlaceholder(
     context: Context,
     placeholder: Placeholder
 ) {
