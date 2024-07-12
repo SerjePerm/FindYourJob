@@ -30,5 +30,7 @@ class CountryFragment : Fragment() {
         binding.tbCountry.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
+
+        viewModel.loadCountries()
     }
 }

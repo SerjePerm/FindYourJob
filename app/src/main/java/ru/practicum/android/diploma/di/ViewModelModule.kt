@@ -38,7 +38,7 @@ val viewModelModule = module {
     }
 
     viewModel {
-        CountryViewModel()
+        CountryViewModel(filterInteractor = get())
     }
 
     viewModel {

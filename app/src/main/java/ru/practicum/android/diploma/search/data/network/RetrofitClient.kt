@@ -4,6 +4,8 @@ import android.content.Context
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
+import ru.practicum.android.diploma.filter.data.dto.CountriesRequest
+import ru.practicum.android.diploma.filter.data.dto.CountriesResponse
 import ru.practicum.android.diploma.search.data.dto.RESULT_CODE_BAD_REQUEST
 import ru.practicum.android.diploma.search.data.dto.RESULT_CODE_NO_INTERNET
 import ru.practicum.android.diploma.search.data.dto.RESULT_CODE_SERVER_ERROR
@@ -38,6 +40,21 @@ class RetrofitClient(
                     is SearchRequest -> {
                         val response = jobApiService.searchVacancies(options = dto.options)
                         response.apply { resultCode = RESULT_CODE_SUCCESS }
+                    }
+
+                    is CountriesRequest -> {
+                        val networkResponse = jobApiService.getCountries()
+                        if (networkResponse.isSuccessful) {
+                            val results = networkResponse.body() ?: emptyList()
+                            results.forEach { 
+                                println("result: $it")
+                            }
+                            val countriesResponse = CountriesResponse(results)
+                            countriesResponse.resultCode = networkResponse.code()
+                            countriesResponse
+                        } else {
+                            Response().apply { resultCode = networkResponse.code() }
+                        }
                     }
 
                     else -> {
