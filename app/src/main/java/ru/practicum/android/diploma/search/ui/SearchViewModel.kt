@@ -17,7 +17,8 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
     private val _screenState = MutableLiveData<SearchState>(SearchState.Empty)
     val screenState: LiveData<SearchState> = _screenState
 
-    private var latestSearchText: String? = null
+    var latestSearchText: String? = null
+    var previousSearchResults: SearchState.Content? = null
 
     private val options: HashMap<String, String> = HashMap()
 
@@ -46,7 +47,9 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
             viewModelScope.launch(Dispatchers.IO) {
                 searchInteractor.search(SearchRequest(options)).collect { response ->
                     if (response.resultCode == RESULT_CODE_SUCCESS) {
-                        _screenState.postValue(SearchState.Content(response.results, response.foundVacancies))
+                        val contentState = SearchState.Content(response.results, response.foundVacancies)
+                        previousSearchResults = contentState
+                        _screenState.postValue(contentState)
                     } else {
                         _screenState.postValue(SearchState.Error)
                     }

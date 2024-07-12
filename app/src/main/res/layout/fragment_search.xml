@@ -89,15 +89,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/flSearch" />
 
-    <ImageView
-        android:id="@+id/ivPlaceholderSearch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/margin16"
-        android:src="@drawable/placeholder_search"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/flSearch" />
-
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="44dp"
