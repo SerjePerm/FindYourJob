@@ -152,14 +152,12 @@ class SearchFragment : Fragment() {
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun showError() {
         binding.progressBar.isVisible = false
         showPlaceholder(requireContext(), Placeholder.NO_INTERNET)
         hideKeyboard()
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun showEmpty() {
         vacanciesAdapter.clearItems()
         binding.numberVacancies.isVisible = false
@@ -168,7 +166,6 @@ class SearchFragment : Fragment() {
         hideKeyboard()
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun showLoading() {
         vacanciesAdapter.clearItems()
         binding.progressBar.isVisible = true
