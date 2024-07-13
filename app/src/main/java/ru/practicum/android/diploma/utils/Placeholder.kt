@@ -8,18 +8,6 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import ru.practicum.android.diploma.R
 
-/** заглушки на ошибки или остутствии результата поиска
- *
- * пример вызова из фрагмента:
- * showPlug(requireContext(), NO_INTERNET)
- *
- * в макете:
- *     <include
- *         android:id="@+id/util_plug"
- *         layout="@layout/util_plug"
- *         android:visibility="gone" />
- * */
-
 enum class Placeholder {
     SEARCH, // поиск вакансии (пикча без текста с биноклем)
     NO_INTERNET, // проблемы с подключением к интернету
