@@ -3,7 +3,9 @@ package ru.practicum.android.diploma.filter.ui.sector.adapter
 import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import ru.practicum.android.diploma.filter.domain.models.Country
 import ru.practicum.android.diploma.filter.domain.models.Sector
+import kotlin.math.min
 
 class SectorAdapter(
     val onClick: (Sector) -> Unit
@@ -24,18 +26,24 @@ class SectorAdapter(
         }
     }
 
-    fun addItems(newSectors: List<Sector>) {
-        if (newSectors.isEmpty()) {
-            return
+    @SuppressLint("NotifyDataSetChanged")
+    fun setItems(newSectors: List<Sector>) {
+        if (newSectors.isNotEmpty()
+            && newSectors.slice(0 until min(sectors.size, newSectors.size)) == sectors
+        ) {
+            val oldSize = sectors.size
+            val countNew = newSectors.size - oldSize
+            sectors += newSectors.slice(oldSize until newSectors.size)
+            notifyItemRangeChanged(oldSize, countNew)
+        } else {
+            sectors.clear()
+            sectors += newSectors
+            notifyDataSetChanged()
         }
-        val originalSize = sectors.size
-        sectors += newSectors
-        notifyItemRangeInserted(originalSize, newSectors.size)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     fun clearItems() {
-        sectors.clear()
-        notifyDataSetChanged()
+        setItems(emptyList())
     }
+
 }

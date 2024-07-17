@@ -8,12 +8,19 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.databinding.FragmentCountryBinding
+import ru.practicum.android.diploma.filter.ui.country.adapter.CountriesAdapter
 
 class CountryFragment : Fragment() {
 
     private var _binding: FragmentCountryBinding? = null
     private val binding get() = _binding!!
     private val viewModel: CountryViewModel by viewModel()
+
+    private val countriesAdapter: CountriesAdapter by lazy {
+        CountriesAdapter { country ->
+            println("clicked: ${country.name}")
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,17 +33,53 @@ class CountryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.tbCountry.setNavigationOnClickListener {
-            findNavController().navigateUp()
-        }
-
-        viewModel.loadCountries()
+        initializeListeners()
+        initializeAdapter()
+        initializeObservers()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun initializeListeners() {
+        binding.tbCountry.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
+    }
+
+    private fun initializeAdapter() {
+        binding.rvCountries.adapter = countriesAdapter
+    }
+
+    private fun initializeObservers() {
+        viewModel.screenState.observe(viewLifecycleOwner) { screenState ->
+            when (screenState) {
+                is CountryState.Content -> showContent(screenState)
+                CountryState.Error -> showError(screenState)
+                CountryState.Loading -> showLoading(screenState)
+            }
+        }
+    }
+
+    private fun showContent(screenState: CountryState.Content) {
+        if (screenState.countriesList.isNotEmpty()) {
+            countriesAdapter.clearItems()
+            //placeholder hide
+        } else {
+            countriesAdapter.clearItems()
+            //placeholder empty results
+        }
+        //binding.progressBar.isVisible = false
+    }
+
+    private fun showError(screnState: CountryState.Error) {
+        println("error")
+    }
+
+    private fun showLoading(screnState: CountryState.Loading) {
+        println("loading")
     }
 
 }

@@ -10,7 +10,6 @@ class FilterRepositoryImpl(
 ) : FilterRepository {
 
     override suspend fun getCountries(): List<Country> {
-        println("get command recieved")
         networkClient.doRequest(CountriesRequest(emptyMap()))
         return emptyList<Country>()
     }

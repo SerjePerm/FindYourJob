@@ -5,8 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.filter.domain.models.Country
 import ru.practicum.android.diploma.search.domain.models.Vacancy
+import kotlin.math.min
 
-class CountryAdapter(
+class CountriesAdapter(
     val onClick: (Country) -> Unit
 ) : RecyclerView.Adapter<CountryViewHolder>() {
     private val countries = mutableListOf<Country>()
@@ -25,18 +26,24 @@ class CountryAdapter(
         }
     }
 
-    fun addItems(newCountries: List<Country>) {
-        if (newCountries.isEmpty()) {
-            return
+    @SuppressLint("NotifyDataSetChanged")
+    fun setItems(newCountries: List<Country>) {
+        if (newCountries.isNotEmpty()
+            && newCountries.slice(0 until min(countries.size, newCountries.size)) == countries
+        ) {
+            val oldSize = countries.size
+            val countNew = newCountries.size - oldSize
+            countries += newCountries.slice(oldSize until newCountries.size)
+            notifyItemRangeChanged(oldSize, countNew)
+        } else {
+            countries.clear()
+            countries += newCountries
+            notifyDataSetChanged()
         }
-        val originalSize = countries.size
-        countries += newCountries
-        notifyItemRangeInserted(originalSize, newCountries.size)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     fun clearItems() {
-        countries.clear()
-        notifyDataSetChanged()
+        setItems(emptyList())
     }
+
 }

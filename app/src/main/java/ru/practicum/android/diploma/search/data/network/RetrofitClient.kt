@@ -46,9 +46,6 @@ class RetrofitClient(
                         val networkResponse = jobApiService.getCountries()
                         if (networkResponse.isSuccessful) {
                             val results = networkResponse.body() ?: emptyList()
-                            results.forEach { 
-                                println("result: $it")
-                            }
                             val countriesResponse = CountriesResponse(results)
                             countriesResponse.resultCode = networkResponse.code()
                             countriesResponse
