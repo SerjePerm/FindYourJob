@@ -41,15 +41,16 @@
 
     <ProgressBar
         android:id="@+id/progressBar"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
-        android:layout_gravity="center"
-        android:indeterminateTint="@color/blue"
+        style="@style/ProgressBarStyle"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="@dimen/margin100"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tbVacancy" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
     <ImageView
         android:id="@+id/ivPlaceholder"
@@ -117,10 +118,10 @@
                     android:layout_height="48dp"
                     android:layout_marginVertical="@dimen/margin16"
                     android:layout_marginStart="@dimen/margin16"
+                    android:background="@drawable/logo_company_background"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:src="@drawable/ic_placeholder_logo" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tvCompany"
@@ -130,6 +131,7 @@
                     android:layout_marginStart="@dimen/margin8"
                     android:layout_marginTop="@dimen/margin16"
                     android:layout_marginEnd="@dimen/margin16"
+                    android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/ivLogo"
                     app:layout_constraintTop_toTopOf="parent"
@@ -143,6 +145,7 @@
                     android:layout_marginStart="@dimen/margin8"
                     android:layout_marginEnd="@dimen/margin16"
                     android:layout_marginBottom="@dimen/margin16"
+                    android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/ivLogo"
@@ -158,7 +161,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin16"
                 android:layout_marginTop="@dimen/margin24"
-                android:text="@string/experience"
+                android:text="@string/vacancy_experience"
                 app:layout_constraintTop_toBottomOf="@id/clCompanyInfo" />
 
             <TextView
@@ -272,8 +275,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin16"
                 android:paddingBottom="@dimen/padding8"
-                app:layout_constraintTop_toBottomOf="@id/tvEmail"
                 android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/tvEmail"
                 tools:text="comment" />
 
         </LinearLayout>

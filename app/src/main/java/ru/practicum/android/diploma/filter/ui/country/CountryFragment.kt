@@ -33,4 +33,10 @@ class CountryFragment : Fragment() {
 
         viewModel.loadCountries()
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
 }

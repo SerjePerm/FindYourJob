@@ -15,6 +15,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentVacancyBinding
+import ru.practicum.android.diploma.utils.formattingSalary
 
 class VacancyFragment : Fragment() {
 
@@ -37,6 +38,11 @@ class VacancyFragment : Fragment() {
         viewModel.loadVacancy(vacancyId)
         initializeListeners()
         initializeObservers()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun initializeListeners() {
@@ -68,6 +74,7 @@ class VacancyFragment : Fragment() {
                 VacancyState.ErrorVacancyNotFound -> showErrorVacancyNotFound()
                 VacancyState.ErrorServer -> showErrorServer()
                 VacancyState.Loading -> showLoading()
+                VacancyState.ErrorNoInternet -> showNoInternet()
             }
         }
         viewModel.isFavorite.observe(viewLifecycleOwner) { isFavorite ->
@@ -90,57 +97,53 @@ class VacancyFragment : Fragment() {
         binding.svVacancyInfo.isVisible = true
         binding.ivPlaceholder.isVisible = false
         binding.tvPlaceholder.isVisible = false
-        binding.tvContacts.isVisible = false
+        binding.ivFavorite.isVisible = true
+        binding.ivShare.isVisible = true
+
         binding.tvVacancyName.text = vacancyFull.name
-
-        if (vacancyFull.salary.isNotEmpty()) {
-            binding.tvSalary.text = vacancyFull.salary
-        } else {
-            binding.tvSalary.isVisible = false
-        }
-        binding.tvExperienceValue.text = vacancyFull.experience
-
+        binding.tvSalary.text =
+            formattingSalary(vacancyFull.salaryFrom, vacancyFull.salaryTo, vacancyFull.currency, requireContext())
         binding.tvCompany.text = vacancyFull.company
-        Glide.with(requireActivity())
-            .load(vacancyFull.icon)
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
-            .placeholder(R.drawable.ic_placeholder_logo)
-            .centerCrop()
-            .into(binding.ivLogo)
-
         binding.tvDescriptionValue.text = Html.fromHtml(vacancyFull.description, Html.FROM_HTML_MODE_COMPACT)
 
+        showExperience(vacancyFull.experience)
+        showLogo(vacancyFull.icon)
         showAddress(vacancyFull.area, vacancyFull.address)
-
         showKeySkills(vacancyFull.keySkills)
-
         showContacts(vacancyFull.contact, vacancyFull.email, vacancyFull.phone, vacancyFull.comment)
-
         showEmploymentAndSchedule(vacancyFull.employment, vacancyFull.schedule)
+    }
+
+    private fun showLoading() {
+        binding.progressBar.isVisible = true
+        binding.svVacancyInfo.isVisible = false
+        binding.ivFavorite.isVisible = false
+        binding.ivShare.isVisible = false
     }
 
     private fun showErrorVacancyNotFound() {
         binding.progressBar.isVisible = false
         binding.ivPlaceholder.setImageDrawable(getDrawable(requireContext(), R.drawable.placeholder_vacancy_not_found))
         binding.tvPlaceholder.text = getString(R.string.vacancy_not_found)
-        binding.ivPlaceholder.isVisible = true
-        binding.tvPlaceholder.isVisible = true
+        showError()
     }
 
     private fun showErrorServer() {
         binding.progressBar.isVisible = false
         binding.ivPlaceholder.setImageDrawable(getDrawable(requireContext(), R.drawable.placeholder_server_error_cat))
         binding.tvPlaceholder.text = getString(R.string.vacancy_server_error)
-        binding.ivPlaceholder.isVisible = true
-        binding.tvPlaceholder.isVisible = true
+        showError()
     }
 
-    private fun showLoading() {
-        binding.progressBar.isVisible = true
-        binding.svVacancyInfo.isVisible = false
+    private fun showNoInternet() {
+        binding.progressBar.isVisible = false
+        binding.ivPlaceholder.setImageDrawable(getDrawable(requireContext(), R.drawable.placeholder_no_internet))
+        binding.tvPlaceholder.text = getString(R.string.search_no_internet)
+        showError()
     }
 
     private fun showContacts(nameContacts: String, email: String, phone: String, comment: String) {
+        binding.tvContacts.isVisible = false
         if (nameContacts.isNotEmpty()) {
             binding.tvContacts.isVisible = true
             binding.tvNameContact.isVisible = true
@@ -165,7 +168,7 @@ class VacancyFragment : Fragment() {
 
     private fun showKeySkills(keySkills: String) {
         if (keySkills.isNotEmpty()) {
-            binding.tvKeySkillsValue.text = Html.fromHtml(keySkills, Html.FROM_HTML_MODE_COMPACT)
+            binding.tvKeySkillsValue.text = keySkills
             binding.tvKeySkills.isVisible = true
             binding.tvKeySkillsValue.isVisible = true
         } else {
@@ -180,6 +183,26 @@ class VacancyFragment : Fragment() {
         } else {
             binding.tvArea.text = area
         }
+    }
+
+    private fun showExperience(experience: String) {
+        if (experience.isNotEmpty()) {
+            binding.tvExperience.isVisible = true
+            binding.tvExperienceValue.text = experience
+        } else {
+            binding.tvExperience.isVisible = false
+        }
+    }
+
+    private fun showLogo(image: String) {
+        Glide.with(requireActivity())
+            .load(image)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .placeholder(R.drawable.ic_placeholder_logo)
+            .centerInside()
+            .into(binding.ivLogo)
+
+        binding.ivLogo.clipToOutline = true
     }
 
     private fun showEmploymentAndSchedule(employment: String, schedule: String) {
@@ -201,8 +224,15 @@ class VacancyFragment : Fragment() {
         }
     }
 
+    private fun showError() {
+        binding.ivPlaceholder.isVisible = true
+        binding.tvPlaceholder.isVisible = true
+        binding.ivFavorite.isVisible = false
+        binding.ivShare.isVisible = false
+        binding.svVacancyInfo.isVisible = false
+    }
+
     companion object {
-        private const val LIMIT_RESULTS = 100
         private const val VACANCY_ID = "VACANCY_ID"
         fun createArguments(vacancyId: Int): Bundle = bundleOf(VACANCY_ID to vacancyId)
     }

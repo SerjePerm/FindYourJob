@@ -5,11 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import ru.practicum.android.diploma.search.data.dto.RESULT_CODE_SUCCESS
-import ru.practicum.android.diploma.search.data.dto.SearchRequest
 import ru.practicum.android.diploma.search.domain.api.SearchInteractor
-import ru.practicum.android.diploma.utils.NumericConstants
+import ru.practicum.android.diploma.search.domain.models.VacanciesResponse
+import ru.practicum.android.diploma.search.domain.models.Vacancy
+import ru.practicum.android.diploma.search.domain.utils.Options
+import ru.practicum.android.diploma.search.domain.utils.ResponseData
 import ru.practicum.android.diploma.utils.debounce
 
 class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewModel() {
@@ -19,39 +21,89 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
 
     private var latestSearchText: String? = null
 
-    private val options: HashMap<String, String> = HashMap()
+    private var currentPage = -1
+    private var maxPages = 0
+    private val vacanciesList = mutableListOf<Vacancy>()
 
     private val searchDebounce = debounce<String>(
-        delayMillis = NumericConstants.TWO_SECONDS,
+        delayMillis = SEARCH_DEBOUNCE_DELAY_MILLIS,
         coroutineScope = viewModelScope,
         useLastParam = true
     ) { changedText ->
+        currentPage = 0
+        maxPages = 0
+        vacanciesList.clear()
         searchRequest(changedText)
     }
 
-    fun search(searchText: String) {
-        if (searchText.isNotEmpty() || latestSearchText != searchText) {
-            latestSearchText = searchText
-            searchDebounce(searchText)
-        } else {
+    private var isNextPageLoading = false
+
+    private var searchJob: Job? = null
+
+    private var cancelJob = false
+
+    fun onLastItemReached() {
+        if (isNextPageLoading) {
+            return
+        }
+
+        if (currentPage < maxPages) {
+            currentPage++
+            latestSearchText?.let {
+                isNextPageLoading = true
+                searchRequest(it)
+            }
+        }
+    }
+
+    fun search(searchText: String?) {
+        if (searchText.isNullOrEmpty()) {
+            cancelJob = true
+            searchJob?.cancel()
             _screenState.postValue(SearchState.Empty)
+        } else if (latestSearchText != searchText) {
+            latestSearchText = searchText
+            cancelJob = false
+            searchDebounce(searchText)
         }
     }
 
     private fun searchRequest(searchText: String) {
-        if (searchText.isNotEmpty()) {
-            _screenState.postValue(SearchState.Loading)
-            options["text"] = searchText
-            _screenState.value = SearchState.Loading
-            viewModelScope.launch(Dispatchers.IO) {
-                searchInteractor.search(SearchRequest(options)).collect { response ->
-                    if (response.resultCode == RESULT_CODE_SUCCESS) {
-                        _screenState.postValue(SearchState.Content(response.results, response.foundVacancies))
-                    } else {
-                        _screenState.postValue(SearchState.Error)
-                    }
-                }
+        if (searchText.isNotEmpty() && !cancelJob) {
+            _screenState.postValue(SearchState.Loading(currentPage > 0))
+            searchJob = viewModelScope.launch(Dispatchers.IO) {
+                val options = Options(
+                    searchText = searchText,
+                    itemsPerPage = VACANCIES_PER_PAGE,
+                    page = currentPage,
+                )
+                searchInteractor.search(options).collect(::processResponse)
             }
         }
+    }
+
+    private fun processResponse(vacanciesData: ResponseData<VacanciesResponse>) {
+        when (vacanciesData) {
+            is ResponseData.Data -> {
+                val vacanciesResponse = vacanciesData.value
+                with(vacanciesResponse) {
+                    currentPage = page
+                    vacanciesList += results
+                    maxPages = pages
+                    _screenState.postValue(SearchState.Content(vacanciesList, foundVacancies))
+                }
+            }
+
+            is ResponseData.Error -> {
+                _screenState.postValue(SearchState.Error(vacanciesData.error, isNextPageLoading))
+            }
+        }
+
+        isNextPageLoading = false
+    }
+
+    private companion object {
+        const val VACANCIES_PER_PAGE = 20
+        const val SEARCH_DEBOUNCE_DELAY_MILLIS = 2000L
     }
 }

@@ -4,7 +4,9 @@ data class VacancyFull(
     val id: Int = -1,
     val name: String = "",
     val company: String = "",
-    val salary: String = "",
+    val currency: String = "",
+    val salaryFrom: Int? = null,
+    val salaryTo: Int? = null,
     val area: String = "",
     val alternateUrl: String = "",
     val icon: String = "",
@@ -17,5 +19,6 @@ data class VacancyFull(
     val phone: String = "",
     val comment: String = "",
     val keySkills: String = "",
-    val address: String = ""
+    val address: String = "",
+    val timestamp: Long = 0
 )
