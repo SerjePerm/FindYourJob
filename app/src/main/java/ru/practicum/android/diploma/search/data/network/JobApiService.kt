@@ -5,6 +5,8 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.QueryMap
 import ru.practicum.android.diploma.filter.data.dto.components.CountryDto
+import ru.practicum.android.diploma.filter.data.dto.components.RegionDto
+import ru.practicum.android.diploma.filter.data.dto.components.SectorDto
 import ru.practicum.android.diploma.search.data.dto.SearchResponse
 import ru.practicum.android.diploma.vacancy.data.dto.VacancyResponse
 
@@ -16,6 +18,13 @@ interface JobApiService {
     @GET("vacancies")
     suspend fun searchVacancies(@QueryMap options: Map<String, String>): SearchResponse
 
-    @GET("areas/countries")
+    @GET("areas")
     suspend fun getCountries(): Response<List<CountryDto>>
+
+    @GET ("areas/{area_id}")
+    suspend fun getRegions(@Path("area_id") areaId: Int): Response<List<RegionDto>>
+
+    @GET("industries")
+    suspend fun getSectors(): Response<List<SectorDto>>
+
 }

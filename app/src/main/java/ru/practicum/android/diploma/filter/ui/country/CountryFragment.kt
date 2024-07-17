@@ -57,28 +57,28 @@ class CountryFragment : Fragment() {
         viewModel.screenState.observe(viewLifecycleOwner) { screenState ->
             when (screenState) {
                 is CountryState.Content -> showContent(screenState)
-                CountryState.Error -> showError(screenState)
-                CountryState.Loading -> showLoading(screenState)
+                is CountryState.Error -> showError(screenState)
+                is CountryState.Loading -> showLoading(screenState)
             }
         }
     }
 
     private fun showContent(screenState: CountryState.Content) {
         if (screenState.countriesList.isNotEmpty()) {
-            countriesAdapter.clearItems()
+            countriesAdapter.setItems(screenState.countriesList)
             //placeholder hide
         } else {
             countriesAdapter.clearItems()
             //placeholder empty results
         }
-        //binding.progressBar.isVisible = false
+        //progressBar hide
     }
 
-    private fun showError(screnState: CountryState.Error) {
+    private fun showError(screenState: CountryState.Error) {
         println("error")
     }
 
-    private fun showLoading(screnState: CountryState.Loading) {
+    private fun showLoading(screenState: CountryState.Loading) {
         println("loading")
     }
 
