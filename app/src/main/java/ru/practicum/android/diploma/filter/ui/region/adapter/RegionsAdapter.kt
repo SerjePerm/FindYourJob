@@ -3,7 +3,6 @@ package ru.practicum.android.diploma.filter.ui.region.adapter
 import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import ru.practicum.android.diploma.filter.domain.models.Country
 import ru.practicum.android.diploma.filter.domain.models.Region
 import kotlin.math.min
 

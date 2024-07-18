@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.filter.domain.models.Country
-import ru.practicum.android.diploma.search.domain.models.Vacancy
 import kotlin.math.min
 
 class CountriesAdapter(

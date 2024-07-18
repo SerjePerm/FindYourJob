@@ -3,11 +3,10 @@ package ru.practicum.android.diploma.filter.ui.sector.adapter
 import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import ru.practicum.android.diploma.filter.domain.models.Country
 import ru.practicum.android.diploma.filter.domain.models.Sector
 import kotlin.math.min
 
-class SectorAdapter(
+class SectorsAdapter(
     val onClick: (Sector) -> Unit
 ) : RecyclerView.Adapter<SectorViewHolder>() {
     private val sectors = mutableListOf<Sector>()

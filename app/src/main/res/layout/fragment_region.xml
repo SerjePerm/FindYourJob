@@ -18,7 +18,7 @@
         android:titleTextAppearance="@style/Medium_22" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvСountries"
+        android:id="@+id/rvRegions"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="@dimen/margin12"

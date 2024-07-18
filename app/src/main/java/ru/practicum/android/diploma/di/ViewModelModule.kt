@@ -42,10 +42,10 @@ val viewModelModule = module {
     }
 
     viewModel {
-        RegionViewModel()
+        RegionViewModel(filterInteractor = get())
     }
 
     viewModel {
-        SectorViewModel()
+        SectorViewModel(filterInteractor = get())
     }
 }

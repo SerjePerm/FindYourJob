@@ -66,12 +66,12 @@ class CountryFragment : Fragment() {
     private fun showContent(screenState: CountryState.Content) {
         if (screenState.countriesList.isNotEmpty()) {
             countriesAdapter.setItems(screenState.countriesList)
-            //placeholder hide
+            // placeholder hide
         } else {
             countriesAdapter.clearItems()
-            //placeholder empty results
+            // placeholder empty results
         }
-        //progressBar hide
+        // progressBar hide
     }
 
     private fun showError(screenState: CountryState.Error) {
