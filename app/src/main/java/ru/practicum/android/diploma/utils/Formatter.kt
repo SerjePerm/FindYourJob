@@ -35,7 +35,7 @@ private fun formatNumber(number: Int): String {
 
 private fun formatCurrency(currency: String): String {
     return when (currency) {
-        "RUR", "RUB" -> " ₽"
+        "RUR", "RUB" -> "₽"
         "BYR" -> "Br"
         "USD" -> "$"
         "EUR" -> "€"

@@ -67,7 +67,7 @@ class SearchFragment : Fragment() {
                 is SearchState.Content -> showContent(screenState)
                 is SearchState.Error -> showError(screenState)
                 is SearchState.Loading -> showLoading(screenState.isNewPage)
-                is SearchState.Empty -> showEmpty()
+                SearchState.Empty -> showEmpty()
             }
         }
     }
@@ -182,9 +182,8 @@ class SearchFragment : Fragment() {
         inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
-    private fun getVacanciesText(context: Context, count: Int): String {
-        return context.resources.getQuantityString(R.plurals.vacancies, count, count)
-    }
+    private fun getVacanciesText(context: Context, count: Int): String =
+        context.resources.getQuantityString(R.plurals.vacancies, count, count)
 
     private fun showSnackBar(message: String) {
         val snackBar = Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT)

@@ -27,7 +27,15 @@ class FilterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initializeListeners()
+    }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun initializeListeners() {
         binding.btLocation.setOnClickListener {
             findNavController().navigate(R.id.action_filterFragment_to_locationFragment)
         }
@@ -40,22 +48,9 @@ class FilterFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        binding.checkBox.setOnCheckedChangeListener { _, isChecked ->
-            // ТУДУ
-        }
-
         binding.btFilterApply.setOnClickListener {
             findNavController().navigate(R.id.action_filterFragment_to_searchFragment)
-            // ТУДУ
-        }
-
-        binding.btFilterReset.setOnClickListener {
-            // ТУДУ
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

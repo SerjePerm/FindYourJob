@@ -57,8 +57,8 @@ class SectorFragment : Fragment() {
         viewModel.screenState.observe(viewLifecycleOwner) { screenState ->
             when (screenState) {
                 is SectorState.Content -> showContent(screenState)
-                is SectorState.Error -> showError(screenState)
-                is SectorState.Loading -> showLoading(screenState)
+                SectorState.Error -> showError()
+                SectorState.Loading -> showLoading()
             }
         }
     }
@@ -74,11 +74,11 @@ class SectorFragment : Fragment() {
         // progressBar hide
     }
 
-    private fun showError(screenState: SectorState.Error) {
+    private fun showError() {
         println("error")
     }
 
-    private fun showLoading(screenState: SectorState.Loading) {
+    private fun showLoading() {
         println("loading")
     }
 

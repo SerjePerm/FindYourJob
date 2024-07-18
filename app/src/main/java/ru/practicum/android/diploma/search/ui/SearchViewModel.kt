@@ -19,11 +19,14 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
     private val _screenState = MutableLiveData<SearchState>(SearchState.Empty)
     val screenState: LiveData<SearchState> = _screenState
 
+    private val vacanciesList = mutableListOf<Vacancy>()
     private var latestSearchText: String? = null
+    private var searchJob: Job? = null
+    private var cancelJob = false
 
     private var currentPage = -1
     private var maxPages = 0
-    private val vacanciesList = mutableListOf<Vacancy>()
+    private var isNextPageLoading = false
 
     private val searchDebounce = debounce<String>(
         delayMillis = SEARCH_DEBOUNCE_DELAY_MILLIS,
@@ -35,12 +38,6 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
         vacanciesList.clear()
         searchRequest(changedText)
     }
-
-    private var isNextPageLoading = false
-
-    private var searchJob: Job? = null
-
-    private var cancelJob = false
 
     fun onLastItemReached() {
         if (isNextPageLoading) {

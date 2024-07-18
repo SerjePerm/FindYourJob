@@ -66,6 +66,10 @@ val dataModule = module {
     }
 
     single<FilterStoreRepository> {
-        FilterStoreRepositoryImpl(get(), get())
+        FilterStoreRepositoryImpl(
+            sharedPreferences = get(),
+            gson = get()
+        )
     }
+
 }

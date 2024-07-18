@@ -57,8 +57,8 @@ class CountryFragment : Fragment() {
         viewModel.screenState.observe(viewLifecycleOwner) { screenState ->
             when (screenState) {
                 is CountryState.Content -> showContent(screenState)
-                is CountryState.Error -> showError(screenState)
-                is CountryState.Loading -> showLoading(screenState)
+                CountryState.Error -> showError()
+                CountryState.Loading -> showLoading()
             }
         }
     }
@@ -74,11 +74,11 @@ class CountryFragment : Fragment() {
         // progressBar hide
     }
 
-    private fun showError(screenState: CountryState.Error) {
+    private fun showError() {
         println("error")
     }
 
-    private fun showLoading(screenState: CountryState.Loading) {
+    private fun showLoading() {
         println("loading")
     }
 
