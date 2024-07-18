@@ -21,7 +21,7 @@ val repositoryModule = module {
     }
 
     single<FilterRepository> {
-        FilterRepositoryImpl()
+        FilterRepositoryImpl(networkClient = get())
     }
 
     single<FavouritesRepository> {

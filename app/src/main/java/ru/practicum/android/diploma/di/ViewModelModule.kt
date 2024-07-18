@@ -38,14 +38,14 @@ val viewModelModule = module {
     }
 
     viewModel {
-        CountryViewModel()
+        CountryViewModel(filterInteractor = get())
     }
 
     viewModel {
-        RegionViewModel()
+        RegionViewModel(filterInteractor = get())
     }
 
     viewModel {
-        SectorViewModel()
+        SectorViewModel(filterInteractor = get())
     }
 }
