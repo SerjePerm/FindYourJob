@@ -28,6 +28,11 @@ class LocationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initializeListeners()
+
+        val selectedCountry = arguments?.getString("selectedCountry")
+        selectedCountry?.let {
+            binding.btCountry.text = it
+        }
     }
 
     override fun onDestroyView() {
@@ -47,6 +52,9 @@ class LocationFragment : Fragment() {
         binding.tbLocation.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
-    }
 
+        binding.btLocationSelect.setOnClickListener {
+            findNavController().navigate(R.id.action_locationFragment_to_filterFragment)
+        }
+    }
 }

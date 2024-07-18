@@ -20,26 +20,36 @@
 
     <Button
         android:id="@+id/btCountry"
+        style="@style/Regular_16_Filter_Btns"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginTop="@dimen/margin16"
         android:text="Страна"
+        app:drawableRightCompat="@drawable/ic_arrow_forward"
         app:layout_constraintTop_toBottomOf="@id/tbLocation" />
 
     <Button
         android:id="@+id/btRegion"
+        style="@style/Regular_16_Filter_Btns"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:text="Регион"
-        app:layout_constraintTop_toBottomOf="@id/btCountry" />
+        app:drawableRightCompat="@drawable/ic_arrow_forward"
+        app:layout_constraintTop_toBottomOf="@+id/btCountry" />
 
     <Button
         android:id="@+id/btLocationSelect"
-        style="@style/Medium_16.Blue_button"
+        style="@style/Medium_16_Filter_Btns"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_marginHorizontal="@dimen/margin16"
         android:layout_marginBottom="@dimen/margin24"
+        android:backgroundTint="@color/blue"
         android:text="@string/location_select"
+        android:textColor="@color/white"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:cornerRadius="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
