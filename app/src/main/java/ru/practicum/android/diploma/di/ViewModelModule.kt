@@ -14,15 +14,19 @@ import ru.practicum.android.diploma.vacancy.ui.VacancyViewModel
 val viewModelModule = module {
 
     viewModel {
-        SearchViewModel()
+        SearchViewModel(get())
     }
 
     viewModel {
-        FavouritesViewModel()
+        FavouritesViewModel(favouritesInteractor = get())
     }
 
     viewModel {
-        VacancyViewModel()
+        VacancyViewModel(
+            vacancyInteractor = get(),
+            favouritesInteractor = get(),
+            sharingInteractor = get()
+        )
     }
 
     viewModel {
@@ -44,5 +48,4 @@ val viewModelModule = module {
     viewModel {
         SectorViewModel()
     }
-
 }
