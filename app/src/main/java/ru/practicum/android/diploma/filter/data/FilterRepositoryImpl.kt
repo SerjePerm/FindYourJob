@@ -26,7 +26,7 @@ class FilterRepositoryImpl(
 ) : FilterRepository {
 
     override fun getCountries(): Flow<ResponseData<List<Country>>> = flow {
-        when (val response = networkClient.doRequest(CountriesRequest(emptyMap()))) {
+        when (val response = networkClient.doRequest(CountriesRequest)) {
             is CountriesResponse -> {
                 val countriesList = countryDtoToCountry(response.countries)
                 emit(ResponseData.Data(countriesList))
@@ -50,7 +50,7 @@ class FilterRepositoryImpl(
     }
 
     override fun getSectors(): Flow<ResponseData<List<Sector>>> = flow {
-        when (val response = networkClient.doRequest(SectorsRequest(emptyMap()))) {
+        when (val response = networkClient.doRequest(SectorsRequest)) {
             is SectorsResponse -> {
                 val sectorsList = sectorDtoToSector(response.sectors)
                 emit(ResponseData.Data(sectorsList))
