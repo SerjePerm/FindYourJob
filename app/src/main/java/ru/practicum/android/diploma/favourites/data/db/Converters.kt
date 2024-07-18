@@ -3,8 +3,8 @@ package ru.practicum.android.diploma.favourites.data.db
 import ru.practicum.android.diploma.search.domain.models.Vacancy
 import ru.practicum.android.diploma.vacancy.domain.models.VacancyFull
 
-fun VacancyEntity.toVacancy(): Vacancy {
-    return Vacancy(
+fun VacancyEntity.toVacancy(): Vacancy =
+    Vacancy(
         id = id,
         name = name,
         company = company,
@@ -14,10 +14,9 @@ fun VacancyEntity.toVacancy(): Vacancy {
         area = area,
         icon = icon
     )
-}
 
-fun VacancyEntity.toVacancyFull(): VacancyFull {
-    return VacancyFull(
+fun VacancyEntity.toVacancyFull(): VacancyFull =
+    VacancyFull(
         id = id,
         name = name,
         company = company,
@@ -38,10 +37,9 @@ fun VacancyEntity.toVacancyFull(): VacancyFull {
         keySkills = keySkills,
         timestamp = timestamp
     )
-}
 
-fun VacancyFull.toVacancyEntity(timestamp: Long): VacancyEntity {
-    return VacancyEntity(
+fun VacancyFull.toVacancyEntity(timestamp: Long): VacancyEntity =
+    VacancyEntity(
         id = id,
         name = name,
         company = company,
@@ -62,4 +60,3 @@ fun VacancyFull.toVacancyEntity(timestamp: Long): VacancyEntity {
         keySkills = keySkills,
         timestamp = timestamp
     )
-}

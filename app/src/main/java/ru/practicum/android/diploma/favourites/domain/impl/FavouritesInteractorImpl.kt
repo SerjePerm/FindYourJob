@@ -8,13 +8,11 @@ import ru.practicum.android.diploma.vacancy.domain.models.VacancyFull
 
 class FavouritesInteractorImpl(private val favouritesRepository: FavouritesRepository) : FavouritesInteractor {
 
-    override fun favouriteVacancies(): Flow<List<Vacancy>> {
-        return favouritesRepository.favouriteVacancies()
-    }
+    override fun favouriteVacancies(): Flow<List<Vacancy>> =
+        favouritesRepository.favouriteVacancies()
 
-    override fun favouriteIds(): Flow<List<Int>> {
-        return favouritesRepository.favouriteIds()
-    }
+    override fun favouriteIds(): Flow<List<Int>> =
+        favouritesRepository.favouriteIds()
 
     override suspend fun changeFavourite(vacancyFull: VacancyFull) {
         if (favouritesRepository.getById(vacancyFull.id) == null) {

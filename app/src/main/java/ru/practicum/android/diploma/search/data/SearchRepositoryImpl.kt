@@ -23,18 +23,16 @@ class SearchRepositoryImpl(private val networkClient: NetworkClient) : SearchRep
                 is SearchResponse -> {
                     with(response) {
                         val vacanciesResponse = VacanciesResponse(
-                            items.map(VacancyDto::toVacancy),
-                            found,
-                            page,
-                            pages,
+                            results = items.map(VacancyDto::toVacancy),
+                            foundVacancies = found,
+                            page = page,
+                            pages = pages
                         )
                         ResponseData.Data(vacanciesResponse)
                     }
                 }
 
-                else -> {
-                    responseToError(response)
-                }
+                else -> responseToError(response)
             }
         )
     }
@@ -42,17 +40,9 @@ class SearchRepositoryImpl(private val networkClient: NetworkClient) : SearchRep
     private fun responseToError(response: Response): ResponseData<VacanciesResponse> =
         ResponseData.Error(
             when (response.resultCode) {
-                RESULT_CODE_NO_INTERNET -> {
-                    ResponseData.ResponseError.NO_INTERNET
-                }
-
-                RESULT_CODE_BAD_REQUEST -> {
-                    ResponseData.ResponseError.CLIENT_ERROR
-                }
-
-                else -> {
-                    ResponseData.ResponseError.SERVER_ERROR
-                }
+                RESULT_CODE_NO_INTERNET -> ResponseData.ResponseError.NO_INTERNET
+                RESULT_CODE_BAD_REQUEST -> ResponseData.ResponseError.CLIENT_ERROR
+                else -> ResponseData.ResponseError.SERVER_ERROR
             }
         )
 }

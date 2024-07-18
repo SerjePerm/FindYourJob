@@ -20,16 +20,13 @@ class RootActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         binding.bnvBottomNav.setupWithNavController(navController)
-        val hideList = listOf(
-            R.id.vacancyFragment,
-            R.id.filterFragment,
-            R.id.locationFragment,
-            R.id.countryFragment,
-            R.id.regionFragment,
-            R.id.sectorFragment
+        val showList = listOf(
+            R.id.searchFragment,
+            R.id.favouritesFragment,
+            R.id.teamFragment
         )
         navController.addOnDestinationChangedListener { _, navDestination, _ ->
-            binding.bnvBottomNav.isVisible = !hideList.contains(navDestination.id)
+            binding.bnvBottomNav.isVisible = showList.contains(navDestination.id)
         }
     }
 

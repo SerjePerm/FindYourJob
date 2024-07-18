@@ -219,7 +219,8 @@ class VacancyFragment : Fragment() {
                 binding.tvEmployment.text = employment
             } else {
                 binding.tvEmployment.isVisible = true
-                binding.tvEmployment.text = "$employment, $schedule"
+                binding.tvEmployment.text =
+                    requireContext().getString(R.string.vacancy_employment, employment, schedule)
             }
         }
     }

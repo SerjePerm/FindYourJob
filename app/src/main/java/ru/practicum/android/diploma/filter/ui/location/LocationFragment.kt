@@ -27,7 +27,15 @@ class LocationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initializeListeners()
+    }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun initializeListeners() {
         binding.btCountry.setOnClickListener {
             findNavController().navigate(R.id.action_locationFragment_to_countryFragment)
         }
@@ -39,11 +47,6 @@ class LocationFragment : Fragment() {
         binding.tbLocation.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
 }

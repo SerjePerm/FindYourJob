@@ -14,9 +14,20 @@ class FilterInteractorImpl(
     private val filterRepository: FilterRepository,
     private val filterStoreRepository: FilterStoreRepository,
 ) : FilterInteractor {
-    override fun loadFilter(): Filter = filterStoreRepository.load()
-    override fun saveFilter(filter: Filter) = filterStoreRepository.save(filter)
-    override fun getCountries(): Flow<ResponseData<List<Country>>> = filterRepository.getCountries()
-    override fun getRegions(id: Int): Flow<ResponseData<List<Region>>> = filterRepository.getRegions(id)
-    override fun getSectors(): Flow<ResponseData<List<Sector>>> = filterRepository.getSectors()
+
+    override fun loadFilter(): Filter =
+        filterStoreRepository.load()
+
+    override fun saveFilter(filter: Filter) =
+        filterStoreRepository.save(filter)
+
+    override fun getCountries(): Flow<ResponseData<List<Country>>> =
+        filterRepository.getCountries()
+
+    override fun getRegions(id: Int): Flow<ResponseData<List<Region>>> =
+        filterRepository.getRegions(id)
+
+    override fun getSectors(): Flow<ResponseData<List<Sector>>> =
+        filterRepository.getSectors()
+
 }

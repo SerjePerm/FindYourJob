@@ -31,6 +31,7 @@ class FilterRepositoryImpl(
                 val countriesList = countryDtoToCountry(response.countries)
                 emit(ResponseData.Data(countriesList))
             }
+
             else -> {
                 responseToError(response)
             }
@@ -43,6 +44,7 @@ class FilterRepositoryImpl(
                 val regionsList = regionDtoToRegion(response.regions)
                 emit(ResponseData.Data(regionsList))
             }
+
             else -> {
                 responseToError(response)
             }
@@ -55,6 +57,7 @@ class FilterRepositoryImpl(
                 val sectorsList = sectorDtoToSector(response.sectors)
                 emit(ResponseData.Data(sectorsList))
             }
+
             else -> {
                 responseToError(response)
             }
@@ -64,17 +67,9 @@ class FilterRepositoryImpl(
     private fun responseToError(response: Response): ResponseData<CountriesResponse> =
         ResponseData.Error(
             when (response.resultCode) {
-                RESULT_CODE_NO_INTERNET -> {
-                    ResponseData.ResponseError.NO_INTERNET
-                }
-
-                RESULT_CODE_BAD_REQUEST -> {
-                    ResponseData.ResponseError.CLIENT_ERROR
-                }
-
-                else -> {
-                    ResponseData.ResponseError.SERVER_ERROR
-                }
+                RESULT_CODE_NO_INTERNET -> ResponseData.ResponseError.NO_INTERNET
+                RESULT_CODE_BAD_REQUEST -> ResponseData.ResponseError.CLIENT_ERROR
+                else -> ResponseData.ResponseError.SERVER_ERROR
             }
         )
 
