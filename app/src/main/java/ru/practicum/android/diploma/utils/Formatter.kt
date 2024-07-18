@@ -2,7 +2,9 @@ package ru.practicum.android.diploma.utils
 
 import android.content.Context
 import ru.practicum.android.diploma.R
-import java.text.NumberFormat
+
+const val THOUSAND_INDEX = 3
+const val THOUSAND_VALUE = 999
 
 fun formattingSalary(salaryFrom: Int?, salaryTo: Int?, currency: String, context: Context): String {
     return when {
@@ -30,7 +32,12 @@ fun formattingSalary(salaryFrom: Int?, salaryTo: Int?, currency: String, context
 }
 
 private fun formatNumber(number: Int): String {
-    return NumberFormat.getInstance().format(number)
+    var numberStr = number.toString()
+    if (number > THOUSAND_VALUE) {
+        val index = numberStr.length - THOUSAND_INDEX
+        numberStr = numberStr.substring(0, index) + " " + numberStr.substring(index)
+    }
+    return numberStr
 }
 
 private fun formatCurrency(currency: String): String {
