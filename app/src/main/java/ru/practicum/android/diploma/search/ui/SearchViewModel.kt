@@ -39,6 +39,14 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
         searchRequest(changedText)
     }
 
+    private val pageErrorDebounce = debounce<ResponseData.ResponseError>(
+        delayMillis = PAGE_LOADING_ERROR_DELAY_MILLIS,
+        coroutineScope = viewModelScope,
+        useLastParam = false,
+    ) { responseError ->
+        _screenState.postValue(SearchState.Error(responseError, true))
+    }
+
     fun onLastItemReached() {
         if (isNextPageLoading) {
             return
@@ -92,7 +100,11 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
             }
 
             is ResponseData.Error -> {
-                _screenState.postValue(SearchState.Error(vacanciesData.error, isNextPageLoading))
+                if (isNextPageLoading) {
+                    pageErrorDebounce(vacanciesData.error)
+                } else {
+                    _screenState.postValue(SearchState.Error(vacanciesData.error, false))
+                }
             }
         }
 
@@ -102,5 +114,6 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
     private companion object {
         const val VACANCIES_PER_PAGE = 20
         const val SEARCH_DEBOUNCE_DELAY_MILLIS = 2000L
+        const val PAGE_LOADING_ERROR_DELAY_MILLIS = 4000L
     }
 }
