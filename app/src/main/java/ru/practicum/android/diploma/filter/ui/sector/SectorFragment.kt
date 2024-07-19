@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.databinding.FragmentSectorBinding
+import ru.practicum.android.diploma.filter.domain.models.Filter
+import ru.practicum.android.diploma.filter.ui.filter.FilterFragment.Companion.FILTER_EXTRA
 import ru.practicum.android.diploma.filter.ui.sector.adapter.SectorsAdapter
 
 class SectorFragment : Fragment() {
@@ -80,6 +83,10 @@ class SectorFragment : Fragment() {
 
     private fun showLoading() {
         println("loading")
+    }
+
+    companion object {
+        fun createArguments(filter: Filter): Bundle = bundleOf(FILTER_EXTRA to filter)
     }
 
 }

@@ -53,4 +53,8 @@ class FilterFragment : Fragment() {
         }
     }
 
+    companion object {
+        const val FILTER_EXTRA = "FILTER_EXTRA"
+    }
+
 }

@@ -69,9 +69,9 @@
     <string name="vacancy_contacts_employer">Контакты</string>
 
     <plurals name="vacancies">
-        <item quantity="one">Найдена %d вакансия</item>
-        <item quantity="few">Найдено %d вакансии</item>
-        <item quantity="many">Найдено %d вакансий</item>
-        <item quantity="other">Найдено %d вакансий</item>
+        <item quantity="one">Найдена %s вакансия</item>
+        <item quantity="few">Найдено %s вакансии</item>
+        <item quantity="many">Найдено %s вакансий</item>
+        <item quantity="other">Найдено %s вакансий</item>
     </plurals>
 </resources>

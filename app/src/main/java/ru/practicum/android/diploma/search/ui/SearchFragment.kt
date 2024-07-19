@@ -19,6 +19,7 @@ import ru.practicum.android.diploma.databinding.FragmentSearchBinding
 import ru.practicum.android.diploma.search.domain.utils.ResponseData
 import ru.practicum.android.diploma.search.ui.adapter.VacanciesAdapter
 import ru.practicum.android.diploma.utils.Placeholder
+import ru.practicum.android.diploma.utils.formatNumber
 import ru.practicum.android.diploma.vacancy.ui.VacancyFragment
 
 class SearchFragment : Fragment() {
@@ -182,7 +183,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun getVacanciesText(context: Context, count: Int): String =
-        context.resources.getQuantityString(R.plurals.vacancies, count, count)
+        context.resources.getQuantityString(R.plurals.vacancies, count, formatNumber(count))
 
     private fun showToast(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
