@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentRegionBinding
 import ru.practicum.android.diploma.filter.ui.region.adapter.RegionsAdapter
 
@@ -18,7 +19,10 @@ class RegionFragment : Fragment() {
 
     private val regionsAdapter: RegionsAdapter by lazy {
         RegionsAdapter { region ->
-            println("clicked: ${region.name}")
+            val bundle = Bundle().apply {
+                putString("selectedRegion", region.name)
+            }
+            findNavController().navigate(R.id.action_regionFragment_to_locationFragment, bundle)
         }
     }
 

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentCountryBinding
 import ru.practicum.android.diploma.filter.ui.country.adapter.CountriesAdapter
 
@@ -18,7 +19,10 @@ class CountryFragment : Fragment() {
 
     private val countriesAdapter: CountriesAdapter by lazy {
         CountriesAdapter { country ->
-            println("clicked: ${country.name}")
+            val selectedCountry = Bundle().apply {
+                putString("selectedCountry", country.name)
+            }
+            findNavController().navigate(R.id.action_countryFragment_to_locationFragment, selectedCountry)
         }
     }
 
@@ -81,5 +85,4 @@ class CountryFragment : Fragment() {
     private fun showLoading() {
         println("loading")
     }
-
 }
