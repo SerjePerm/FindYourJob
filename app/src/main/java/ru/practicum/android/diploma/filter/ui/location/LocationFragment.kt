@@ -87,7 +87,7 @@ class LocationFragment : Fragment() {
     }
 
     companion object {
-        private val BIG_TEXT_SIZE = 16F
-        private val SMALL_TEXT_SIZE = 12F
+        private const val BIG_TEXT_SIZE = 16F
+        private const val SMALL_TEXT_SIZE = 12F
     }
 }
