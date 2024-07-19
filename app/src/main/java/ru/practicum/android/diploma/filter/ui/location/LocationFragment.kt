@@ -33,11 +33,6 @@ class LocationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setFilterFromBundle()
         initializeListeners()
-        /*
-        val selectedCountry = arguments?.getString("selectedCountry")
-        val selectedRegion = arguments?.getString("selectedRegion")
-        updateUI(selectedCountry, selectedRegion)
-         */
     }
 
     override fun onDestroyView() {
