@@ -76,6 +76,9 @@
         <argument
             android:name="selectedCountry"
             app:argType="string" />
+        <argument
+            android:name="selectedRegion"
+            app:argType="string" />
     </fragment>
 
     <fragment
@@ -100,19 +103,32 @@
                 android:name="selectedCountry"
                 app:argType="string" />
         </action>
-
     </fragment>
 
     <fragment
         android:id="@+id/regionFragment"
         android:name="ru.practicum.android.diploma.filter.ui.region.RegionFragment"
         android:label="fragment_region"
-        tools:layout="@layout/fragment_region" />
+        tools:layout="@layout/fragment_region">
+    <action
+        android:id="@+id/action_regionFragment_to_locationFragment"
+        app:destination="@id/locationFragment"
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/slide_out_right"
+        app:popEnterAnim="@anim/slide_in_right"
+        app:popExitAnim="@anim/slide_out_left">
+        <argument
+            android:name="selectedRegion"
+            app:argType="string" />
+    </action>
+    </fragment>
+
     <fragment
         android:id="@+id/vacancyFragment"
         android:name="ru.practicum.android.diploma.vacancy.ui.VacancyFragment"
         android:label="fragment_vacancy"
         tools:layout="@layout/fragment_vacancy" />
+
     <fragment
         android:id="@+id/favouritesFragment"
         android:name="ru.practicum.android.diploma.favourites.ui.FavouritesFragment"
@@ -122,10 +138,10 @@
             android:id="@+id/action_favouritesFragment_to_vacancyFragment"
             app:destination="@id/vacancyFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/teamFragment"
         android:name="ru.practicum.android.diploma.team.ui.TeamFragment"
         android:label="fragment_team"
         tools:layout="@layout/fragment_team" />
-
 </navigation>

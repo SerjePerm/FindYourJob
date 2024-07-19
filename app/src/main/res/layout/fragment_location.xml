@@ -18,24 +18,55 @@
         android:titleTextAppearance="@style/Medium_22"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btCountry"
+    <TextView
+        android:id="@+id/tvCountryLabel"
         style="@style/Regular_16_Filter_Btns"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="@dimen/margin16"
+        android:paddingHorizontal="@dimen/margin18"
         android:text="Страна"
+        android:textColor="?attr/colorOnPrimary"
         app:drawableRightCompat="@drawable/ic_arrow_forward"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tbLocation" />
 
-    <Button
-        android:id="@+id/btRegion"
+    <TextView
+        android:id="@+id/tvCountryValue"
+        style="@style/Regular_16_Filter_Btns"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-20dp"
+        android:paddingHorizontal="@dimen/margin18"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvCountryLabel" />
+
+    <TextView
+        android:id="@+id/tvRegionLabel"
         style="@style/Regular_16_Filter_Btns"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:paddingHorizontal="@dimen/margin18"
         android:text="Регион"
+        android:textColor="?attr/colorOnPrimary"
         app:drawableRightCompat="@drawable/ic_arrow_forward"
-        app:layout_constraintTop_toBottomOf="@+id/btCountry" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCountryLabel" />
+
+    <TextView
+        android:id="@+id/tvRegionValue"
+        style="@style/Regular_16_Filter_Btns"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-20dp"
+        android:paddingHorizontal="@dimen/margin18"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvRegionLabel" />
 
     <Button
         android:id="@+id/btLocationSelect"
@@ -47,9 +78,7 @@
         android:backgroundTint="@color/blue"
         android:text="@string/location_select"
         android:textColor="@color/white"
-        android:visibility="gone"
         app:cornerRadius="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:visibility="visible" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

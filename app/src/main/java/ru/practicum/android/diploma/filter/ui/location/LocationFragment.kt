@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.filter.ui.location
 
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +22,7 @@ class LocationFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentLocationBinding.inflate(layoutInflater)
+        _binding = FragmentLocationBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -30,8 +31,36 @@ class LocationFragment : Fragment() {
         initializeListeners()
 
         val selectedCountry = arguments?.getString("selectedCountry")
-        selectedCountry?.let {
-            binding.btCountry.text = it
+        val selectedRegion = arguments?.getString("selectedRegion")
+
+        updateUI(selectedCountry, selectedRegion)
+    }
+
+    private fun updateUI(country: String?, region: String?) {
+        if (country != null) {
+            binding.tvCountryLabel.text = "Страна"
+            binding.tvRegionLabel.setTextColor(resources.getColor(R.color.black, null))
+            binding.tvCountryLabel.textSize = 12F
+            binding.tvCountryValue.text = country
+            binding.tvCountryValue.visibility = View.VISIBLE
+            binding.btLocationSelect.visibility = View.VISIBLE
+        } else {
+            binding.tvCountryLabel.text = "Страна"
+            binding.tvCountryLabel.setTextColor(resources.getColor(R.color.gray, null))
+            binding.tvCountryLabel.textSize = 16F
+            binding.btLocationSelect.visibility = View.GONE
+        }
+
+        if (region != null) {
+            binding.tvRegionLabel.text = "Регион"
+            binding.tvRegionLabel.setTextColor(resources.getColor(R.color.black, null))
+            binding.tvRegionLabel.textSize = 12F
+            binding.tvRegionValue.text = region
+            binding.tvRegionValue.visibility = View.VISIBLE
+        } else {
+            binding.tvRegionLabel.text = "Регион"
+            binding.tvRegionLabel.setTextColor(resources.getColor(R.color.gray, null))
+            binding.tvRegionLabel.textSize = 16F
         }
     }
 
@@ -41,16 +70,16 @@ class LocationFragment : Fragment() {
     }
 
     private fun initializeListeners() {
-        binding.btCountry.setOnClickListener {
+        binding.tvCountryLabel.setOnClickListener {
             findNavController().navigate(R.id.action_locationFragment_to_countryFragment)
         }
 
-        binding.btRegion.setOnClickListener {
+        binding.tvRegionLabel.setOnClickListener {
             findNavController().navigate(R.id.action_locationFragment_to_regionFragment)
         }
 
         binding.tbLocation.setNavigationOnClickListener {
-            findNavController().navigateUp()
+            findNavController().navigate(R.id.action_locationFragment_to_filterFragment)
         }
 
         binding.btLocationSelect.setOnClickListener {

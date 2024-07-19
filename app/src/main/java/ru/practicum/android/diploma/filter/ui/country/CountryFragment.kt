@@ -19,10 +19,10 @@ class CountryFragment : Fragment() {
 
     private val countriesAdapter: CountriesAdapter by lazy {
         CountriesAdapter { country ->
-            val bundle = Bundle().apply {
+            val selectedCountry = Bundle().apply {
                 putString("selectedCountry", country.name)
             }
-            findNavController().navigate(R.id.action_countryFragment_to_locationFragment, bundle)
+            findNavController().navigate(R.id.action_countryFragment_to_locationFragment, selectedCountry)
         }
     }
 
