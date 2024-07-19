@@ -1,7 +1,6 @@
 package ru.practicum.android.diploma.filter.ui.location
 
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,29 +37,29 @@ class LocationFragment : Fragment() {
 
     private fun updateUI(country: String?, region: String?) {
         if (country != null) {
-            binding.tvCountryLabel.text = "Страна"
+            binding.tvCountryLabel.text = resources.getString(R.string.location_country)
             binding.tvRegionLabel.setTextColor(resources.getColor(R.color.black, null))
-            binding.tvCountryLabel.textSize = 12F
+            binding.tvCountryLabel.textSize = SMALL_TEXT_SIZE
             binding.tvCountryValue.text = country
             binding.tvCountryValue.visibility = View.VISIBLE
             binding.btLocationSelect.visibility = View.VISIBLE
         } else {
-            binding.tvCountryLabel.text = "Страна"
+            binding.tvCountryLabel.text = resources.getString(R.string.location_country)
             binding.tvCountryLabel.setTextColor(resources.getColor(R.color.gray, null))
-            binding.tvCountryLabel.textSize = 16F
+            binding.tvCountryLabel.textSize = BIG_TEXT_SIZE
             binding.btLocationSelect.visibility = View.GONE
         }
 
         if (region != null) {
-            binding.tvRegionLabel.text = "Регион"
+            binding.tvRegionLabel.text = resources.getString(R.string.location_region)
             binding.tvRegionLabel.setTextColor(resources.getColor(R.color.black, null))
-            binding.tvRegionLabel.textSize = 12F
+            binding.tvRegionLabel.textSize = SMALL_TEXT_SIZE
             binding.tvRegionValue.text = region
             binding.tvRegionValue.visibility = View.VISIBLE
         } else {
-            binding.tvRegionLabel.text = "Регион"
+            binding.tvRegionLabel.text = resources.getString(R.string.location_region)
             binding.tvRegionLabel.setTextColor(resources.getColor(R.color.gray, null))
-            binding.tvRegionLabel.textSize = 16F
+            binding.tvRegionLabel.textSize = BIG_TEXT_SIZE
         }
     }
 
@@ -85,5 +84,10 @@ class LocationFragment : Fragment() {
         binding.btLocationSelect.setOnClickListener {
             findNavController().navigate(R.id.action_locationFragment_to_filterFragment)
         }
+    }
+
+    companion object {
+        private val BIG_TEXT_SIZE = 16F
+        private val SMALL_TEXT_SIZE = 12F
     }
 }
