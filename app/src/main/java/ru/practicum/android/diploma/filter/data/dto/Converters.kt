@@ -23,6 +23,15 @@ fun regionDtoToRegion(source: List<RegionDto>): List<Region> =
         )
     }
 
+fun countryDtoToAllRegions(source: List<CountryDto>): List<Region> =
+    source.flatMap { it.areas }
+        .map { regionDto ->
+            Region(
+                id = regionDto.id,
+                name = regionDto.name
+            )
+        }
+
 fun sectorDtoToSector(source: List<SectorDto>): List<Sector> =
     source.map {
         Sector(

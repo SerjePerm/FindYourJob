@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.filter.domain.api.FilterInteractor
+import ru.practicum.android.diploma.filter.domain.models.Country
+import ru.practicum.android.diploma.filter.domain.models.Filter
 import ru.practicum.android.diploma.search.domain.utils.ResponseData
 
 class CountryViewModel(
@@ -15,6 +17,8 @@ class CountryViewModel(
 
     private val _screenState = MutableLiveData<CountryState>(CountryState.Loading)
     val screenState: LiveData<CountryState> = _screenState
+
+    var newFilter = Filter()
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -25,6 +29,14 @@ class CountryViewModel(
                 }
             }
         }
+    }
+
+    fun setFilter(filterParam: Filter) {
+        newFilter = filterParam
+    }
+
+    fun changeCountry(country: Country) {
+        newFilter = newFilter.copy(country = country, region = null)
     }
 
 }

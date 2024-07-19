@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
+import ru.practicum.android.diploma.filter.domain.models.Filter
+import ru.practicum.android.diploma.filter.ui.filter.FilterFragment
 import ru.practicum.android.diploma.search.domain.utils.ResponseData
 import ru.practicum.android.diploma.search.ui.adapter.VacanciesAdapter
 import ru.practicum.android.diploma.utils.Placeholder
@@ -31,8 +33,8 @@ class SearchFragment : Fragment() {
     private val vacanciesAdapter: VacanciesAdapter by lazy {
         VacanciesAdapter { vacancy ->
             findNavController().navigate(
-                R.id.action_searchFragment_to_vacancyFragment,
-                VacancyFragment.createArguments(vacancy.id)
+                resId = R.id.action_searchFragment_to_vacancyFragment,
+                args = VacancyFragment.createArguments(vacancy.id)
             )
         }
     }
@@ -95,7 +97,10 @@ class SearchFragment : Fragment() {
     private fun initializeOther() {
         with(binding) {
             ivFilter.setOnClickListener {
-                findNavController().navigate(R.id.action_searchFragment_to_filterFragment)
+                findNavController().navigate(
+                    resId = R.id.action_searchFragment_to_filterFragment,
+                    args = FilterFragment.createArguments(Filter())
+                )
             }
 
             etSearch.doOnTextChanged { text, _, _, _ ->
