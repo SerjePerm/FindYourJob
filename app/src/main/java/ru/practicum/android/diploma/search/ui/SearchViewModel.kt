@@ -35,10 +35,6 @@ class SearchViewModel(
 
     var filter = Filter()
 
-    init {
-        filter = filterInteractor.loadFilter()
-    }
-
     private val searchDebounce = debounce<String>(
         delayMillis = SEARCH_DEBOUNCE_DELAY_MILLIS,
         coroutineScope = viewModelScope,
@@ -56,6 +52,16 @@ class SearchViewModel(
         useLastParam = false,
     ) { responseError ->
         _screenState.postValue(SearchState.Error(responseError, true))
+    }
+
+    fun loadFilter() {
+        filter = filterInteractor.loadFilter()
+    }
+
+    fun filterApply() {
+        if (!latestSearchText.isNullOrEmpty()) {
+            searchDebounce(latestSearchText!!)
+        }
     }
 
     fun onLastItemReached() {

@@ -52,6 +52,9 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.loadFilter()
+
         initializeObservers()
         initializeAdapter()
         initializeScroll()
@@ -121,6 +124,9 @@ class SearchFragment : Fragment() {
 
         setFragmentResultListener(FILTERS_KEY) { key, bundle ->
             val filtersApply = bundle.getBoolean(FILTERS_EXTRA)
+            if(filtersApply){
+                viewModel.filterApply()
+            }
         }
     }
 
