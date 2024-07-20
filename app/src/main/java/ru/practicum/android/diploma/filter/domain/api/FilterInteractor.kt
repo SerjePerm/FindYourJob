@@ -12,5 +12,6 @@ interface FilterInteractor {
     fun loadFilter(): Filter
     fun getCountries(): Flow<ResponseData<List<Country>>>
     fun getRegions(id: Int): Flow<ResponseData<List<Region>>>
+    fun getAllRegions(): Flow<ResponseData<List<Region>>>
     fun getSectors(): Flow<ResponseData<List<Sector>>>
 }

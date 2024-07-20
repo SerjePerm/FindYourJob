@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.filter.ui.sector
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSectorBinding
+import ru.practicum.android.diploma.filter.domain.models.Filter
+import ru.practicum.android.diploma.filter.ui.filter.FilterFragment.Companion.FILTER_EXTRA
+import ru.practicum.android.diploma.filter.ui.filter.FilterFragment.Companion.createArguments
 import ru.practicum.android.diploma.filter.ui.sector.adapter.SectorsAdapter
 
 class SectorFragment : Fragment() {
@@ -18,7 +23,11 @@ class SectorFragment : Fragment() {
 
     private val sectorsAdapter: SectorsAdapter by lazy {
         SectorsAdapter { sector ->
-            println("clicked: ${sector.name}")
+            viewModel.changeSector(sector)
+            findNavController().navigate(
+                resId = R.id.action_sectorFragment_to_filterFragment,
+                args = createArguments(viewModel.newFilter)
+            )
         }
     }
 
@@ -33,6 +42,7 @@ class SectorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setFilterFromBundle()
         initializeListeners()
         initializeAdapter()
         initializeObservers()
@@ -41,6 +51,15 @@ class SectorFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun setFilterFromBundle() {
+        val filter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireArguments().getSerializable(FILTER_EXTRA, Filter::class.java) as Filter
+        } else {
+            requireArguments().getSerializable(FILTER_EXTRA) as Filter
+        }
+        viewModel.setFilter(filter)
     }
 
     private fun initializeListeners() {

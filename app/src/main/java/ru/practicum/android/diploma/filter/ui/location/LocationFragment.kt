@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.filter.ui.location
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,9 @@ import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentLocationBinding
+import ru.practicum.android.diploma.filter.domain.models.Filter
+import ru.practicum.android.diploma.filter.ui.filter.FilterFragment.Companion.FILTER_EXTRA
+import ru.practicum.android.diploma.filter.ui.filter.FilterFragment.Companion.createArguments
 
 class LocationFragment : Fragment() {
 
@@ -27,12 +31,52 @@ class LocationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setFilterFromBundle()
         initializeListeners()
+    }
 
-        val selectedCountry = arguments?.getString("selectedCountry")
-        val selectedRegion = arguments?.getString("selectedRegion")
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
-        updateUI(selectedCountry, selectedRegion)
+    private fun setFilterFromBundle() {
+        val filter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireArguments().getSerializable(FILTER_EXTRA, Filter::class.java) as Filter
+        } else {
+            requireArguments().getSerializable(FILTER_EXTRA) as Filter
+        }
+        viewModel.setFilter(filter)
+        val country = filter.country?.name ?: "null"
+        val region = filter.region?.name ?: "null"
+        updateUI(country, region)
+    }
+
+    private fun initializeListeners() {
+        binding.tvCountryLabel.setOnClickListener {
+            findNavController().navigate(
+                resId = R.id.action_locationFragment_to_countryFragment,
+                args = createArguments(viewModel.newFilter)
+            )
+        }
+        binding.tvRegionLabel.setOnClickListener {
+            findNavController().navigate(
+                resId = R.id.action_locationFragment_to_regionFragment,
+                args = createArguments(viewModel.newFilter)
+            )
+        }
+        binding.tbLocation.setNavigationOnClickListener {
+            findNavController().navigate(
+                resId = R.id.action_locationFragment_to_filterFragment,
+                args = createArguments(viewModel.newFilter)
+            )
+        }
+        binding.btLocationSelect.setOnClickListener {
+            findNavController().navigate(
+                resId = R.id.action_locationFragment_to_filterFragment,
+                args = createArguments(viewModel.newFilter)
+            )
+        }
     }
 
     private fun updateUI(country: String?, region: String?) {
@@ -60,29 +104,6 @@ class LocationFragment : Fragment() {
             binding.tvRegionLabel.text = resources.getString(R.string.location_region)
             binding.tvRegionLabel.setTextColor(resources.getColor(R.color.gray, null))
             binding.tvRegionLabel.textSize = BIG_TEXT_SIZE
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    private fun initializeListeners() {
-        binding.tvCountryLabel.setOnClickListener {
-            findNavController().navigate(R.id.action_locationFragment_to_countryFragment)
-        }
-
-        binding.tvRegionLabel.setOnClickListener {
-            findNavController().navigate(R.id.action_locationFragment_to_regionFragment)
-        }
-
-        binding.tbLocation.setNavigationOnClickListener {
-            findNavController().navigate(R.id.action_locationFragment_to_filterFragment)
-        }
-
-        binding.btLocationSelect.setOnClickListener {
-            findNavController().navigate(R.id.action_locationFragment_to_filterFragment)
         }
     }
 

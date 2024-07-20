@@ -30,7 +30,7 @@ fun formattingSalary(salaryFrom: Int?, salaryTo: Int?, currency: String, context
     }
 }
 
-private fun formatNumber(number: Int): String {
+fun formatNumber(number: Int): String {
     return NumberFormat.getInstance(Locale("RU")).format(number)
 }
 

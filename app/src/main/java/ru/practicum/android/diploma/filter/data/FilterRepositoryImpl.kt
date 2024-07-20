@@ -8,6 +8,7 @@ import ru.practicum.android.diploma.filter.data.dto.RegionsRequest
 import ru.practicum.android.diploma.filter.data.dto.RegionsResponse
 import ru.practicum.android.diploma.filter.data.dto.SectorsRequest
 import ru.practicum.android.diploma.filter.data.dto.SectorsResponse
+import ru.practicum.android.diploma.filter.data.dto.countryDtoToAllRegions
 import ru.practicum.android.diploma.filter.data.dto.countryDtoToCountry
 import ru.practicum.android.diploma.filter.data.dto.regionDtoToRegion
 import ru.practicum.android.diploma.filter.data.dto.sectorDtoToSector
@@ -42,6 +43,19 @@ class FilterRepositoryImpl(
         when (val response = networkClient.doRequest(RegionsRequest(id))) {
             is RegionsResponse -> {
                 val regionsList = regionDtoToRegion(response.regions)
+                emit(ResponseData.Data(regionsList))
+            }
+
+            else -> {
+                responseToError(response)
+            }
+        }
+    }
+
+    override fun getAllRegions(): Flow<ResponseData<List<Region>>> = flow {
+        when (val response = networkClient.doRequest(CountriesRequest)) {
+            is CountriesResponse -> {
+                val regionsList = countryDtoToAllRegions(response.countries)
                 emit(ResponseData.Data(regionsList))
             }
 

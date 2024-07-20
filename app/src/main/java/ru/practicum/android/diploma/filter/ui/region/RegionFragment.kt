@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.filter.ui.region
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,9 @@ import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentRegionBinding
+import ru.practicum.android.diploma.filter.domain.models.Filter
+import ru.practicum.android.diploma.filter.ui.filter.FilterFragment.Companion.FILTER_EXTRA
+import ru.practicum.android.diploma.filter.ui.filter.FilterFragment.Companion.createArguments
 import ru.practicum.android.diploma.filter.ui.region.adapter.RegionsAdapter
 
 class RegionFragment : Fragment() {
@@ -19,10 +23,11 @@ class RegionFragment : Fragment() {
 
     private val regionsAdapter: RegionsAdapter by lazy {
         RegionsAdapter { region ->
-            val bundle = Bundle().apply {
-                putString("selectedRegion", region.name)
-            }
-            findNavController().navigate(R.id.action_regionFragment_to_locationFragment, bundle)
+            viewModel.changeRegion(region)
+            findNavController().navigate(
+                resId = R.id.action_regionFragment_to_locationFragment,
+                args = createArguments(viewModel.newFilter)
+            )
         }
     }
 
@@ -37,6 +42,7 @@ class RegionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setFilterFromBundle()
         initializeListeners()
         initializeAdapter()
         initializeObservers()
@@ -45,6 +51,15 @@ class RegionFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun setFilterFromBundle() {
+        val filter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireArguments().getSerializable(FILTER_EXTRA, Filter::class.java) as Filter
+        } else {
+            requireArguments().getSerializable(FILTER_EXTRA) as Filter
+        }
+        viewModel.setFilter(filter)
     }
 
     private fun initializeListeners() {

@@ -85,7 +85,11 @@
         android:id="@+id/sectorFragment"
         android:name="ru.practicum.android.diploma.filter.ui.sector.SectorFragment"
         android:label="fragment_sector"
-        tools:layout="@layout/fragment_sector" />
+        tools:layout="@layout/fragment_sector" >
+        <action
+            android:id="@+id/action_sectorFragment_to_filterFragment"
+            app:destination="@id/filterFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/countryFragment"

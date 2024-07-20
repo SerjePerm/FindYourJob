@@ -27,6 +27,9 @@ class FilterInteractorImpl(
     override fun getRegions(id: Int): Flow<ResponseData<List<Region>>> =
         filterRepository.getRegions(id)
 
+    override fun getAllRegions(): Flow<ResponseData<List<Region>>> =
+        filterRepository.getAllRegions()
+
     override fun getSectors(): Flow<ResponseData<List<Sector>>> =
         filterRepository.getSectors()
 

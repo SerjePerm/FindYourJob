@@ -2,11 +2,16 @@ package ru.practicum.android.diploma.filter.ui.location
 
 import androidx.lifecycle.ViewModel
 import ru.practicum.android.diploma.filter.domain.api.FilterInteractor
+import ru.practicum.android.diploma.filter.domain.models.Filter
 
 class LocationViewModel(
     private val filterInteractor: FilterInteractor
 ) : ViewModel() {
-    init {
-        println("LocationViewModel created")
+
+    var newFilter = Filter()
+
+    fun setFilter(filterParam: Filter) {
+        newFilter = filterParam
     }
+
 }
