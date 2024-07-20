@@ -124,7 +124,7 @@ class SearchFragment : Fragment() {
 
         setFragmentResultListener(FILTERS_KEY) { key, bundle ->
             val filtersApply = bundle.getBoolean(FILTERS_EXTRA)
-            if(filtersApply){
+            if (filtersApply) {
                 viewModel.filterApply()
             }
         }
