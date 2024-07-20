@@ -17,24 +17,101 @@
         android:titleTextAppearance="@style/Medium_22"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btLocation"
-        style="@style/Regular_16_Filter_Btns"
+    <RelativeLayout
+        android:id="@+id/filterInputLocationLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="@dimen/margin16"
-        android:text="@string/filter_work_place"
-        app:drawableRightCompat="@drawable/ic_arrow_forward"
-        app:layout_constraintTop_toBottomOf="@id/tbSettingsFilter" />
+        android:layout_marginHorizontal="@dimen/margin20"
+        android:gravity="center_vertical"
+        android:imeOptions="actionDone"
+        app:layout_constraintTop_toBottomOf="@id/tbSettingsFilter">
 
-    <Button
-        android:id="@+id/btSector"
-        style="@style/Regular_16_Filter_Btns"
+        <TextView
+            android:id="@+id/tvLocationLabel"
+            style="@style/Regular_16_Filter_Btns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tvLocationValue"
+            android:layout_marginBottom="0dp"
+            android:text="@string/filter_work_place"
+            app:drawableRightCompat="@drawable/ic_arrow_forward"
+            android:textColor="?attr/colorOnPrimary"
+            app:layout_constraintBottom_toTopOf="@id/tvLocationValue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvLocationValue"
+            style="@style/Regular_16_Filter_Btns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/margin8"
+            android:textColor="?attr/colorOnPrimary"
+            app:layout_constraintBottom_toBottomOf="@id/tvLocationLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageButton
+            android:id="@+id/tvLocationClear"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/margin6"
+            android:layout_marginEnd="@dimen/margin_negative10"
+            android:backgroundTint="@color/transparent"
+            android:src="@drawable/ic_cross" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/filterInputSectorLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:text="@string/filter_sector"
-        app:drawableRightCompat="@drawable/ic_arrow_forward"
-        app:layout_constraintTop_toBottomOf="@id/btLocation" />
+        android:layout_marginHorizontal="@dimen/margin20"
+        android:gravity="center_vertical"
+        android:imeOptions="actionDone"
+        app:layout_constraintTop_toBottomOf="@id/filterInputLocationLayout">
+
+        <TextView
+            android:id="@+id/tvSectorLabel"
+            style="@style/Regular_16_Filter_Btns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tvSectorValue"
+            android:layout_marginBottom="0dp"
+            android:text="@string/filter_sector"
+            app:drawableRightCompat="@drawable/ic_arrow_forward"
+            android:textColor="?attr/colorOnPrimary"
+            app:layout_constraintBottom_toTopOf="@id/tvSectorValue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvSectorValue"
+            style="@style/Regular_16_Filter_Btns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/margin8"
+            android:textColor="?attr/colorOnPrimary"
+            app:layout_constraintBottom_toBottomOf="@id/tvSectorLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageButton
+            android:id="@+id/tvSectorClear"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/margin6"
+            android:layout_marginEnd="@dimen/margin_negative10"
+            android:backgroundTint="@color/transparent"
+            android:src="@drawable/ic_cross" />
+    </RelativeLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/flAmount"
@@ -50,7 +127,7 @@
         app:expandedHintEnabled="false"
         app:hintTextAppearance="@style/Regular_12"
         app:hintTextColor="@color/blue"
-        app:layout_constraintTop_toBottomOf="@id/btSector">
+        app:layout_constraintTop_toBottomOf="@id/filterInputSectorLayout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etSalary"

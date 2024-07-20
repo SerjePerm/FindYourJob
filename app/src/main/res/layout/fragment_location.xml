@@ -55,13 +55,13 @@
 
         <ImageButton
             android:id="@+id/tvCountryClear"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginTop="@dimen/margin6"
-            android:layout_marginEnd="@dimen/margin_negative6"
+            android:layout_marginEnd="@dimen/margin_negative10"
             android:backgroundTint="@color/transparent"
             android:src="@drawable/ic_cross" />
     </RelativeLayout>
@@ -102,13 +102,13 @@
 
         <ImageButton
             android:id="@+id/tvRegionClear"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginTop="@dimen/margin6"
-            android:layout_marginEnd="@dimen/margin_negative6"
+            android:layout_marginEnd="@dimen/margin_negative10"
             android:backgroundTint="@color/transparent"
             android:src="@drawable/ic_cross" />
     </RelativeLayout>

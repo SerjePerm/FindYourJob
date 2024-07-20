@@ -70,13 +70,13 @@ class LocationFragment : Fragment() {
     }
 
     private fun initializeListeners() {
-        binding.tvCountryLabel.setOnClickListener {
+        binding.filterInputCountryLayout.setOnClickListener {
             findNavController().navigate(
                 resId = R.id.action_locationFragment_to_countryFragment,
                 args = createArguments(viewModel.newFilter)
             )
         }
-        binding.tvRegionLabel.setOnClickListener {
+        binding.filterInputRegionLayout.setOnClickListener {
             findNavController().navigate(
                 resId = R.id.action_locationFragment_to_regionFragment,
                 args = createArguments(viewModel.newFilter)
@@ -112,7 +112,6 @@ class LocationFragment : Fragment() {
             binding.tvCountryValue.visibility = View.VISIBLE
             binding.btLocationSelect.visibility = View.VISIBLE
             binding.tvCountryClear.visibility = View.VISIBLE
-            binding.tvCountryClear.setImageResource(R.drawable.ic_cross)
             binding.tvCountryLabel.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
         } else {
             binding.tvCountryLabel.setTextColor(resources.getColor(R.color.gray, null))
@@ -120,7 +119,6 @@ class LocationFragment : Fragment() {
             binding.tvCountryValue.visibility = View.GONE
             binding.btLocationSelect.visibility = View.GONE
             binding.tvCountryClear.visibility = View.GONE
-            binding.tvCountryClear.setImageResource(R.drawable.ic_arrow_forward)
             binding.tvCountryLabel.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_forward, 0)
         }
 
@@ -130,14 +128,12 @@ class LocationFragment : Fragment() {
             binding.tvRegionValue.text = region
             binding.tvRegionValue.visibility = View.VISIBLE
             binding.tvRegionClear.visibility = View.VISIBLE
-            binding.tvRegionClear.setImageResource(R.drawable.ic_cross)
             binding.tvRegionLabel.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
         } else {
             binding.tvRegionLabel.setTextColor(resources.getColor(R.color.gray, null))
             binding.tvRegionLabel.textSize = BIG_TEXT_SIZE
             binding.tvRegionValue.visibility = View.GONE
             binding.tvRegionClear.visibility = View.GONE
-            binding.tvRegionClear.setImageResource(R.drawable.ic_arrow_forward)
             binding.tvRegionLabel.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_forward, 0)
         }
     }
