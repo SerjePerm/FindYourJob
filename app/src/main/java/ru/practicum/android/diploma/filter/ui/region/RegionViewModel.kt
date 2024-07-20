@@ -18,6 +18,9 @@ class RegionViewModel(
     private val _screenState = MutableLiveData<RegionState>(RegionState.Loading)
     val screenState: LiveData<RegionState> = _screenState
 
+    private val originalList: MutableList<Region> = ArrayList()
+    private val filteredList: MutableList<Region> = ArrayList()
+
     var newFilter = Filter()
 
     init {
@@ -25,14 +28,20 @@ class RegionViewModel(
             if (newFilter.country != null) {
                 filterInteractor.getRegions(newFilter.country!!.id).collect { data ->
                     when (data) {
-                        is ResponseData.Data -> _screenState.postValue(RegionState.Content(data.value))
+                        is ResponseData.Data -> {
+                            _screenState.postValue(RegionState.Content(data.value))
+                            originalList.addAll(data.value)
+                        }
                         is ResponseData.Error -> _screenState.postValue(RegionState.Error)
                     }
                 }
             } else {
                 filterInteractor.getAllRegions().collect { data ->
                     when (data) {
-                        is ResponseData.Data -> _screenState.postValue(RegionState.Content(data.value))
+                        is ResponseData.Data -> {
+                            _screenState.postValue(RegionState.Content(data.value))
+                            originalList.addAll(data.value)
+                        }
                         is ResponseData.Error -> _screenState.postValue(RegionState.Error)
                     }
                 }
@@ -47,6 +56,21 @@ class RegionViewModel(
 
     fun changeRegion(region: Region) {
         newFilter = newFilter.copy(region = region)
+    }
+
+    fun search(searchText: String?) {
+        println("searcging $searchText")
+        filteredList.clear()
+        if (searchText.isNullOrEmpty()) {
+            _screenState.postValue(RegionState.Content(originalList))
+        } else {
+            for (item in originalList) {
+                if (item.name.contains(searchText, true)) {
+                    filteredList.add(item)
+                }
+            }
+            _screenState.postValue(RegionState.Content(filteredList))
+        }
     }
 
 }

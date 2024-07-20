@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -43,7 +45,7 @@ class RegionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setFilterFromBundle()
-        initializeListeners()
+        initializeOther()
         initializeAdapter()
         initializeObservers()
     }
@@ -62,9 +64,21 @@ class RegionFragment : Fragment() {
         viewModel.setFilter(filter)
     }
 
-    private fun initializeListeners() {
-        binding.tbRegion.setNavigationOnClickListener {
-            findNavController().navigateUp()
+    private fun initializeOther() {
+        with(binding) {
+            tbRegion.setNavigationOnClickListener {
+                findNavController().navigateUp()
+            }
+
+            etSearch.doOnTextChanged { text, _, _, _ ->
+                viewModel.search(text.toString())
+                ivClear.isVisible = !text.isNullOrEmpty()
+                ivSearch.isVisible = text.isNullOrEmpty()
+            }
+
+            ivClear.setOnClickListener {
+                etSearch.text.clear()
+            }
         }
     }
 

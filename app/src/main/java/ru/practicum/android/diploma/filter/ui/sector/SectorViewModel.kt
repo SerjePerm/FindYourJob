@@ -18,13 +18,19 @@ class SectorViewModel(
     private val _screenState = MutableLiveData<SectorState>(SectorState.Loading)
     val screenState: LiveData<SectorState> = _screenState
 
+    private val originalList: MutableList<Sector> = ArrayList()
+    private val filteredList: MutableList<Sector> = ArrayList()
+
     var newFilter = Filter()
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
             filterInteractor.getSectors().collect { data ->
                 when (data) {
-                    is ResponseData.Data -> _screenState.postValue(SectorState.Content(data.value))
+                    is ResponseData.Data -> {
+                        _screenState.postValue(SectorState.Content(data.value))
+                        originalList.addAll(data.value)
+                    }
                     is ResponseData.Error -> _screenState.postValue(SectorState.Error)
                 }
             }
@@ -37,6 +43,20 @@ class SectorViewModel(
 
     fun changeSector(sector: Sector) {
         newFilter = newFilter.copy(sector = sector)
+    }
+
+    fun search(searchText: String?) {
+        filteredList.clear()
+        if (searchText.isNullOrEmpty()) {
+            _screenState.postValue(SectorState.Content(originalList))
+        } else {
+            for (item in originalList) {
+                if (item.name.contains(searchText, true)) {
+                    filteredList.add(item)
+                }
+            }
+            _screenState.postValue(SectorState.Content(filteredList))
+        }
     }
 
 }
