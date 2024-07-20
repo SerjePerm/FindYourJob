@@ -13,5 +13,4 @@ class LocationViewModel(
     fun setFilter(filterParam: Filter) {
         newFilter = filterParam
     }
-
 }

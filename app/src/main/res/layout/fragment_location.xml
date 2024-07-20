@@ -22,7 +22,7 @@
         android:id="@+id/filterInputCountryLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginHorizontal="@dimen/margin16"
+        android:layout_marginHorizontal="@dimen/margin20"
         android:gravity="center_vertical"
         android:imeOptions="actionDone"
         app:layout_constraintTop_toBottomOf="@id/tbLocation">
@@ -35,6 +35,7 @@
             android:layout_above="@+id/tvCountryValue"
             android:layout_marginBottom="0dp"
             android:text="Страна"
+            app:drawableRightCompat="@drawable/ic_arrow_forward"
             android:textColor="?attr/colorOnPrimary"
             app:layout_constraintBottom_toTopOf="@id/tvCountryValue"
             app:layout_constraintEnd_toEndOf="parent"
@@ -60,6 +61,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginTop="@dimen/margin6"
+            android:layout_marginEnd="@dimen/margin_negative6"
             android:backgroundTint="@color/transparent"
             android:src="@drawable/ic_cross" />
     </RelativeLayout>
@@ -68,7 +70,7 @@
         android:id="@+id/filterInputRegionLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginHorizontal="@dimen/margin16"
+        android:layout_marginHorizontal="@dimen/margin20"
         android:gravity="center_vertical"
         android:imeOptions="actionDone"
         app:layout_constraintTop_toBottomOf="@+id/filterInputCountryLayout">
@@ -106,6 +108,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginTop="@dimen/margin6"
+            android:layout_marginEnd="@dimen/margin_negative6"
             android:backgroundTint="@color/transparent"
             android:src="@drawable/ic_cross" />
     </RelativeLayout>

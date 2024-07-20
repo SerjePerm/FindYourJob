@@ -53,6 +53,22 @@ class LocationFragment : Fragment() {
         updateUI(country, region)
     }
 
+    private fun squeezeFieldOutOfFilter(emptyCountry: Boolean = false, emptyRegion: Boolean = false) {
+        val originalFilter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireArguments().getSerializable(FILTER_EXTRA, Filter::class.java) as Filter
+        } else {
+            requireArguments().getSerializable(FILTER_EXTRA) as Filter
+        }
+        val modifiedFilter = originalFilter.copy(
+            country = if (emptyCountry) null else originalFilter.country,
+            region = if (emptyRegion) null else originalFilter.region
+        )
+        viewModel.setFilter(modifiedFilter)
+        val country = modifiedFilter.country?.name ?: "null"
+        val region = modifiedFilter.region?.name ?: "null"
+        updateUI(country, region)
+    }
+
     private fun initializeListeners() {
         binding.tvCountryLabel.setOnClickListener {
             findNavController().navigate(
@@ -78,6 +94,14 @@ class LocationFragment : Fragment() {
                 args = createArguments(viewModel.newFilter)
             )
         }
+
+        binding.tvCountryClear.setOnClickListener {
+            squeezeFieldOutOfFilter(emptyCountry = true, emptyRegion = true)
+        }
+
+        binding.tvRegionClear.setOnClickListener {
+            squeezeFieldOutOfFilter(emptyCountry = false, emptyRegion = true)
+        }
     }
 
     private fun updateUI(country: String?, region: String?) {
@@ -89,6 +113,7 @@ class LocationFragment : Fragment() {
             binding.btLocationSelect.visibility = View.VISIBLE
             binding.tvCountryClear.visibility = View.VISIBLE
             binding.tvCountryClear.setImageResource(R.drawable.ic_cross)
+            binding.tvCountryLabel.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
         } else {
             binding.tvCountryLabel.setTextColor(resources.getColor(R.color.gray, null))
             binding.tvCountryLabel.textSize = BIG_TEXT_SIZE
@@ -96,6 +121,7 @@ class LocationFragment : Fragment() {
             binding.btLocationSelect.visibility = View.GONE
             binding.tvCountryClear.visibility = View.GONE
             binding.tvCountryClear.setImageResource(R.drawable.ic_arrow_forward)
+            binding.tvCountryLabel.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_forward, 0)
         }
 
         if (region != "null") {
@@ -105,12 +131,14 @@ class LocationFragment : Fragment() {
             binding.tvRegionValue.visibility = View.VISIBLE
             binding.tvRegionClear.visibility = View.VISIBLE
             binding.tvRegionClear.setImageResource(R.drawable.ic_cross)
+            binding.tvRegionLabel.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
         } else {
             binding.tvRegionLabel.setTextColor(resources.getColor(R.color.gray, null))
             binding.tvRegionLabel.textSize = BIG_TEXT_SIZE
             binding.tvRegionValue.visibility = View.GONE
             binding.tvRegionClear.visibility = View.GONE
             binding.tvRegionClear.setImageResource(R.drawable.ic_arrow_forward)
+            binding.tvRegionLabel.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_forward, 0)
         }
     }
 
