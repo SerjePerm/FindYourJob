@@ -88,7 +88,11 @@
         tools:layout="@layout/fragment_sector" >
         <action
             android:id="@+id/action_sectorFragment_to_filterFragment"
-            app:destination="@id/filterFragment" />
+            app:destination="@id/filterFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
 
     <fragment

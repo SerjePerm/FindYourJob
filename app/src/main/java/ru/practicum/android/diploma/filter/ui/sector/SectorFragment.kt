@@ -26,10 +26,7 @@ class SectorFragment : Fragment() {
     private val sectorsAdapter: SectorsAdapter by lazy {
         SectorsAdapter { sector ->
             viewModel.changeSector(sector)
-            findNavController().navigate(
-                resId = R.id.action_sectorFragment_to_filterFragment,
-                args = createArguments(viewModel.newFilter)
-            )
+            updateSelectButtonVisibility()
         }
     }
 
@@ -79,6 +76,13 @@ class SectorFragment : Fragment() {
             ivClear.setOnClickListener {
                 etSearch.text.clear()
             }
+
+            btSelect.setOnClickListener {
+                findNavController().navigate(
+                    resId = R.id.action_sectorFragment_to_filterFragment,
+                    args = createArguments(viewModel.newFilter)
+                )
+            }
         }
     }
 
@@ -99,12 +103,11 @@ class SectorFragment : Fragment() {
     private fun showContent(screenState: SectorState.Content) {
         if (screenState.sectorsList.isNotEmpty()) {
             sectorsAdapter.setItems(screenState.sectorsList)
-            // placeholder hide
+            updateSelectButtonVisibility()
         } else {
             sectorsAdapter.clearItems()
-            // placeholder empty results
+            updateSelectButtonVisibility()
         }
-        // progressBar hide
     }
 
     private fun showError() {
@@ -115,4 +118,8 @@ class SectorFragment : Fragment() {
         println("loading")
     }
 
+    private fun updateSelectButtonVisibility() {
+        val hasSelectedItems = sectorsAdapter.getSelectedSectors().isNotEmpty()
+        binding.btSelect.isVisible = hasSelectedItems
+    }
 }

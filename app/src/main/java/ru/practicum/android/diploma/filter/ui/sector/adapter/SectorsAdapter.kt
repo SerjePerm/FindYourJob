@@ -4,12 +4,12 @@ import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.filter.domain.models.Sector
-import kotlin.math.min
+import ru.practicum.android.diploma.filter.domain.models.SelectedSector
 
 class SectorsAdapter(
-    val onClick: (Sector) -> Unit
+    private val onClick: (Sector) -> Unit
 ) : RecyclerView.Adapter<SectorViewHolder>() {
-    private val sectors = mutableListOf<Sector>()
+    private val sectors = mutableListOf<SelectedSector>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SectorViewHolder {
         return SectorViewHolder(parent)
@@ -18,25 +18,33 @@ class SectorsAdapter(
     override fun getItemCount(): Int = sectors.size
 
     override fun onBindViewHolder(holder: SectorViewHolder, position: Int) {
-        val sector = sectors[position]
+        val selectedSector = sectors[position]
         holder.apply {
-            bind(sector)
-            itemView.setOnClickListener { onClick(sector) }
+            bind(selectedSector)
+            itemView.setOnClickListener {
+                selectedSector.isSelected = !selectedSector.isSelected
+                notifyItemChanged(position)
+                onClick(selectedSector.sector)
+            }
         }
     }
 
     @SuppressLint("NotifyDataSetChanged")
     fun setItems(newSectors: List<Sector>) {
-        if (newSectors.isNotEmpty()
-            && newSectors.slice(0 until min(sectors.size, newSectors.size)) == sectors
+        val newSelectedSectors = newSectors.map { SelectedSector(it, false) }
+        if (sectors.isNotEmpty()
+            && newSectors.map { it.id } == sectors.map { it.sector.id }
         ) {
-            val oldSize = sectors.size
-            val countNew = newSectors.size - oldSize
-            sectors += newSectors.slice(oldSize until newSectors.size)
-            notifyItemRangeChanged(oldSize, countNew)
+            for ((index, newSector) in newSelectedSectors.withIndex()) {
+                val oldIndex = sectors.indexOfFirst { it.sector.id == newSector.sector.id }
+                if (oldIndex != -1) {
+                    sectors[oldIndex] = newSector
+                    notifyItemChanged(oldIndex)
+                }
+            }
         } else {
             sectors.clear()
-            sectors += newSectors
+            sectors.addAll(newSelectedSectors)
             notifyDataSetChanged()
         }
     }
@@ -45,4 +53,7 @@ class SectorsAdapter(
         setItems(emptyList())
     }
 
+    fun getSelectedSectors(): List<SelectedSector> {
+        return sectors.filter { it.isSelected }
+    }
 }
