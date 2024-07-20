@@ -143,7 +143,7 @@ class FilterFragment : Fragment() {
         val invalidLocations = setOf(", ", "null, null", ", null", "null, ")
 
         if (location != null && location !in invalidLocations) {
-            binding.tvLocationLabel.setTextColor(resources.getColor(R.color.black, null))
+            binding.tvLocationLabel.setTextColor(resources.getColor(R.color.black_and_white, null))
             binding.tvLocationLabel.textSize = SMALL_TEXT_SIZE
             binding.tvLocationValue.text = location
             binding.tvLocationValue.visibility = View.VISIBLE
@@ -164,7 +164,7 @@ class FilterFragment : Fragment() {
 
     private fun updateSectorUI(sector: String?) {
         if (sector != "null") {
-            binding.tvSectorLabel.setTextColor(resources.getColor(R.color.black, null))
+            binding.tvSectorLabel.setTextColor(resources.getColor(R.color.black_and_white, null))
             binding.tvSectorLabel.textSize = SMALL_TEXT_SIZE
             binding.tvSectorValue.text = sector
             binding.tvSectorValue.visibility = View.VISIBLE

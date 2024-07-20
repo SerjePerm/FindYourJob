@@ -36,6 +36,7 @@
             android:text="@string/filter_work_place"
             app:drawableRightCompat="@drawable/ic_arrow_forward"
             android:textColor="?attr/colorOnPrimary"
+            app:drawableTint="?attr/colorOnPrimary"
             app:layout_constraintBottom_toTopOf="@id/tvLocationValue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -62,7 +63,8 @@
             android:layout_marginTop="@dimen/margin6"
             android:layout_marginEnd="@dimen/margin_negative10"
             android:backgroundTint="@color/transparent"
-            android:src="@drawable/ic_cross" />
+            android:src="@drawable/ic_cross"
+            app:tint="?attr/colorOnPrimary" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -84,6 +86,7 @@
             android:text="@string/filter_sector"
             app:drawableRightCompat="@drawable/ic_arrow_forward"
             android:textColor="?attr/colorOnPrimary"
+            app:drawableTint="?attr/colorOnPrimary"
             app:layout_constraintBottom_toTopOf="@id/tvSectorValue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -110,7 +113,8 @@
             android:layout_marginTop="@dimen/margin6"
             android:layout_marginEnd="@dimen/margin_negative10"
             android:backgroundTint="@color/transparent"
-            android:src="@drawable/ic_cross" />
+            android:src="@drawable/ic_cross"
+            app:tint="?attr/colorOnPrimary" />
     </RelativeLayout>
 
     <com.google.android.material.textfield.TextInputLayout
