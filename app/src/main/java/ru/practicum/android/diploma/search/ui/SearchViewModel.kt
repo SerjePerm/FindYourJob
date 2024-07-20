@@ -92,6 +92,7 @@ class SearchViewModel(
                     searchText = searchText,
                     itemsPerPage = VACANCIES_PER_PAGE,
                     page = currentPage,
+                    filter = filter
                 )
                 searchInteractor.search(options).collect(::processResponse)
             }

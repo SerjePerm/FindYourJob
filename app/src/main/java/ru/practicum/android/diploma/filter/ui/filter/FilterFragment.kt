@@ -9,11 +9,13 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFilterBinding
 import ru.practicum.android.diploma.filter.domain.models.Filter
+import ru.practicum.android.diploma.search.ui.SearchFragment
 
 class FilterFragment : Fragment() {
 
@@ -77,8 +79,10 @@ class FilterFragment : Fragment() {
         }
         binding.btFilterApply.setOnClickListener {
             viewModel.saveFilter(reset = false)
-            findNavController().navigate(R.id.action_filterFragment_to_searchFragment)
+            setFragmentResult(SearchFragment.FILTERS_KEY, bundleOf(SearchFragment.FILTERS_EXTRA to true))
+            findNavController().popBackStack(R.id.searchFragment, false)
         }
+
         binding.btFilterReset.setOnClickListener {
             viewModel.saveFilter(reset = true)
             findNavController().navigate(R.id.action_filterFragment_to_searchFragment)
@@ -102,5 +106,4 @@ class FilterFragment : Fragment() {
         const val FILTER_EXTRA = "FILTER_EXTRA"
         fun createArguments(filter: Filter): Bundle = bundleOf(FILTER_EXTRA to filter)
     }
-
 }
