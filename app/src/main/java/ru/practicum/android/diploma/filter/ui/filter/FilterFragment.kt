@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -33,6 +34,7 @@ class FilterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setFilterFromBundle()
         initializeListeners()
+        initializeObservers()
     }
 
     override fun onDestroyView() {
@@ -74,11 +76,11 @@ class FilterFragment : Fragment() {
             findNavController().navigate(R.id.action_filterFragment_to_searchFragment)
         }
         binding.btFilterApply.setOnClickListener {
-            // save filter
+            viewModel.saveFilter(reset = false)
             findNavController().navigate(R.id.action_filterFragment_to_searchFragment)
         }
         binding.btFilterReset.setOnClickListener {
-            // reset filter
+            viewModel.saveFilter(reset = true)
             findNavController().navigate(R.id.action_filterFragment_to_searchFragment)
         }
         binding.etSalary.doOnTextChanged { text, _, _, _ ->
@@ -86,6 +88,13 @@ class FilterFragment : Fragment() {
         }
         binding.checkBox.setOnCheckedChangeListener { _, isChecked ->
             viewModel.changeOnlyWithSalary(isChecked)
+        }
+    }
+
+    private fun initializeObservers() {
+        viewModel.isChanges.observe(viewLifecycleOwner) { isChanges ->
+            binding.btFilterApply.isVisible = isChanges
+            binding.btFilterReset.isVisible = viewModel.newFilter != Filter()
         }
     }
 

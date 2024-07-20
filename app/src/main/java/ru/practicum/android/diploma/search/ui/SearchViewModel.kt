@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import ru.practicum.android.diploma.filter.domain.api.FilterInteractor
+import ru.practicum.android.diploma.filter.domain.models.Filter
 import ru.practicum.android.diploma.search.domain.api.SearchInteractor
 import ru.practicum.android.diploma.search.domain.models.VacanciesResponse
 import ru.practicum.android.diploma.search.domain.models.Vacancy
@@ -14,7 +16,10 @@ import ru.practicum.android.diploma.search.domain.utils.Options
 import ru.practicum.android.diploma.search.domain.utils.ResponseData
 import ru.practicum.android.diploma.utils.debounce
 
-class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewModel() {
+class SearchViewModel(
+    private val searchInteractor: SearchInteractor,
+    private val filterInteractor: FilterInteractor
+) : ViewModel() {
 
     private val _screenState = MutableLiveData<SearchState>(SearchState.Empty)
     val screenState: LiveData<SearchState> = _screenState
@@ -27,6 +32,12 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
     private var currentPage = -1
     private var maxPages = 0
     private var isNextPageLoading = false
+
+    var filter = Filter()
+
+    init {
+        filter = filterInteractor.loadFilter()
+    }
 
     private val searchDebounce = debounce<String>(
         delayMillis = SEARCH_DEBOUNCE_DELAY_MILLIS,
