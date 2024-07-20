@@ -75,7 +75,7 @@ class FilterFragment : Fragment() {
             )
         }
         binding.tbSettingsFilter.setNavigationOnClickListener {
-            findNavController().navigate(R.id.action_filterFragment_to_searchFragment)
+            findNavController().popBackStack(R.id.searchFragment, false)
         }
         binding.btFilterApply.setOnClickListener {
             viewModel.saveFilter(reset = false)
