@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
-import ru.practicum.android.diploma.filter.domain.models.Filter
 import ru.practicum.android.diploma.filter.ui.filter.FilterFragment
 import ru.practicum.android.diploma.search.domain.utils.ResponseData
 import ru.practicum.android.diploma.search.ui.adapter.VacanciesAdapter
@@ -99,7 +98,7 @@ class SearchFragment : Fragment() {
             ivFilter.setOnClickListener {
                 findNavController().navigate(
                     resId = R.id.action_searchFragment_to_filterFragment,
-                    args = FilterFragment.createArguments(Filter())
+                    args = FilterFragment.createArguments(viewModel.filter)
                 )
             }
 
