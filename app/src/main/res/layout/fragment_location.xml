@@ -18,55 +18,97 @@
         android:titleTextAppearance="@style/Medium_22"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvCountryLabel"
-        style="@style/Regular_16_Filter_Btns"
+    <RelativeLayout
+        android:id="@+id/filterInputCountryLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:paddingHorizontal="@dimen/margin18"
-        android:text="Страна"
-        android:textColor="?attr/colorOnPrimary"
-        app:drawableRightCompat="@drawable/ic_arrow_forward"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tbLocation" />
+        android:layout_marginHorizontal="@dimen/margin16"
+        android:gravity="center_vertical"
+        android:imeOptions="actionDone"
+        app:layout_constraintTop_toBottomOf="@id/tbLocation">
 
-    <TextView
-        android:id="@+id/tvCountryValue"
-        style="@style/Regular_16_Filter_Btns"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-20dp"
-        android:paddingHorizontal="@dimen/margin18"
-        android:textColor="?attr/colorOnPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvCountryLabel" />
+        <TextView
+            android:id="@+id/tvCountryLabel"
+            style="@style/Regular_16_Filter_Btns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tvCountryValue"
+            android:layout_marginBottom="0dp"
+            android:text="Страна"
+            android:textColor="?attr/colorOnPrimary"
+            app:layout_constraintBottom_toTopOf="@id/tvCountryValue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/tvRegionLabel"
-        style="@style/Regular_16_Filter_Btns"
+        <TextView
+            android:id="@+id/tvCountryValue"
+            style="@style/Regular_16_Filter_Btns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/margin8"
+            android:textColor="?attr/colorOnPrimary"
+            app:layout_constraintBottom_toBottomOf="@id/tvCountryLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageButton
+            android:id="@+id/tvCountryClear"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/margin6"
+            android:backgroundTint="@color/transparent"
+            android:src="@drawable/ic_cross" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/filterInputRegionLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:paddingHorizontal="@dimen/margin18"
-        android:text="Регион"
-        android:textColor="?attr/colorOnPrimary"
-        app:drawableRightCompat="@drawable/ic_arrow_forward"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCountryLabel" />
+        android:layout_marginHorizontal="@dimen/margin16"
+        android:gravity="center_vertical"
+        android:imeOptions="actionDone"
+        app:layout_constraintTop_toBottomOf="@+id/filterInputCountryLayout">
 
-    <TextView
-        android:id="@+id/tvRegionValue"
-        style="@style/Regular_16_Filter_Btns"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-20dp"
-        android:paddingHorizontal="@dimen/margin18"
-        android:textColor="?attr/colorOnPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvRegionLabel" />
+        <TextView
+            android:id="@+id/tvRegionLabel"
+            style="@style/Regular_16_Filter_Btns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tvRegionValue"
+            android:layout_marginBottom="0dp"
+            android:text="Регион"
+            android:textColor="?attr/colorOnPrimary"
+            app:layout_constraintBottom_toTopOf="@id/tvRegionValue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvRegionValue"
+            style="@style/Regular_16_Filter_Btns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/margin8"
+            android:textColor="?attr/colorOnPrimary"
+            app:layout_constraintBottom_toBottomOf="@id/tvRegionLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageButton
+            android:id="@+id/tvRegionClear"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/margin6"
+            android:backgroundTint="@color/transparent"
+            android:src="@drawable/ic_cross" />
+    </RelativeLayout>
 
     <Button
         android:id="@+id/btLocationSelect"

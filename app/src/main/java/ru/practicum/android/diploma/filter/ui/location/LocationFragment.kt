@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -80,30 +81,36 @@ class LocationFragment : Fragment() {
     }
 
     private fun updateUI(country: String?, region: String?) {
-        if (country != null) {
-            binding.tvCountryLabel.text = resources.getString(R.string.location_country)
-            binding.tvRegionLabel.setTextColor(resources.getColor(R.color.black, null))
+        if (country != "null") {
+            binding.tvCountryLabel.setTextColor(resources.getColor(R.color.black, null))
             binding.tvCountryLabel.textSize = SMALL_TEXT_SIZE
             binding.tvCountryValue.text = country
             binding.tvCountryValue.visibility = View.VISIBLE
             binding.btLocationSelect.visibility = View.VISIBLE
+            binding.tvCountryClear.visibility = View.VISIBLE
+            binding.tvCountryClear.setImageResource(R.drawable.ic_cross)
         } else {
-            binding.tvCountryLabel.text = resources.getString(R.string.location_country)
             binding.tvCountryLabel.setTextColor(resources.getColor(R.color.gray, null))
             binding.tvCountryLabel.textSize = BIG_TEXT_SIZE
+            binding.tvCountryValue.visibility = View.GONE
             binding.btLocationSelect.visibility = View.GONE
+            binding.tvCountryClear.visibility = View.GONE
+            binding.tvCountryClear.setImageResource(R.drawable.ic_arrow_forward)
         }
 
-        if (region != null) {
-            binding.tvRegionLabel.text = resources.getString(R.string.location_region)
+        if (region != "null") {
             binding.tvRegionLabel.setTextColor(resources.getColor(R.color.black, null))
             binding.tvRegionLabel.textSize = SMALL_TEXT_SIZE
             binding.tvRegionValue.text = region
             binding.tvRegionValue.visibility = View.VISIBLE
+            binding.tvRegionClear.visibility = View.VISIBLE
+            binding.tvRegionClear.setImageResource(R.drawable.ic_cross)
         } else {
-            binding.tvRegionLabel.text = resources.getString(R.string.location_region)
             binding.tvRegionLabel.setTextColor(resources.getColor(R.color.gray, null))
             binding.tvRegionLabel.textSize = BIG_TEXT_SIZE
+            binding.tvRegionValue.visibility = View.GONE
+            binding.tvRegionClear.visibility = View.GONE
+            binding.tvRegionClear.setImageResource(R.drawable.ic_arrow_forward)
         }
     }
 
