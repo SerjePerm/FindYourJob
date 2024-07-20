@@ -61,24 +61,35 @@ class FilterFragment : Fragment() {
         }
     }
 
-    private fun squeezeFieldOutOfFilter(emptyLocation: Boolean = false, emptySector: Boolean = false) {
+    private fun deleteLocation() {
         val originalFilter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             requireArguments().getSerializable(FILTER_EXTRA, Filter::class.java) as Filter
         } else {
             requireArguments().getSerializable(FILTER_EXTRA) as Filter
         }
         val modifiedFilter = originalFilter.copy(
-            country = if (emptyLocation) null else originalFilter.country,
-            region = if (emptyLocation) null else originalFilter.region,
-            sector = if (emptySector) null else originalFilter.sector
+            country = null,
+            region = null,
         )
         viewModel.setFilter(modifiedFilter)
         val country = modifiedFilter.country?.name ?: "null"
         val region = modifiedFilter.region?.name ?: "null"
         val location = "$country, $region"
+        updateLocationUI(location)
+    }
+
+    private fun deleteSector() {
+        val originalFilter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireArguments().getSerializable(FILTER_EXTRA, Filter::class.java) as Filter
+        } else {
+            requireArguments().getSerializable(FILTER_EXTRA) as Filter
+        }
+        val modifiedFilter = originalFilter.copy(
+            sector = null
+        )
+        viewModel.setFilter(modifiedFilter)
         val sector = modifiedFilter.sector?.name ?: "null"
-        if (emptyLocation) updateLocationUI(location)
-        if (emptySector) updateSectorUI(sector)
+        updateSectorUI(sector)
     }
 
     private fun initializeListeners() {
@@ -113,11 +124,11 @@ class FilterFragment : Fragment() {
         }
 
         binding.tvLocationClear.setOnClickListener {
-            squeezeFieldOutOfFilter(emptyLocation = true, emptySector = false)
+            deleteLocation()
         }
 
         binding.tvSectorClear.setOnClickListener {
-            squeezeFieldOutOfFilter(emptyLocation = false, emptySector = true)
+            deleteSector()
         }
     }
 

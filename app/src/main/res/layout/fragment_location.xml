@@ -34,9 +34,10 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/tvCountryValue"
             android:layout_marginBottom="0dp"
-            android:text="Страна"
+            android:text="@string/location_country"
             app:drawableRightCompat="@drawable/ic_arrow_forward"
             android:textColor="?attr/colorOnPrimary"
+            app:drawableTint="?attr/colorOnPrimary"
             app:layout_constraintBottom_toTopOf="@id/tvCountryValue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -63,7 +64,8 @@
             android:layout_marginTop="@dimen/margin6"
             android:layout_marginEnd="@dimen/margin_negative10"
             android:backgroundTint="@color/transparent"
-            android:src="@drawable/ic_cross" />
+            android:src="@drawable/ic_cross"
+            app:tint="?attr/colorOnPrimary" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -82,8 +84,10 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/tvRegionValue"
             android:layout_marginBottom="0dp"
-            android:text="Регион"
+            android:text="@string/location_region"
+            app:drawableRightCompat="@drawable/ic_arrow_forward"
             android:textColor="?attr/colorOnPrimary"
+            app:drawableTint="?attr/colorOnPrimary"
             app:layout_constraintBottom_toTopOf="@id/tvRegionValue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -110,7 +114,8 @@
             android:layout_marginTop="@dimen/margin6"
             android:layout_marginEnd="@dimen/margin_negative10"
             android:backgroundTint="@color/transparent"
-            android:src="@drawable/ic_cross" />
+            android:src="@drawable/ic_cross"
+            app:tint="?attr/colorOnPrimary" />
     </RelativeLayout>
 
     <Button
