@@ -56,13 +56,6 @@
         <item name="android:textFontWeight" tools:ignore="NewApi">@integer/weight_400</item>
     </style>
 
-<!--    <style name="Medium_16.Blue_button">-->
-<!--        <item name="cornerRadius">12dp</item>-->
-<!--        <item name="android:textColor">@color/white</item>-->
-<!--        <item name="android:backgroundTint">@color/blue</item>-->
-<!--        <item name="android:layout_marginHorizontal">@dimen/margin16</item>-->
-<!--    </style>-->
-
     <style name="Regular_12.BottomNavigationText">
         <item name="itemTextAppearanceActive">@color/blue</item>
     </style>

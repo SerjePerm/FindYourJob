@@ -105,7 +105,7 @@ class LocationFragment : Fragment() {
 
     private fun updateUI(country: String?, region: String?) {
         if (country != "null") {
-            binding.tvCountryLabel.setTextColor(resources.getColor(R.color.black_white, null))
+            binding.tvCountryLabel.setTextColor(resources.getColor(R.color.black_and_white, null))
             binding.tvCountryLabel.textSize = SMALL_TEXT_SIZE
             binding.tvCountryValue.text = country
             binding.tvCountryValue.visibility = View.VISIBLE
@@ -122,7 +122,7 @@ class LocationFragment : Fragment() {
         }
 
         if (region != "null") {
-            binding.tvRegionLabel.setTextColor(resources.getColor(R.color.black_white, null))
+            binding.tvRegionLabel.setTextColor(resources.getColor(R.color.black_and_white, null))
             binding.tvRegionLabel.textSize = SMALL_TEXT_SIZE
             binding.tvRegionValue.text = region
             binding.tvRegionValue.visibility = View.VISIBLE
