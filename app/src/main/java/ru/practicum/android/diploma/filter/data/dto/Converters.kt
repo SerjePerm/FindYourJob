@@ -36,6 +36,7 @@ fun sectorDtoToSector(source: List<SectorDto>): List<Sector> =
     source.map {
         Sector(
             id = it.id,
-            name = it.name
+            name = it.name,
+            isChecked = false
         )
     }

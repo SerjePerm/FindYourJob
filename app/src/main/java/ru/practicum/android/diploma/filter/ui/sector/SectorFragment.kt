@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.filter.ui.sector
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,9 +15,10 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSectorBinding
 import ru.practicum.android.diploma.filter.domain.models.Filter
 import ru.practicum.android.diploma.filter.ui.filter.FilterFragment.Companion.FILTER_EXTRA
-import ru.practicum.android.diploma.filter.ui.filter.FilterFragment.Companion.createArguments
 import ru.practicum.android.diploma.filter.ui.sector.adapter.SectorsAdapter
+import ru.practicum.android.diploma.search.domain.utils.ResponseData
 
+@SuppressLint("NotifyDataSetChanged")
 class SectorFragment : Fragment() {
 
     private var _binding: FragmentSectorBinding? = null
@@ -26,10 +28,6 @@ class SectorFragment : Fragment() {
     private val sectorsAdapter: SectorsAdapter by lazy {
         SectorsAdapter { sector ->
             viewModel.changeSector(sector)
-            findNavController().navigate(
-                resId = R.id.action_sectorFragment_to_filterFragment,
-                args = createArguments(viewModel.newFilter)
-            )
         }
     }
 
@@ -71,7 +69,9 @@ class SectorFragment : Fragment() {
             }
 
             etSearch.doOnTextChanged { text, _, _, _ ->
-                viewModel.search(text.toString())
+                if (viewModel.screenState.value is SectorState.Content) {
+                    viewModel.search(text.toString())
+                }
                 ivClear.isVisible = !text.isNullOrEmpty()
                 ivSearch.isVisible = text.isNullOrEmpty()
             }
@@ -90,29 +90,52 @@ class SectorFragment : Fragment() {
         viewModel.screenState.observe(viewLifecycleOwner) { screenState ->
             when (screenState) {
                 is SectorState.Content -> showContent(screenState)
-                SectorState.Error -> showError()
+                is SectorState.Error -> showError(screenState)
                 SectorState.Loading -> showLoading()
             }
         }
     }
 
     private fun showContent(screenState: SectorState.Content) {
-        if (screenState.sectorsList.isNotEmpty()) {
-            sectorsAdapter.setItems(screenState.sectorsList)
-            // placeholder hide
-        } else {
-            sectorsAdapter.clearItems()
-            // placeholder empty results
+        with(binding) {
+            if (screenState.sectorsList.isNotEmpty()) {
+                sectorsAdapter.setItems(screenState.sectorsList)
+                tvPlaceholder.isVisible = false
+            } else {
+                sectorsAdapter.clearItems()
+                tvPlaceholder.setText(R.string.sector_no_sector)
+                tvPlaceholder.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.placeholder_no_results_cat, 0, 0)
+                tvPlaceholder.isVisible = true
+            }
+            flSearch.isVisible = true
+            rvSectors.isVisible = true
+            progressBar.isVisible = false
         }
-        // progressBar hide
     }
 
-    private fun showError() {
-        println("error")
+    private fun showError(screenState: SectorState.Error) {
+        with(binding) {
+            if (screenState.error == ResponseData.ResponseError.NO_INTERNET) {
+                tvPlaceholder.setText(R.string.search_no_internet)
+                tvPlaceholder.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.placeholder_no_internet, 0, 0)
+            } else {
+                tvPlaceholder.setText(R.string.sector_error)
+                tvPlaceholder.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.placeholder_no_results_carpet, 0, 0)
+            }
+            tvPlaceholder.isVisible = true
+            flSearch.isVisible = true
+            rvSectors.isVisible = false
+            progressBar.isVisible = false
+        }
     }
 
     private fun showLoading() {
-        println("loading")
+        with(binding) {
+            progressBar.isVisible = true
+            flSearch.isVisible = false
+            rvSectors.isVisible = false
+            tvPlaceholder.isVisible = false
+        }
     }
 
 }

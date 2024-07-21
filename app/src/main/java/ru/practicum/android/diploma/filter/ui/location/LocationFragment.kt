@@ -57,24 +57,19 @@ class LocationFragment : Fragment() {
             requireArguments().getSerializable(FILTER_EXTRA) as Filter
         }
         viewModel.setFilter(filter)
-        val country = filter.country?.name
-        val region = filter.region?.name
-        updateUI(country, region)
+        updateUI(
+            country = filter.country?.name,
+            region = filter.region?.name
+        )
     }
 
     private fun initializeListeners() {
         binding.etCountryName.setOnClickListener {
-            findNavController().navigate(
-                resId = R.id.action_locationFragment_to_countryFragment,
-                args = createArguments(viewModel.newFilter)
-            )
+            navigateToCountry()
         }
 
         binding.etRegionName.setOnClickListener {
-            findNavController().navigate(
-                resId = R.id.action_locationFragment_to_regionFragment,
-                args = createArguments(viewModel.newFilter)
-            )
+            navigateToRegion()
         }
         binding.tbLocation.setNavigationOnClickListener {
             findNavController().navigate(
@@ -90,17 +85,22 @@ class LocationFragment : Fragment() {
         }
 
         binding.ivCountryEndIcon.setOnClickListener {
-            // Добавить логику очистки страны
-            // заменить крестик на стрелочку
-            // сделать элемент некликабельным
-            // вернуть цвет подсказки на серый
+            if (viewModel.newFilter.country != null) {
+                viewModel.clearCountry()
+                clearCountryUI()
+                clearRegionUI()
+            } else {
+                navigateToCountry()
+            }
         }
 
         binding.ivRegionEndIcon.setOnClickListener {
-            // Добавить логику очистки региона
-            // заменить крестик на стрелочку
-            // сделать элемент некликабельным
-            // вернуть цвет подсказки на серый
+            if (viewModel.newFilter.region != null) {
+                viewModel.clearRegion()
+                clearRegionUI()
+            } else {
+                navigateToRegion()
+            }
         }
     }
 
@@ -111,6 +111,8 @@ class LocationFragment : Fragment() {
                 ContextCompat.getColorStateList(requireContext(), R.color.black)
             binding.ivCountryEndIcon.isClickable = true
             binding.ivCountryEndIcon.setImageDrawable(requireContext().getDrawable(R.drawable.ic_clear))
+        } else {
+            clearCountryUI()
         }
 
         if (region != null) {
@@ -119,6 +121,41 @@ class LocationFragment : Fragment() {
                 ContextCompat.getColorStateList(requireContext(), R.color.black)
             binding.ivRegionEndIcon.isClickable = true
             binding.ivRegionEndIcon.setImageDrawable(requireContext().getDrawable(R.drawable.ic_clear))
+        } else {
+            clearRegionUI()
         }
     }
+
+    private fun navigateToCountry() {
+        findNavController().navigate(
+            resId = R.id.action_locationFragment_to_countryFragment,
+            args = createArguments(viewModel.newFilter)
+        )
+    }
+
+    private fun navigateToRegion() {
+        findNavController().navigate(
+            resId = R.id.action_locationFragment_to_regionFragment,
+            args = createArguments(viewModel.newFilter)
+        )
+    }
+
+    private fun clearCountryUI() {
+        with(binding) {
+            ivCountryEndIcon.setImageDrawable(requireContext().getDrawable(R.drawable.ic_arrow_forward))
+            etCountryName.setText("")
+            tilCountryLabel.defaultHintTextColor =
+                ContextCompat.getColorStateList(requireContext(), R.color.gray)
+        }
+    }
+
+    private fun clearRegionUI() {
+        with(binding) {
+            ivRegionEndIcon.setImageDrawable(requireContext().getDrawable(R.drawable.ic_arrow_forward))
+            etRegionName.setText("")
+            tilRegionLabel.defaultHintTextColor =
+                ContextCompat.getColorStateList(requireContext(), R.color.gray)
+        }
+    }
+
 }
