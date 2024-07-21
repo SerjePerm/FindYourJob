@@ -27,58 +27,66 @@ class FilterRepositoryImpl(
 ) : FilterRepository {
 
     override fun getCountries(): Flow<ResponseData<List<Country>>> = flow {
-        when (val response = networkClient.doRequest(CountriesRequest)) {
-            is CountriesResponse -> {
-                val countriesList = countryDtoToCountry(response.countries)
-                emit(ResponseData.Data(countriesList))
-            }
+        emit(
+            when (val response = networkClient.doRequest(CountriesRequest)) {
+                is CountriesResponse -> {
+                    val countriesList = countryDtoToCountry(response.countries)
+                    ResponseData.Data(countriesList)
+                }
 
-            else -> {
-                responseToError(response)
+                else -> {
+                    responseToError(response)
+                }
             }
-        }
+        )
     }
 
     override fun getRegions(id: Int): Flow<ResponseData<List<Region>>> = flow {
-        when (val response = networkClient.doRequest(RegionsRequest(id))) {
-            is RegionsResponse -> {
-                val regionsList = regionDtoToRegion(response.regions)
-                emit(ResponseData.Data(regionsList))
-            }
+        emit(
+            when (val response = networkClient.doRequest(RegionsRequest(id))) {
+                is RegionsResponse -> {
+                    val regionsList = regionDtoToRegion(response.regions)
+                    ResponseData.Data(regionsList)
+                }
 
-            else -> {
-                responseToError(response)
+                else -> {
+                    responseToError(response)
+                }
             }
-        }
+        )
     }
 
     override fun getAllRegions(): Flow<ResponseData<List<Region>>> = flow {
-        when (val response = networkClient.doRequest(CountriesRequest)) {
-            is CountriesResponse -> {
-                val regionsList = countryDtoToAllRegions(response.countries)
-                emit(ResponseData.Data(regionsList))
-            }
+        emit(
+            when (val response = networkClient.doRequest(CountriesRequest)) {
+                is CountriesResponse -> {
+                    val regionsList = countryDtoToAllRegions(response.countries)
+                    ResponseData.Data(regionsList)
+                }
 
-            else -> {
-                responseToError(response)
+                else -> {
+                    responseToError(response)
+                }
             }
-        }
+        )
     }
 
     override fun getSectors(): Flow<ResponseData<List<Sector>>> = flow {
-        when (val response = networkClient.doRequest(SectorsRequest)) {
-            is SectorsResponse -> {
-                val sectorsList = sectorDtoToSector(response.sectors)
-                emit(ResponseData.Data(sectorsList))
-            }
+        emit(
+            when (val response = networkClient.doRequest(SectorsRequest)) {
+                is SectorsResponse -> {
+                    val sectorsList = sectorDtoToSector(response.sectors)
+                    ResponseData.Data(sectorsList)
+                }
 
-            else -> {
-                responseToError(response)
+                else -> {
+                    responseToError(response)
+                }
             }
-        }
+        )
     }
 
-    private fun responseToError(response: Response): ResponseData<CountriesResponse> =
+    private fun <T> responseToError(response: Response): ResponseData<T> =
         ResponseData.Error(
             when (response.resultCode) {
                 RESULT_CODE_NO_INTERNET -> ResponseData.ResponseError.NO_INTERNET
