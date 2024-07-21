@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -47,19 +48,20 @@ class LocationFragment : Fragment() {
             requireArguments().getSerializable(FILTER_EXTRA) as Filter
         }
         viewModel.setFilter(filter)
-        val country = filter.country?.name ?: "null"
-        val region = filter.region?.name ?: "null"
+        val country = filter.country?.name
+        val region = filter.region?.name
         updateUI(country, region)
     }
 
     private fun initializeListeners() {
-        binding.tvCountryLabel.setOnClickListener {
+        binding.etCountryName.setOnClickListener {
             findNavController().navigate(
                 resId = R.id.action_locationFragment_to_countryFragment,
                 args = createArguments(viewModel.newFilter)
             )
         }
-        binding.tvRegionLabel.setOnClickListener {
+
+        binding.etRegionName.setOnClickListener {
             findNavController().navigate(
                 resId = R.id.action_locationFragment_to_regionFragment,
                 args = createArguments(viewModel.newFilter)
@@ -77,38 +79,37 @@ class LocationFragment : Fragment() {
                 args = createArguments(viewModel.newFilter)
             )
         }
+
+        binding.ivCountryEndIcon.setOnClickListener {
+            // Добавить логику очистки страны
+            // заменить крестик на стрелочку
+            // сделать элемент некликабельным
+            // вернуть цвет подсказки на серый
+        }
+
+        binding.ivRegionEndIcon.setOnClickListener {
+            // Добавить логику очистки региона
+            // заменить крестик на стрелочку
+            // сделать элемент некликабельным
+            // вернуть цвет подсказки на серый
+        }
     }
 
     private fun updateUI(country: String?, region: String?) {
         if (country != null) {
-            binding.tvCountryLabel.text = resources.getString(R.string.location_country)
-            binding.tvRegionLabel.setTextColor(resources.getColor(R.color.black, null))
-            binding.tvCountryLabel.textSize = SMALL_TEXT_SIZE
-            binding.tvCountryValue.text = country
-            binding.tvCountryValue.visibility = View.VISIBLE
-            binding.btLocationSelect.visibility = View.VISIBLE
-        } else {
-            binding.tvCountryLabel.text = resources.getString(R.string.location_country)
-            binding.tvCountryLabel.setTextColor(resources.getColor(R.color.gray, null))
-            binding.tvCountryLabel.textSize = BIG_TEXT_SIZE
-            binding.btLocationSelect.visibility = View.GONE
+            binding.etCountryName.setText(country)
+            binding.tilCountryLabel.defaultHintTextColor =
+                ContextCompat.getColorStateList(requireContext(), R.color.black)
+            binding.ivCountryEndIcon.isClickable = true
+            binding.ivCountryEndIcon.setImageDrawable(requireContext().getDrawable(R.drawable.ic_clear))
         }
 
         if (region != null) {
-            binding.tvRegionLabel.text = resources.getString(R.string.location_region)
-            binding.tvRegionLabel.setTextColor(resources.getColor(R.color.black, null))
-            binding.tvRegionLabel.textSize = SMALL_TEXT_SIZE
-            binding.tvRegionValue.text = region
-            binding.tvRegionValue.visibility = View.VISIBLE
-        } else {
-            binding.tvRegionLabel.text = resources.getString(R.string.location_region)
-            binding.tvRegionLabel.setTextColor(resources.getColor(R.color.gray, null))
-            binding.tvRegionLabel.textSize = BIG_TEXT_SIZE
+            binding.etRegionName.setText(region)
+            binding.tilRegionLabel.defaultHintTextColor =
+                ContextCompat.getColorStateList(requireContext(), R.color.black)
+            binding.ivRegionEndIcon.isClickable = true
+            binding.ivRegionEndIcon.setImageDrawable(requireContext().getDrawable(R.drawable.ic_clear))
         }
-    }
-
-    companion object {
-        private const val BIG_TEXT_SIZE = 16F
-        private const val SMALL_TEXT_SIZE = 12F
     }
 }

@@ -18,55 +18,59 @@
         android:titleTextAppearance="@style/Medium_22"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvCountryLabel"
-        style="@style/Regular_16_Filter_Btns"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilCountryLabel"
+        style="@style/TextInputLayoutLocation"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:paddingHorizontal="@dimen/margin18"
-        android:text="Страна"
-        android:textColor="?attr/colorOnPrimary"
-        app:drawableRightCompat="@drawable/ic_arrow_forward"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tbLocation" />
+        android:layout_marginTop="@dimen/margin16"
+        android:hint="@string/location_country"
+        app:layout_constraintTop_toBottomOf="@id/tbLocation">
 
-    <TextView
-        android:id="@+id/tvCountryValue"
-        style="@style/Regular_16_Filter_Btns"
-        android:layout_width="match_parent"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etCountryName"
+            style="@style/Regular_16.TextInputEditTextLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/ivCountryEndIcon"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-20dp"
-        android:paddingHorizontal="@dimen/margin18"
-        android:textColor="?attr/colorOnPrimary"
+        android:layout_marginEnd="@dimen/margin4"
+        android:clickable="false"
+        android:src="@drawable/ic_arrow_forward"
+        app:layout_constraintBottom_toBottomOf="@id/tilCountryLabel"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvCountryLabel" />
+        app:layout_constraintTop_toTopOf="@id/tilCountryLabel" />
 
-    <TextView
-        android:id="@+id/tvRegionLabel"
-        style="@style/Regular_16_Filter_Btns"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilRegionLabel"
+        style="@style/TextInputLayoutLocation"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:paddingHorizontal="@dimen/margin18"
-        android:text="Регион"
-        android:textColor="?attr/colorOnPrimary"
-        app:drawableRightCompat="@drawable/ic_arrow_forward"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCountryLabel" />
+        android:hint="@string/location_region"
+        app:layout_constraintTop_toBottomOf="@id/tilCountryLabel">
 
-    <TextView
-        android:id="@+id/tvRegionValue"
-        style="@style/Regular_16_Filter_Btns"
-        android:layout_width="match_parent"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etRegionName"
+            style="@style/Regular_16.TextInputEditTextLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/ivRegionEndIcon"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-20dp"
-        android:paddingHorizontal="@dimen/margin18"
-        android:textColor="?attr/colorOnPrimary"
+        android:layout_marginEnd="@dimen/margin4"
+        android:clickable="false"
+        android:src="@drawable/ic_arrow_forward"
+        app:layout_constraintBottom_toBottomOf="@id/tilRegionLabel"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvRegionLabel" />
+        app:layout_constraintTop_toTopOf="@id/tilRegionLabel" />
 
     <Button
         android:id="@+id/btLocationSelect"
