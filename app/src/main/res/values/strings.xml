@@ -59,6 +59,7 @@
     <string name="sector_title">Выбор отрасли</string>
     <string name="sector_enter_sector">Введите отрасль</string>
     <string name="sector_select">Выбрать</string>
+    <string name="sector_query">Введите регион</string>
     <string name="sector_no_sector">Такой отрасли нет</string>
     <string name="sector_error">Не удалось получить\nсписок</string>
     <!-- strings for openEmail -->

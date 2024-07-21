@@ -15,6 +15,7 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSectorBinding
 import ru.practicum.android.diploma.filter.domain.models.Filter
 import ru.practicum.android.diploma.filter.ui.filter.FilterFragment.Companion.FILTER_EXTRA
+import ru.practicum.android.diploma.filter.ui.filter.FilterFragment.Companion.createArguments
 import ru.practicum.android.diploma.filter.ui.sector.adapter.SectorsAdapter
 import ru.practicum.android.diploma.search.domain.utils.ResponseData
 
@@ -28,6 +29,7 @@ class SectorFragment : Fragment() {
     private val sectorsAdapter: SectorsAdapter by lazy {
         SectorsAdapter { sector ->
             viewModel.changeSector(sector)
+            binding.btApply.isVisible = true
         }
     }
 
@@ -66,6 +68,13 @@ class SectorFragment : Fragment() {
         with(binding) {
             tbSector.setNavigationOnClickListener {
                 findNavController().navigateUp()
+            }
+
+            btApply.setOnClickListener {
+                findNavController().navigate(
+                    resId = R.id.action_sectorFragment_to_filterFragment,
+                    args = createArguments(viewModel.newFilter)
+                )
             }
 
             etSearch.doOnTextChanged { text, _, _, _ ->

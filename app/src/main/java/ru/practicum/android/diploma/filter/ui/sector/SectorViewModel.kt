@@ -21,7 +21,7 @@ class SectorViewModel(
     private val originalList: MutableList<Sector> = ArrayList()
     private val filteredList: MutableList<Sector> = ArrayList()
 
-    private var newFilter = Filter()
+    var newFilter = Filter()
     private var latestSearchText: String? = null
 
     init {
@@ -29,9 +29,10 @@ class SectorViewModel(
             filterInteractor.getSectors().collect { data ->
                 when (data) {
                     is ResponseData.Data -> {
-                        _screenState.postValue(SectorState.Content(data.value))
                         originalList.addAll(data.value)
+                        postSectorsList()
                     }
+
                     is ResponseData.Error -> _screenState.postValue(SectorState.Error(data.error))
                 }
             }
