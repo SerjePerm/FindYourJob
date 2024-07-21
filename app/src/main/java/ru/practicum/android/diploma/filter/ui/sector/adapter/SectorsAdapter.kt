@@ -9,7 +9,7 @@ import kotlin.math.min
 class SectorsAdapter(
     val onClick: (Sector) -> Unit
 ) : RecyclerView.Adapter<SectorViewHolder>() {
-    private val sectors = mutableListOf<Sector>()
+    val sectors = mutableListOf<Sector>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SectorViewHolder {
         return SectorViewHolder(parent)

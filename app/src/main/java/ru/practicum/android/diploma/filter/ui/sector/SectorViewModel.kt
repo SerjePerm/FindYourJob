@@ -21,7 +21,8 @@ class SectorViewModel(
     private val originalList: MutableList<Sector> = ArrayList()
     private val filteredList: MutableList<Sector> = ArrayList()
 
-    var newFilter = Filter()
+    private var newFilter = Filter()
+    private var latestSearchText: String? = null
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -31,7 +32,7 @@ class SectorViewModel(
                         _screenState.postValue(SectorState.Content(data.value))
                         originalList.addAll(data.value)
                     }
-                    is ResponseData.Error -> _screenState.postValue(SectorState.Error)
+                    is ResponseData.Error -> _screenState.postValue(SectorState.Error(data.error))
                 }
             }
         }
@@ -43,20 +44,34 @@ class SectorViewModel(
 
     fun changeSector(sector: Sector) {
         newFilter = newFilter.copy(sector = sector)
+        postSectorsList()
     }
 
     fun search(searchText: String?) {
+        latestSearchText = searchText
+        postSectorsList()
+    }
+
+    private fun postSectorsList() {
         filteredList.clear()
-        if (searchText.isNullOrEmpty()) {
-            _screenState.postValue(SectorState.Content(originalList))
-        } else {
+        if (latestSearchText.isNullOrEmpty()) {
+            filteredList.addAll(originalList)
+        }
+        if (latestSearchText?.isNotBlank() == true) {
             for (item in originalList) {
-                if (item.name.contains(searchText, true)) {
+                if (item.name.contains(latestSearchText!!, true)) {
                     filteredList.add(item)
                 }
             }
-            _screenState.postValue(SectorState.Content(filteredList))
         }
+        newFilter.sector?.id.let { selectedId ->
+            filteredList.forEachIndexed { index, sector ->
+                if (sector.id == selectedId) {
+                    filteredList[index] = filteredList[index].copy(isChecked = true)
+                }
+            }
+        }
+        _screenState.postValue(SectorState.Content(filteredList))
     }
 
 }
