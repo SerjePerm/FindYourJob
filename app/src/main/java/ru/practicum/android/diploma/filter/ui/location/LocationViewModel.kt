@@ -13,4 +13,13 @@ class LocationViewModel(
     fun setFilter(filterParam: Filter) {
         newFilter = filterParam
     }
+
+    fun clearCountry() {
+        newFilter = newFilter.copy(country = null, region = null)
+    }
+
+    fun clearRegion() {
+        newFilter = newFilter.copy(region = null)
+    }
+
 }
