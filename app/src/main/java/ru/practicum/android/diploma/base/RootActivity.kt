@@ -29,5 +29,4 @@ class RootActivity : AppCompatActivity() {
             binding.bnvBottomNav.isVisible = showList.contains(navDestination.id)
         }
     }
-
 }
