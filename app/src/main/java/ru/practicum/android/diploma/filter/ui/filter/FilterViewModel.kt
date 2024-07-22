@@ -64,7 +64,7 @@ class FilterViewModel(
 
     private fun saveFilter() {
         filterInteractor.saveFilter(filter)
-        screenState = screenState.copy(filter = filter, modified = true)
+        screenState = screenState.copy(filter = filter, modified = true, isEmpty = isEmpty())
     }
 
     private fun isEmpty() = filter == Filter()
