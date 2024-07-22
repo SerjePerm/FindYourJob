@@ -69,7 +69,7 @@ class LocationFragment : Fragment() {
             navigateToRegion()
         }
         binding.tbLocation.setNavigationOnClickListener {
-            closeWithLocation()
+            findNavController().popBackStack()
         }
         binding.btLocationSelect.setOnClickListener {
             closeWithLocation()
