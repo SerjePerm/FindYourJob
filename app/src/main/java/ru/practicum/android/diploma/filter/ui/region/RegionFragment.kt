@@ -113,4 +113,5 @@ class RegionFragment : Fragment() {
         const val LOCATION_EXTRA = "location"
         const val REGION_REQUEST_KEY = "region_request"
     }
+
 }

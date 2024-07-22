@@ -5,6 +5,7 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
@@ -15,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFilterBinding
+import ru.practicum.android.diploma.filter.domain.models.Filter
 import ru.practicum.android.diploma.filter.domain.models.Location
 import ru.practicum.android.diploma.filter.domain.models.Sector
 import ru.practicum.android.diploma.filter.ui.location.LocationFragment
@@ -39,7 +41,6 @@ class FilterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initializeListeners()
         initializeObservers()
         initializeFragmentResultListeners()
@@ -90,19 +91,18 @@ class FilterFragment : Fragment() {
     private fun renderState(filterScreenState: FilterScreenState?) {
         filterScreenState?.let {
             with(binding) {
-                if (!it.modified) {
-                    etSalary.setText(it.filter.salary.toString())
-                    checkBox.isChecked = it.filter.onlyWithSalary
-                }
                 btFilterApply.isVisible = it.modified
                 btFilterReset.isVisible = !it.isEmpty
 
-                it.filter.location.let { location ->
-                    val country = location.country?.name ?: "null"
-                    val region = location.region?.name ?: "null"
-                    btLocation.text = requireContext().getString(R.string.filter_location, country, region)
-                    btSector.text = it.filter.sector?.name ?: "null"
+                val country = it.filter.location.country?.name
+                val region = it.filter.location.region?.name
+                renderLocation(country, region)
+                renderSector(it.filter.sector?.name)
+
+                if (!it.modified) {
+                    renderSalary(it.filter)
                 }
+
             }
         }
     }
@@ -119,6 +119,38 @@ class FilterFragment : Fragment() {
                 viewModel.sector = it
             }
         }
+    }
+
+    private fun renderLocation(country: String?, region: String?) {
+        if (country != null && region != null) {
+            binding.etLocationName.setText(requireContext().getString(R.string.filter_location, country, region))
+            binding.tilLocationLabel.defaultHintTextColor =
+                ContextCompat.getColorStateList(requireContext(), getOnPrimaryColor())
+        } else if (country != null) {
+            binding.etLocationName.setText(country)
+            binding.tilLocationLabel.defaultHintTextColor =
+                ContextCompat.getColorStateList(requireContext(), getOnPrimaryColor())
+        } else if (region != null) {
+            binding.etLocationName.setText(region)
+            binding.tilLocationLabel.defaultHintTextColor =
+                ContextCompat.getColorStateList(requireContext(), getOnPrimaryColor())
+        }
+    }
+
+    private fun renderSector(sector: String?) {
+        if (sector != null) {
+            binding.tilSectorLabel.defaultHintTextColor =
+                ContextCompat.getColorStateList(requireContext(), getOnPrimaryColor())
+            binding.tilSectorLabel.isEnabled = true
+            binding.etSectorName.setText(sector)
+        }
+    }
+
+    private fun renderSalary(filter: Filter) {
+        if (filter.salary != null) {
+            binding.etSalary.setText(filter.salary.toString())
+        }
+        binding.checkBox.isChecked = filter.onlyWithSalary
     }
 
     private fun getOnPrimaryColor(): Int {
