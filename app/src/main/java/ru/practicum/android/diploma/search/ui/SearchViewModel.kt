@@ -40,10 +40,7 @@ class SearchViewModel(
         coroutineScope = viewModelScope,
         useLastParam = true
     ) { changedText ->
-        currentPage = 0
-        maxPages = 0
-        vacanciesList.clear()
-        searchRequest(changedText)
+        newSearchRequest(changedText)
     }
 
     private val pageErrorDebounce = debounce<ResponseData.ResponseError>(
@@ -54,13 +51,13 @@ class SearchViewModel(
         _screenState.postValue(SearchState.Error(responseError, true))
     }
 
-    fun loadFilter() {
+    private fun loadFilter() {
         filter = filterInteractor.loadFilter()
     }
 
     fun filterApply() {
-        if (!latestSearchText.isNullOrEmpty()) {
-            searchDebounce(latestSearchText!!)
+        latestSearchText?.let {
+            newSearchRequest(it)
         }
     }
 
@@ -94,6 +91,9 @@ class SearchViewModel(
         if (searchText.isNotEmpty() && !cancelJob) {
             _screenState.postValue(SearchState.Loading(currentPage > 0))
             searchJob = viewModelScope.launch(Dispatchers.IO) {
+                if (!isNextPageLoading) {
+                    loadFilter()
+                }
                 val options = Options(
                     searchText = searchText,
                     itemsPerPage = VACANCIES_PER_PAGE,
@@ -103,6 +103,13 @@ class SearchViewModel(
                 searchInteractor.search(options).collect(::processResponse)
             }
         }
+    }
+
+    private fun newSearchRequest(searchText: String) {
+        currentPage = 0
+        maxPages = 0
+        vacanciesList.clear()
+        searchRequest(searchText)
     }
 
     private fun processResponse(vacanciesData: ResponseData<VacanciesResponse>) {

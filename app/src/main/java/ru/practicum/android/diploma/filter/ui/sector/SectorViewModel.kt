@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.filter.domain.api.FilterInteractor
-import ru.practicum.android.diploma.filter.domain.models.Filter
 import ru.practicum.android.diploma.filter.domain.models.Sector
 import ru.practicum.android.diploma.search.domain.utils.ResponseData
 
@@ -21,31 +20,22 @@ class SectorViewModel(
     private val originalList: MutableList<Sector> = ArrayList()
     private val filteredList: MutableList<Sector> = ArrayList()
 
-    var newFilter = Filter()
     private var latestSearchText: String? = null
+
+    var sector: Sector? = null
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
             filterInteractor.getSectors().collect { data ->
                 when (data) {
                     is ResponseData.Data -> {
+                        _screenState.postValue(SectorState.Content(data.value))
                         originalList.addAll(data.value)
-                        postSectorsList()
                     }
-
                     is ResponseData.Error -> _screenState.postValue(SectorState.Error(data.error))
                 }
             }
         }
-    }
-
-    fun setFilter(filterParam: Filter) {
-        newFilter = filterParam
-    }
-
-    fun changeSector(sector: Sector) {
-        newFilter = newFilter.copy(sector = sector)
-        postSectorsList()
     }
 
     fun search(searchText: String?) {
@@ -65,11 +55,12 @@ class SectorViewModel(
                 }
             }
         }
-        newFilter.sector?.id.let { selectedId ->
-            filteredList.forEachIndexed { index, sector ->
-                if (sector.id == selectedId) {
-                    filteredList[index] = filteredList[index].copy(isChecked = true)
-                }
+
+        sector?.let { sector ->
+            val indexChecked = filteredList.indexOfFirst { it.id == sector.id }
+            if (indexChecked >= 0) {
+                val item = filteredList[indexChecked]
+                filteredList[indexChecked] = item.copy(isChecked = true)
             }
         }
         _screenState.postValue(SectorState.Content(filteredList))

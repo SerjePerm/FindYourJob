@@ -38,13 +38,6 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
-        <action
-            android:id="@+id/action_filterFragment_to_searchFragment"
-            app:destination="@id/searchFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
 
     <fragment
@@ -66,13 +59,6 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
-        <action
-            android:id="@+id/action_locationFragment_to_filterFragment"
-            app:destination="@id/filterFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"/>
         <argument
             android:name="selectedCountry"
             app:argType="string" />
@@ -85,47 +71,19 @@
         android:id="@+id/sectorFragment"
         android:name="ru.practicum.android.diploma.filter.ui.sector.SectorFragment"
         android:label="fragment_sector"
-        tools:layout="@layout/fragment_sector" >
-        <action
-            android:id="@+id/action_sectorFragment_to_filterFragment"
-            app:destination="@id/filterFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_sector" />
 
     <fragment
         android:id="@+id/countryFragment"
         android:name="ru.practicum.android.diploma.filter.ui.country.CountryFragment"
         android:label="fragment_country"
-        tools:layout="@layout/fragment_country" >
-        <action
-            android:id="@+id/action_countryFragment_to_locationFragment"
-            app:destination="@id/locationFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left">
-            <argument
-                android:name="selectedCountry"
-                app:argType="string" />
-        </action>
-    </fragment>
+        tools:layout="@layout/fragment_country" />
 
     <fragment
         android:id="@+id/regionFragment"
         android:name="ru.practicum.android.diploma.filter.ui.region.RegionFragment"
         android:label="fragment_region"
-        tools:layout="@layout/fragment_region">
-    <action
-        android:id="@+id/action_regionFragment_to_locationFragment"
-        app:destination="@id/locationFragment"
-        app:enterAnim="@anim/slide_in_left"
-        app:exitAnim="@anim/slide_out_right"
-        app:popEnterAnim="@anim/slide_in_right"
-        app:popExitAnim="@anim/slide_out_left">
-        <argument
-            android:name="selectedRegion"
-            app:argType="string" />
-    </action>
-    </fragment>
+        tools:layout="@layout/fragment_region"/>
 
     <fragment
         android:id="@+id/vacancyFragment"
