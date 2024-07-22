@@ -11,9 +11,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentRegionBinding
 import ru.practicum.android.diploma.filter.domain.models.Location
 import ru.practicum.android.diploma.filter.ui.region.adapter.RegionsAdapter
+import ru.practicum.android.diploma.search.domain.utils.ResponseData
 import ru.practicum.android.diploma.utils.DeprecationUtils.serializable
 
 class RegionFragment : Fragment() {
@@ -78,7 +80,7 @@ class RegionFragment : Fragment() {
         viewModel.screenState.observe(viewLifecycleOwner) { screenState ->
             when (screenState) {
                 is RegionState.Content -> showContent(screenState)
-                RegionState.Error -> showError()
+                is RegionState.Error -> showError(screenState)
                 RegionState.Loading -> showLoading()
             }
         }
@@ -91,16 +93,31 @@ class RegionFragment : Fragment() {
     private fun showContent(screenState: RegionState.Content) {
         if (screenState.regionsList.isNotEmpty()) {
             regionsAdapter.setItems(screenState.regionsList)
-            // placeholder hide
+            binding.tvPlaceholder.isVisible = false
         } else {
             regionsAdapter.clearItems()
-            // placeholder empty results
+            binding.tvPlaceholder.setText(R.string.region_no_region)
+            binding.tvPlaceholder.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.placeholder_no_results_cat, 0, 0)
+            binding.tvPlaceholder.isVisible = true
         }
         // progressBar hide
     }
 
-    private fun showError() {
-        println("error")
+    private fun showError(screenState: RegionState.Error) {
+        with(binding) {
+            if (screenState.error == ResponseData.ResponseError.NO_INTERNET) {
+                tvPlaceholder.setText(R.string.search_no_internet)
+                tvPlaceholder.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.placeholder_no_internet, 0, 0)
+
+            } else {
+                tvPlaceholder.setText(R.string.sector_error)
+                tvPlaceholder.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.placeholder_no_results_carpet, 0, 0)
+            }
+            tvPlaceholder.isVisible = true
+            flSearch.isVisible = true
+            rvRegions.isVisible = false
+//            progressBar.isVisible = false
+        }
     }
 
     private fun showLoading() {
@@ -111,5 +128,4 @@ class RegionFragment : Fragment() {
         const val LOCATION_EXTRA = "location"
         const val REGION_REQUEST_KEY = "region_request"
     }
-
 }
