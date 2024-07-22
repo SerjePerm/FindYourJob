@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
@@ -9,12 +9,12 @@
     <TextView
         android:id="@+id/tvName"
         style="@style/Regular_16_Filter_Btns"
-        android:textColor="?attr/colorOnPrimary"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="@dimen/margin16"
-        tools:text="Title country"
-        android:padding="@dimen/margin18"
+        android:paddingStart="@dimen/padding16"
+        android:paddingEnd="@dimen/padding4"
+        android:textColor="?attr/colorOnPrimary"
         app:drawableRightCompat="@drawable/ic_arrow_forward"
-        app:layout_constraintTop_toBottomOf="@id/tbLocation" />
+        app:layout_constraintTop_toBottomOf="@id/tbLocation"
+        tools:text="@string/location_country" />
 </LinearLayout>

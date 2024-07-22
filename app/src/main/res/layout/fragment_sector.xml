@@ -30,18 +30,13 @@
 
         <EditText
             android:id="@+id/etSearch"
+            style="@style/Regular_16.EditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/margin14"
             android:layout_marginEnd="60dp"
-            android:background="@android:color/transparent"
-            android:fontFamily="@font/ys_display_regular"
             android:hint="@string/sector_query"
-            android:inputType="text"
             android:textColor="@color/black"
-            android:textColorHint="?attr/hint_text_c"
-            android:textCursorDrawable="@drawable/color_cursor"
-            android:textSize="16sp"
             tools:ignore="Autofill,TextContrastCheck,TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
         <ImageView
