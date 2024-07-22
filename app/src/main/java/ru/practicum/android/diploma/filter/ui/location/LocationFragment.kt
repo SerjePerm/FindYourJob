@@ -1,32 +1,29 @@
 package ru.practicum.android.diploma.filter.ui.location
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentLocationBinding
-import ru.practicum.android.diploma.filter.domain.models.Filter
-import ru.practicum.android.diploma.filter.ui.filter.FilterFragment.Companion.FILTER_EXTRA
-import ru.practicum.android.diploma.filter.ui.filter.FilterFragment.Companion.createArguments
+import ru.practicum.android.diploma.filter.domain.models.Country
+import ru.practicum.android.diploma.filter.domain.models.Location
+import ru.practicum.android.diploma.filter.ui.country.CountryFragment
+import ru.practicum.android.diploma.filter.ui.region.RegionFragment
+import ru.practicum.android.diploma.utils.DeprecationUtils.serializable
 
 class LocationFragment : Fragment() {
 
     private var _binding: FragmentLocationBinding? = null
     private val binding get() = _binding!!
     private val viewModel: LocationViewModel by viewModel()
-
-    private val callback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            findNavController().popBackStack(R.id.filterFragment, false)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,10 +36,16 @@ class LocationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setFilterFromBundle()
-        initializeListeners()
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+        setLocationFromBundle()
+
+        initializeListeners()
+        initializeObservers()
+        initializeFragmentResultListeners()
+    }
+
+    private fun initializeObservers() {
+        viewModel.locationScreenState.observe(viewLifecycleOwner, ::updateUI)
     }
 
     override fun onDestroyView() {
@@ -50,17 +53,11 @@ class LocationFragment : Fragment() {
         _binding = null
     }
 
-    private fun setFilterFromBundle() {
-        val filter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requireArguments().getSerializable(FILTER_EXTRA, Filter::class.java) as Filter
-        } else {
-            requireArguments().getSerializable(FILTER_EXTRA) as Filter
+    private fun setLocationFromBundle() {
+        val location = requireArguments().serializable<Location>(LOCATION_EXTRA)
+        if (location != null) {
+            viewModel.location = location
         }
-        viewModel.setFilter(filter)
-        updateUI(
-            country = filter.country?.name,
-            region = filter.region?.name
-        )
     }
 
     private fun initializeListeners() {
@@ -72,21 +69,15 @@ class LocationFragment : Fragment() {
             navigateToRegion()
         }
         binding.tbLocation.setNavigationOnClickListener {
-            findNavController().navigate(
-                resId = R.id.action_locationFragment_to_filterFragment,
-                args = createArguments(viewModel.newFilter)
-            )
+            closeWithLocation()
         }
         binding.btLocationSelect.setOnClickListener {
-            findNavController().navigate(
-                resId = R.id.action_locationFragment_to_filterFragment,
-                args = createArguments(viewModel.newFilter)
-            )
+            closeWithLocation()
         }
 
         binding.ivCountryEndIcon.setOnClickListener {
-            if (viewModel.newFilter.country != null) {
-                viewModel.clearCountry()
+            if (viewModel.country != null) {
+                viewModel.country = null
                 clearCountryUI()
                 clearRegionUI()
             } else {
@@ -95,8 +86,8 @@ class LocationFragment : Fragment() {
         }
 
         binding.ivRegionEndIcon.setOnClickListener {
-            if (viewModel.newFilter.region != null) {
-                viewModel.clearRegion()
+            if (viewModel.region != null) {
+                viewModel.region = null
                 clearRegionUI()
             } else {
                 navigateToRegion()
@@ -104,7 +95,27 @@ class LocationFragment : Fragment() {
         }
     }
 
-    private fun updateUI(country: String?, region: String?) {
+    private fun initializeFragmentResultListeners() {
+        setFragmentResultListener(CountryFragment.COUNTRY_REQUEST_KEY) { _, bundle ->
+            bundle.serializable<Country>(CountryFragment.COUNTRY_EXTRA)?.let {
+                viewModel.country = it
+            }
+        }
+        setFragmentResultListener(RegionFragment.REGION_REQUEST_KEY) { _, bundle ->
+            bundle.serializable<Location>(RegionFragment.LOCATION_EXTRA)?.let {
+                viewModel.location = it
+            }
+        }
+    }
+
+    private fun closeWithLocation() {
+        setFragmentResult(LOCATION_REQUEST_KEY, bundleOf(LOCATION_EXTRA to viewModel.location))
+        findNavController().popBackStack()
+    }
+
+    private fun updateUI(location: Location?) {
+        val country = location?.country?.name
+        val region = location?.region?.name
         if (country != null) {
             binding.etCountryName.setText(country)
             binding.tilCountryLabel.defaultHintTextColor =
@@ -129,21 +140,21 @@ class LocationFragment : Fragment() {
     private fun navigateToCountry() {
         findNavController().navigate(
             resId = R.id.action_locationFragment_to_countryFragment,
-            args = createArguments(viewModel.newFilter)
+            args = bundleOf(CountryFragment.COUNTRY_EXTRA to viewModel.country)
         )
     }
 
     private fun navigateToRegion() {
         findNavController().navigate(
             resId = R.id.action_locationFragment_to_regionFragment,
-            args = createArguments(viewModel.newFilter)
+            args = bundleOf(RegionFragment.LOCATION_EXTRA to viewModel.location)
         )
     }
 
     private fun clearCountryUI() {
         with(binding) {
             ivCountryEndIcon.setImageDrawable(requireContext().getDrawable(R.drawable.ic_arrow_forward))
-            etCountryName.setText("")
+            etCountryName.text?.clear()
             tilCountryLabel.defaultHintTextColor =
                 ContextCompat.getColorStateList(requireContext(), R.color.gray)
         }
@@ -152,10 +163,16 @@ class LocationFragment : Fragment() {
     private fun clearRegionUI() {
         with(binding) {
             ivRegionEndIcon.setImageDrawable(requireContext().getDrawable(R.drawable.ic_arrow_forward))
-            etRegionName.setText("")
+            etRegionName.text?.clear()
             tilRegionLabel.defaultHintTextColor =
                 ContextCompat.getColorStateList(requireContext(), R.color.gray)
         }
+    }
+
+    companion object {
+        const val LOCATION_EXTRA = "location"
+        const val LOCATION_REQUEST_KEY = "location_request"
+        fun createArguments(location: Location): Bundle = bundleOf(LOCATION_EXTRA to location)
     }
 
 }

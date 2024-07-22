@@ -10,49 +10,67 @@ class FilterViewModel(
     private val filterInteractor: FilterInteractor,
 ) : ViewModel() {
 
-    private var oldFilter = Filter()
-    var newFilter = Filter()
-    private val _isChanges = MutableLiveData(false)
-    val isChanges: LiveData<Boolean> = _isChanges
+    private var filter: Filter = filterInteractor.loadFilter()
 
-    init {
-        loadAndSetOldFilter()
-    }
-
-    private fun loadAndSetOldFilter() {
-        oldFilter = filterInteractor.loadFilter()
-        newFilter = oldFilter
-    }
-
-    private fun compareFilters() {
-        if (newFilter != oldFilter) {
-            _isChanges.value = true
-        } else {
-            _isChanges.value = false
+    private var screenState = FilterScreenState(
+        filter = filter,
+        modified = false,
+        isEmpty = isEmpty(),
+    )
+        set(value) {
+            field = value
+            _filterScreenStateLiveData.postValue(screenState)
         }
-    }
 
-    fun saveFilter(reset: Boolean) {
-        if (!reset) {
-            filterInteractor.saveFilter(newFilter)
-        } else {
-            filterInteractor.saveFilter(Filter())
+    private val _filterScreenStateLiveData = MutableLiveData(screenState)
+    val filterScreenState: LiveData<FilterScreenState>
+        get() = _filterScreenStateLiveData
+
+    var location
+        get() = filter.location
+        set(value) {
+            if (location != value) {
+                filter = filter.copy(location = value)
+                saveFilter()
+            }
         }
+
+    var sector
+        get() = filter.sector
+        set(value) {
+            if (sector != value) {
+                filter = filter.copy(sector = value)
+                saveFilter()
+            }
+        }
+
+    var salary: String
+        get() = filter.salary.toString()
+        set(value) {
+            if (salary != value) {
+                filter = filter.copy(salary = value.toIntOrNull())
+                saveFilter()
+            }
+        }
+
+    var onlyWithSalary: Boolean
+        get() = filter.onlyWithSalary
+        set(value) {
+            if (onlyWithSalary != value) {
+                filter = filter.copy(onlyWithSalary = value)
+                saveFilter()
+            }
+        }
+
+    private fun saveFilter() {
+        filterInteractor.saveFilter(filter)
+        screenState = screenState.copy(filter = filter, modified = true)
     }
 
-    fun setFilter(filterParam: Filter) {
-        newFilter = filterParam
-        compareFilters()
-    }
+    private fun isEmpty() = filter == Filter()
 
-    fun changeSalary(value: String) {
-        newFilter = newFilter.copy(salary = value.toIntOrNull())
-        compareFilters()
+    fun resetFilter() {
+        filter = Filter()
+        saveFilter()
     }
-
-    fun changeOnlyWithSalary(value: Boolean) {
-        newFilter = newFilter.copy(onlyWithSalary = value)
-        compareFilters()
-    }
-
 }

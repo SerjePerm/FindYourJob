@@ -3,8 +3,7 @@ package ru.practicum.android.diploma.filter.domain.models
 import java.io.Serializable
 
 data class Filter(
-    val country: Country? = null,
-    val region: Region? = null,
+    val location: Location = Location(),
     val sector: Sector? = null,
     val salary: Int? = null,
     val onlyWithSalary: Boolean = false,

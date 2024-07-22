@@ -14,10 +14,12 @@ data class Options(
                 put("text", searchText)
                 put("per_page", itemsPerPage.toString())
                 put("page", page.toString())
-                if (filter.region != null) {
-                    put("area", filter.region.id.toString())
-                } else if (filter.country != null) {
-                    put("area", filter.country.id.toString())
+                filter.location.apply {
+                    if (region != null) {
+                        put("area", region.id.toString())
+                    } else if (country != null) {
+                        put("area", country.id.toString())
+                    }
                 }
                 if (filter.sector != null) {
                     put("industry", filter.sector.id.toString())

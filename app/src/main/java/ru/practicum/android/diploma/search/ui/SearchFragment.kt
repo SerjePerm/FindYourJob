@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
-import ru.practicum.android.diploma.filter.ui.filter.FilterFragment
 import ru.practicum.android.diploma.search.domain.utils.ResponseData
 import ru.practicum.android.diploma.search.ui.adapter.VacanciesAdapter
 import ru.practicum.android.diploma.utils.Placeholder
@@ -52,8 +51,6 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel.loadFilter()
 
         initializeObservers()
         initializeAdapter()
@@ -102,7 +99,6 @@ class SearchFragment : Fragment() {
             ivFilter.setOnClickListener {
                 findNavController().navigate(
                     resId = R.id.action_searchFragment_to_filterFragment,
-                    args = FilterFragment.createArguments(viewModel.filter)
                 )
             }
 
@@ -122,7 +118,7 @@ class SearchFragment : Fragment() {
             placeholder = Placeholder(tvPlaceholder)
         }
 
-        setFragmentResultListener(FILTERS_KEY) { key, bundle ->
+        setFragmentResultListener(FILTERS_KEY) { _, bundle ->
             val filtersApply = bundle.getBoolean(FILTERS_EXTRA)
             if (filtersApply) {
                 viewModel.filterApply()
