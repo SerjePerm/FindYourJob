@@ -27,6 +27,7 @@ class RootActivity : AppCompatActivity() {
         )
         navController.addOnDestinationChangedListener { _, navDestination, _ ->
             binding.bnvBottomNav.isVisible = showList.contains(navDestination.id)
+            binding.ivLineAboveNavigation.isVisible = showList.contains(navDestination.id)
         }
     }
 }

@@ -60,14 +60,14 @@ class RegionFragment : Fragment() {
                 findNavController().navigateUp()
             }
 
-            etSearch.doOnTextChanged { text, _, _, _ ->
+            etSearchRegion.doOnTextChanged { text, _, _, _ ->
                 viewModel.search(text.toString())
                 ivClear.isVisible = !text.isNullOrEmpty()
                 ivSearch.isVisible = text.isNullOrEmpty()
             }
 
             ivClear.setOnClickListener {
-                etSearch.text.clear()
+                etSearchRegion.text.clear()
             }
         }
     }
@@ -113,4 +113,5 @@ class RegionFragment : Fragment() {
         const val LOCATION_EXTRA = "location"
         const val REGION_REQUEST_KEY = "region_request"
     }
+
 }

@@ -16,6 +16,7 @@
         app:navGraph="@navigation/navigation_graph" />
 
     <ImageView
+        android:id="@+id/iv_line_above_navigation"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/light_gray"
@@ -25,8 +26,8 @@
         android:id="@+id/bnvBottomNav"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:paddingBottom="@dimen/padding8"
         android:background="?attr/colorPrimary"
+        android:paddingBottom="@dimen/padding8"
         android:theme="@style/Regular_12.BottomNavigationText"
         app:itemActiveIndicatorStyle="@style/Regular_12.BottomNavigationText"
         app:itemIconTint="@color/bottom_nav_selector"

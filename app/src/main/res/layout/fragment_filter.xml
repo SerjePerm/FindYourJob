@@ -17,24 +17,59 @@
         android:titleTextAppearance="@style/Medium_22"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btLocation"
-        style="@style/Regular_16_Filter_Btns"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilLocationLabel"
+        style="@style/TextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="@dimen/margin16"
-        android:text="@string/filter_work_place"
-        app:drawableRightCompat="@drawable/ic_arrow_forward"
-        app:layout_constraintTop_toBottomOf="@id/tbSettingsFilter" />
+        android:hint="@string/filter_work_place"
+        app:layout_constraintTop_toBottomOf="@id/tbSettingsFilter">
 
-    <Button
-        android:id="@+id/btSector"
-        style="@style/Regular_16_Filter_Btns"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etLocationName"
+            style="@style/Regular_16.TextInputEditTextLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/ivLocationEndIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin4"
+        android:clickable="false"
+        android:src="@drawable/ic_arrow_forward"
+        app:layout_constraintBottom_toBottomOf="@id/tilLocationLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tilLocationLabel" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilSectorLabel"
+        style="@style/TextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:text="@string/filter_sector"
-        app:drawableRightCompat="@drawable/ic_arrow_forward"
-        app:layout_constraintTop_toBottomOf="@id/btLocation" />
+        app:layout_constraintTop_toBottomOf="@id/tilLocationLabel">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etSectorName"
+            style="@style/Regular_16.TextInputEditTextLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/filter_sector" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/ivSectorEndIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin4"
+        android:clickable="false"
+        android:src="@drawable/ic_arrow_forward"
+        app:layout_constraintBottom_toBottomOf="@id/tilSectorLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tilSectorLabel" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/flAmount"
@@ -50,7 +85,7 @@
         app:expandedHintEnabled="false"
         app:hintTextAppearance="@style/Regular_12"
         app:hintTextColor="@color/blue"
-        app:layout_constraintTop_toBottomOf="@id/btSector">
+        app:layout_constraintTop_toBottomOf="@id/tilSectorLabel">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etSalary"
