@@ -1,23 +1,23 @@
 package ru.practicum.android.diploma.filter.ui.sector
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSectorBinding
-import ru.practicum.android.diploma.filter.domain.models.Filter
-import ru.practicum.android.diploma.filter.ui.filter.FilterFragment.Companion.FILTER_EXTRA
-import ru.practicum.android.diploma.filter.ui.filter.FilterFragment.Companion.createArguments
+import ru.practicum.android.diploma.filter.domain.models.Sector
 import ru.practicum.android.diploma.filter.ui.sector.adapter.SectorsAdapter
 import ru.practicum.android.diploma.search.domain.utils.ResponseData
+import ru.practicum.android.diploma.utils.DeprecationUtils.serializable
 
 @SuppressLint("NotifyDataSetChanged")
 class SectorFragment : Fragment() {
@@ -28,8 +28,8 @@ class SectorFragment : Fragment() {
 
     private val sectorsAdapter: SectorsAdapter by lazy {
         SectorsAdapter { sector ->
-            viewModel.changeSector(sector)
-            binding.btApply.isVisible = true
+            setFragmentResult(SECTOR_REQUEST_KEY, bundleOf(SECTOR_EXTRA to sector))
+            findNavController().popBackStack()
         }
     }
 
@@ -44,7 +44,9 @@ class SectorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setFilterFromBundle()
+
+        setSectorFromBundle()
+
         initializeOther()
         initializeAdapter()
         initializeObservers()
@@ -55,26 +57,14 @@ class SectorFragment : Fragment() {
         _binding = null
     }
 
-    private fun setFilterFromBundle() {
-        val filter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requireArguments().getSerializable(FILTER_EXTRA, Filter::class.java) as Filter
-        } else {
-            requireArguments().getSerializable(FILTER_EXTRA) as Filter
-        }
-        viewModel.setFilter(filter)
+    private fun setSectorFromBundle() {
+        viewModel.sector = requireArguments().serializable<Sector>(SECTOR_EXTRA)
     }
 
     private fun initializeOther() {
         with(binding) {
             tbSector.setNavigationOnClickListener {
                 findNavController().navigateUp()
-            }
-
-            btApply.setOnClickListener {
-                findNavController().navigate(
-                    resId = R.id.action_sectorFragment_to_filterFragment,
-                    args = createArguments(viewModel.newFilter)
-                )
             }
 
             etSearch.doOnTextChanged { text, _, _, _ ->
@@ -147,4 +137,9 @@ class SectorFragment : Fragment() {
         }
     }
 
+    companion object {
+        const val SECTOR_EXTRA = "sector"
+        const val SECTOR_REQUEST_KEY = "sector_request"
+        fun createArguments(sector: Sector?): Bundle = bundleOf()
+    }
 }

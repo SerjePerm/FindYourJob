@@ -1,19 +1,18 @@
 package ru.practicum.android.diploma.filter.ui.country
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentCountryBinding
-import ru.practicum.android.diploma.filter.domain.models.Filter
+import ru.practicum.android.diploma.filter.domain.models.Country
 import ru.practicum.android.diploma.filter.ui.country.adapter.CountriesAdapter
-import ru.practicum.android.diploma.filter.ui.filter.FilterFragment.Companion.FILTER_EXTRA
-import ru.practicum.android.diploma.filter.ui.filter.FilterFragment.Companion.createArguments
+import ru.practicum.android.diploma.utils.DeprecationUtils.serializable
 
 class CountryFragment : Fragment() {
 
@@ -23,11 +22,8 @@ class CountryFragment : Fragment() {
 
     private val countriesAdapter: CountriesAdapter by lazy {
         CountriesAdapter { country ->
-            viewModel.changeCountry(country)
-            findNavController().navigate(
-                resId = R.id.action_countryFragment_to_locationFragment,
-                args = createArguments(viewModel.newFilter)
-            )
+            setFragmentResult(COUNTRY_REQUEST_KEY, bundleOf(COUNTRY_EXTRA to country))
+            findNavController().popBackStack()
         }
     }
 
@@ -42,7 +38,9 @@ class CountryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setFilterFromBundle()
+
+        setCountryFromBundle()
+
         initializeListeners()
         initializeAdapter()
         initializeObservers()
@@ -53,13 +51,8 @@ class CountryFragment : Fragment() {
         _binding = null
     }
 
-    private fun setFilterFromBundle() {
-        val filter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requireArguments().getSerializable(FILTER_EXTRA, Filter::class.java) as Filter
-        } else {
-            requireArguments().getSerializable(FILTER_EXTRA) as Filter
-        }
-        viewModel.setFilter(filter)
+    private fun setCountryFromBundle() {
+        viewModel.country = requireArguments().serializable<Country>(COUNTRY_EXTRA)
     }
 
     private fun initializeListeners() {
@@ -99,5 +92,10 @@ class CountryFragment : Fragment() {
 
     private fun showLoading() {
         println("loading")
+    }
+
+    companion object {
+        const val COUNTRY_REQUEST_KEY = "country_request"
+        const val COUNTRY_EXTRA = "country"
     }
 }

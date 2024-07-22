@@ -1,25 +1,36 @@
 package ru.practicum.android.diploma.filter.ui.location
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.practicum.android.diploma.filter.domain.api.FilterInteractor
-import ru.practicum.android.diploma.filter.domain.models.Filter
+import ru.practicum.android.diploma.filter.domain.models.Country
+import ru.practicum.android.diploma.filter.domain.models.Location
+import ru.practicum.android.diploma.filter.domain.models.Region
 
 class LocationViewModel(
     private val filterInteractor: FilterInteractor
 ) : ViewModel() {
 
-    var newFilter = Filter()
+    var country: Country?
+        set(value) {
+            location = location.copy(country = value)
+        }
+        get() = location.country
 
-    fun setFilter(filterParam: Filter) {
-        newFilter = filterParam
-    }
+    var region: Region?
+        set(value) {
+            location = location.copy(region = value)
+        }
+        get() = location.region
 
-    fun clearCountry() {
-        newFilter = newFilter.copy(country = null, region = null)
-    }
+    var location: Location = Location()
+        set(value) {
+            field = value
+            _locationScreenState.postValue(location)
+        }
 
-    fun clearRegion() {
-        newFilter = newFilter.copy(region = null)
-    }
-
+    private val _locationScreenState = MutableLiveData(location)
+    val locationScreenState: LiveData<Location>
+        get() = _locationScreenState
 }
