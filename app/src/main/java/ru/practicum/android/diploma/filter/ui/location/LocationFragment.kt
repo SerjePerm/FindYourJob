@@ -2,6 +2,7 @@ package ru.practicum.android.diploma.filter.ui.location
 
 import android.os.Build
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -108,7 +109,7 @@ class LocationFragment : Fragment() {
         if (country != null) {
             binding.etCountryName.setText(country)
             binding.tilCountryLabel.defaultHintTextColor =
-                ContextCompat.getColorStateList(requireContext(), R.color.black)
+                ContextCompat.getColorStateList(requireContext(), getOnPrimaryColor())
             binding.ivCountryEndIcon.isClickable = true
             binding.ivCountryEndIcon.setImageDrawable(requireContext().getDrawable(R.drawable.ic_clear))
         } else {
@@ -118,7 +119,7 @@ class LocationFragment : Fragment() {
         if (region != null) {
             binding.etRegionName.setText(region)
             binding.tilRegionLabel.defaultHintTextColor =
-                ContextCompat.getColorStateList(requireContext(), R.color.black)
+                ContextCompat.getColorStateList(requireContext(), getOnPrimaryColor())
             binding.ivRegionEndIcon.isClickable = true
             binding.ivRegionEndIcon.setImageDrawable(requireContext().getDrawable(R.drawable.ic_clear))
         } else {
@@ -157,4 +158,11 @@ class LocationFragment : Fragment() {
                 ContextCompat.getColorStateList(requireContext(), R.color.gray)
         }
     }
+
+    private fun getOnPrimaryColor(): Int {
+        val typedValue = TypedValue()
+        requireContext().theme.resolveAttribute(com.google.android.material.R.attr.colorOnPrimary, typedValue, true)
+        return typedValue.resourceId
+    }
+
 }
