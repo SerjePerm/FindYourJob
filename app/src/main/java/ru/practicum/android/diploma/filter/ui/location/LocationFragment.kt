@@ -170,15 +170,16 @@ class LocationFragment : Fragment() {
         }
     }
 
+    private fun getOnPrimaryColor(): Int {
+        val typedValue = TypedValue()
+        requireContext().theme.resolveAttribute(com.google.android.material.R.attr.colorOnPrimary, typedValue, true)
+        return typedValue.resourceId
+    }
+
     companion object {
         const val LOCATION_EXTRA = "location"
         const val LOCATION_REQUEST_KEY = "location_request"
         fun createArguments(location: Location): Bundle = bundleOf(LOCATION_EXTRA to location)
     }
 
-    private fun getOnPrimaryColor(): Int {
-        val typedValue = TypedValue()
-        requireContext().theme.resolveAttribute(com.google.android.material.R.attr.colorOnPrimary, typedValue, true)
-        return typedValue.resourceId
-    }
 }

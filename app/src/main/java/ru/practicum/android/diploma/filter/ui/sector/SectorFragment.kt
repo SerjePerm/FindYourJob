@@ -28,8 +28,8 @@ class SectorFragment : Fragment() {
 
     private val sectorsAdapter: SectorsAdapter by lazy {
         SectorsAdapter { sector ->
-            setFragmentResult(SECTOR_REQUEST_KEY, bundleOf(SECTOR_EXTRA to sector))
-            findNavController().popBackStack()
+            viewModel.changeSector(sector)
+            binding.btApply.isVisible = true
         }
     }
 
@@ -44,9 +44,7 @@ class SectorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setSectorFromBundle()
-
         initializeOther()
         initializeAdapter()
         initializeObservers()
@@ -65,6 +63,11 @@ class SectorFragment : Fragment() {
         with(binding) {
             tbSector.setNavigationOnClickListener {
                 findNavController().navigateUp()
+            }
+
+            btApply.setOnClickListener {
+                setFragmentResult(SECTOR_REQUEST_KEY, bundleOf(SECTOR_EXTRA to viewModel.sector))
+                findNavController().popBackStack()
             }
 
             etSearch.doOnTextChanged { text, _, _, _ ->
@@ -140,6 +143,6 @@ class SectorFragment : Fragment() {
     companion object {
         const val SECTOR_EXTRA = "sector"
         const val SECTOR_REQUEST_KEY = "sector_request"
-        fun createArguments(sector: Sector?): Bundle = bundleOf()
+        fun createArguments(sector: Sector?): Bundle = bundleOf(SECTOR_EXTRA to sector)
     }
 }

@@ -29,13 +29,19 @@ class SectorViewModel(
             filterInteractor.getSectors().collect { data ->
                 when (data) {
                     is ResponseData.Data -> {
-                        _screenState.postValue(SectorState.Content(data.value))
                         originalList.addAll(data.value)
+                        postSectorsList()
                     }
+
                     is ResponseData.Error -> _screenState.postValue(SectorState.Error(data.error))
                 }
             }
         }
+    }
+
+    fun changeSector(sectorParam: Sector) {
+        sector = sectorParam
+        postSectorsList()
     }
 
     fun search(searchText: String?) {

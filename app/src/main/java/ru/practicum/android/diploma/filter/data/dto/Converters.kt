@@ -19,7 +19,8 @@ fun regionDtoToRegion(source: List<RegionDto>): List<Region> =
     source.map {
         Region(
             id = it.id,
-            name = it.name
+            name = it.name,
+            parentId = it.parentId
         )
     }
 
@@ -28,7 +29,8 @@ fun countryDtoToAllRegions(source: List<CountryDto>): List<Region> =
         .map { regionDto ->
             Region(
                 id = regionDto.id,
-                name = regionDto.name
+                name = regionDto.name,
+                parentId = regionDto.parentId
             )
         }
 
