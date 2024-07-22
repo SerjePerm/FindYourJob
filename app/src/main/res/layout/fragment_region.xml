@@ -18,16 +18,30 @@
         android:titleTextAppearance="@style/Medium_22" />
 
     <FrameLayout
+        android:id="@+id/flSearch"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="56dp"
+        android:layout_marginHorizontal="@dimen/margin16"
+        android:layout_marginVertical="@dimen/margin8"
+        android:background="@drawable/rounded_edittext"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tbSector">
 
         <EditText
-            android:id="@+id/etSearch"
+            android:id="@+id/etSearchRegion"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autofillHints=""
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/margin14"
+            android:layout_marginEnd="60dp"
+            android:background="@android:color/transparent"
+            android:fontFamily="@font/ys_display_regular"
+            android:hint="@string/region_enter_region"
             android:inputType="text"
-            android:textSize="20sp" />
+            android:textColor="@color/black"
+            android:textColorHint="?attr/hint_text_c"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:textSize="16sp"
+            tools:ignore="Autofill,TextContrastCheck,TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
         <ImageView
             android:id="@+id/ivSearch"
@@ -54,9 +68,7 @@
         android:id="@+id/rvRegions"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/margin12"
         android:layout_marginTop="@dimen/margin12"
-        android:layout_marginEnd="@dimen/margin12"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:itemCount="5"
         tools:listitem="@layout/item_country" />

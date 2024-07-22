@@ -2,6 +2,7 @@ package ru.practicum.android.diploma.filter.ui.filter
 
 import android.os.Build
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -68,24 +69,28 @@ class FilterFragment : Fragment() {
             if (country != null && region != null) {
                 etLocationName.setText(requireContext().getString(R.string.filter_location, country, region))
                 binding.tilLocationLabel.defaultHintTextColor =
-                    ContextCompat.getColorStateList(requireContext(), R.color.black)
+                    ContextCompat.getColorStateList(requireContext(), getOnPrimaryColor())
             } else if (country != null) {
                 etLocationName.setText(country)
                 binding.tilLocationLabel.defaultHintTextColor =
-                    ContextCompat.getColorStateList(requireContext(), R.color.black)
+                    ContextCompat.getColorStateList(requireContext(), getOnPrimaryColor())
             } else if (region != null) {
                 etLocationName.setText(region)
                 binding.tilLocationLabel.defaultHintTextColor =
-                    ContextCompat.getColorStateList(requireContext(), R.color.black)
+                    ContextCompat.getColorStateList(requireContext(), getOnPrimaryColor())
             }
 
             if (sector != null) {
                 binding.tilSectorLabel.defaultHintTextColor =
-                    ContextCompat.getColorStateList(requireContext(), R.color.black)
+                    ContextCompat.getColorStateList(requireContext(), getOnPrimaryColor())
                 binding.tilSectorLabel.isEnabled = true
                 etSectorName.setText(sector)
             }
-            etSalary.setText(filter.salary.toString())
+
+            if (filter.salary != null) {
+                etSalary.setText(filter.salary.toString())
+            }
+
             checkBox.isChecked = filter.onlyWithSalary
         }
     }
@@ -134,5 +139,11 @@ class FilterFragment : Fragment() {
     companion object {
         const val FILTER_EXTRA = "FILTER_EXTRA"
         fun createArguments(filter: Filter): Bundle = bundleOf(FILTER_EXTRA to filter)
+    }
+
+    private fun getOnPrimaryColor(): Int {
+        val typedValue = TypedValue()
+        requireContext().theme.resolveAttribute(com.google.android.material.R.attr.colorOnPrimary, typedValue, true)
+        return typedValue.resourceId
     }
 }

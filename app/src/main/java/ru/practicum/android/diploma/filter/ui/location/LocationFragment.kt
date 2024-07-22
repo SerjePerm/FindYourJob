@@ -111,7 +111,7 @@ class LocationFragment : Fragment() {
             binding.tilCountryLabel.defaultHintTextColor =
                 ContextCompat.getColorStateList(requireContext(), getOnPrimaryColor())
             binding.ivCountryEndIcon.isClickable = true
-            binding.ivCountryEndIcon.setImageDrawable(requireContext().getDrawable(R.drawable.ic_clear))
+            binding.ivCountryEndIcon.setImageDrawable(requireContext().getDrawable(R.drawable.ic_clear_for_button))
         } else {
             clearCountryUI()
         }
@@ -121,7 +121,7 @@ class LocationFragment : Fragment() {
             binding.tilRegionLabel.defaultHintTextColor =
                 ContextCompat.getColorStateList(requireContext(), getOnPrimaryColor())
             binding.ivRegionEndIcon.isClickable = true
-            binding.ivRegionEndIcon.setImageDrawable(requireContext().getDrawable(R.drawable.ic_clear))
+            binding.ivRegionEndIcon.setImageDrawable(requireContext().getDrawable(R.drawable.ic_clear_for_button))
         } else {
             clearRegionUI()
         }
@@ -164,5 +164,4 @@ class LocationFragment : Fragment() {
         requireContext().theme.resolveAttribute(com.google.android.material.R.attr.colorOnPrimary, typedValue, true)
         return typedValue.resourceId
     }
-
 }
