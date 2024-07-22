@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
@@ -61,23 +62,42 @@ class FilterFragment : Fragment() {
         }
         viewModel.setFilter(filter)
         with(binding) {
-            val country = filter.country?.name ?: "null"
-            val region = filter.region?.name ?: "null"
-            btLocation.text = requireContext().getString(R.string.filter_location, country, region)
-            btSector.text = filter.sector?.name ?: "null"
+            val country = filter.country?.name
+            val region = filter.region?.name
+            val sector = filter.sector?.name
+            if (country != null && region != null) {
+                etLocationName.setText(requireContext().getString(R.string.filter_location, country, region))
+                binding.tilLocationLabel.defaultHintTextColor =
+                    ContextCompat.getColorStateList(requireContext(), R.color.black)
+            } else if (country != null) {
+                etLocationName.setText(country)
+                binding.tilLocationLabel.defaultHintTextColor =
+                    ContextCompat.getColorStateList(requireContext(), R.color.black)
+            } else if (region != null) {
+                etLocationName.setText(region)
+                binding.tilLocationLabel.defaultHintTextColor =
+                    ContextCompat.getColorStateList(requireContext(), R.color.black)
+            }
+
+            if (sector != null) {
+                binding.tilSectorLabel.defaultHintTextColor =
+                    ContextCompat.getColorStateList(requireContext(), R.color.black)
+                binding.tilSectorLabel.isEnabled = true
+                etSectorName.setText(sector)
+            }
             etSalary.setText(filter.salary.toString())
             checkBox.isChecked = filter.onlyWithSalary
         }
     }
 
     private fun initializeListeners() {
-        binding.btLocation.setOnClickListener {
+        binding.etLocationName.setOnClickListener {
             findNavController().navigate(
                 resId = R.id.action_filterFragment_to_locationFragment,
                 args = createArguments(viewModel.newFilter)
             )
         }
-        binding.btSector.setOnClickListener {
+        binding.etSectorName.setOnClickListener {
             findNavController().navigate(
                 resId = R.id.action_filterFragment_to_sectorFragment,
                 args = createArguments(viewModel.newFilter)

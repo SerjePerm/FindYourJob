@@ -56,7 +56,7 @@
         <item name="android:textFontWeight" tools:ignore="NewApi">@integer/weight_400</item>
     </style>
 
-    <style name="TextInputLayoutLocation">
+    <style name="TextInputLayout">
         <item name="android:background">?attr/colorPrimary</item>
         <item name="android:clickable">true</item>
         <item name="android:gravity">center_vertical</item>

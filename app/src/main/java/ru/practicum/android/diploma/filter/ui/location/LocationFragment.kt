@@ -157,5 +157,4 @@ class LocationFragment : Fragment() {
                 ContextCompat.getColorStateList(requireContext(), R.color.gray)
         }
     }
-
 }
