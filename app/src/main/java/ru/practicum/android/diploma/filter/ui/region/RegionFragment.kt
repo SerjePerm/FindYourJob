@@ -61,7 +61,9 @@ class RegionFragment : Fragment() {
             }
 
             etSearchRegion.doOnTextChanged { text, _, _, _ ->
-                viewModel.search(text.toString())
+                if (viewModel.screenState.value is RegionState.Content) {
+                    viewModel.search(text.toString())
+                }
                 ivClear.isVisible = !text.isNullOrEmpty()
                 ivSearch.isVisible = text.isNullOrEmpty()
             }
@@ -91,16 +93,20 @@ class RegionFragment : Fragment() {
     }
 
     private fun showContent(screenState: RegionState.Content) {
-        if (screenState.regionsList.isNotEmpty()) {
-            regionsAdapter.setItems(screenState.regionsList)
-            binding.tvPlaceholder.isVisible = false
-        } else {
-            regionsAdapter.clearItems()
-            binding.tvPlaceholder.setText(R.string.region_no_region)
-            binding.tvPlaceholder.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.placeholder_no_results_cat, 0, 0)
-            binding.tvPlaceholder.isVisible = true
+        with(binding) {
+            if (screenState.regionsList.isNotEmpty()) {
+                regionsAdapter.setItems(screenState.regionsList)
+                tvPlaceholder.isVisible = false
+            } else {
+                regionsAdapter.clearItems()
+                tvPlaceholder.setText(R.string.region_no_region)
+                tvPlaceholder.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.placeholder_no_results_cat, 0, 0)
+                tvPlaceholder.isVisible = true
+            }
+            flSearch.isVisible = true
+            rvRegions.isVisible = true
+            progressBar.isVisible = false
         }
-        // progressBar hide
     }
 
     private fun showError(screenState: RegionState.Error) {
@@ -116,12 +122,17 @@ class RegionFragment : Fragment() {
             tvPlaceholder.isVisible = true
             flSearch.isVisible = true
             rvRegions.isVisible = false
-//            progressBar.isVisible = false
+            progressBar.isVisible = false
         }
     }
 
     private fun showLoading() {
-        println("loading")
+        with(binding) {
+            progressBar.isVisible = true
+            flSearch.isVisible = false
+            rvRegions.isVisible = false
+            tvPlaceholder.isVisible = false
+        }
     }
 
     companion object {
