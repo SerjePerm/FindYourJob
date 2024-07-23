@@ -37,7 +37,7 @@ val viewModelModule = module {
     }
 
     viewModel {
-        LocationViewModel(filterInteractor = get())
+        LocationViewModel()
     }
 
     viewModel {

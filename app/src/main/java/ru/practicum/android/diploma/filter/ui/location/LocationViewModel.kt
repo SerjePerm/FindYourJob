@@ -3,14 +3,11 @@ package ru.practicum.android.diploma.filter.ui.location
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import ru.practicum.android.diploma.filter.domain.api.FilterInteractor
 import ru.practicum.android.diploma.filter.domain.models.Country
 import ru.practicum.android.diploma.filter.domain.models.Location
 import ru.practicum.android.diploma.filter.domain.models.Region
 
-class LocationViewModel(
-    private val filterInteractor: FilterInteractor
-) : ViewModel() {
+class LocationViewModel : ViewModel() {
 
     var country: Country?
         set(value) {
