@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.filter.ui.location
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -99,6 +100,7 @@ class LocationFragment : Fragment() {
         setFragmentResultListener(CountryFragment.COUNTRY_REQUEST_KEY) { _, bundle ->
             bundle.serializable<Country>(CountryFragment.COUNTRY_EXTRA)?.let {
                 viewModel.country = it
+                compareCountryAndRegion()
             }
         }
         setFragmentResultListener(RegionFragment.REGION_REQUEST_KEY) { _, bundle ->
@@ -113,6 +115,7 @@ class LocationFragment : Fragment() {
         findNavController().popBackStack()
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun updateUI(location: Location?) {
         val country = location?.country?.name
         val region = location?.region?.name
@@ -153,6 +156,7 @@ class LocationFragment : Fragment() {
         )
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun clearCountryUI() {
         with(binding) {
             ivCountryEndIcon.setImageDrawable(requireContext().getDrawable(R.drawable.ic_arrow_forward))
@@ -162,6 +166,7 @@ class LocationFragment : Fragment() {
         }
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun clearRegionUI() {
         with(binding) {
             ivRegionEndIcon.setImageDrawable(requireContext().getDrawable(R.drawable.ic_arrow_forward))
@@ -175,6 +180,13 @@ class LocationFragment : Fragment() {
         val typedValue = TypedValue()
         requireContext().theme.resolveAttribute(com.google.android.material.R.attr.colorOnPrimary, typedValue, true)
         return typedValue.resourceId
+    }
+
+    private fun compareCountryAndRegion() {
+        if (viewModel.region?.parentId != viewModel.country?.id) {
+            viewModel.region = null
+            clearRegionUI()
+        }
     }
 
     companion object {
