@@ -51,11 +51,11 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initializeObservers()
         initializeAdapter()
         initializeScroll()
         initializeOther()
+        checkFilterExist()
     }
 
     override fun onDestroyView() {
@@ -119,6 +119,7 @@ class SearchFragment : Fragment() {
         }
 
         setFragmentResultListener(FILTERS_KEY) { _, bundle ->
+            checkFilterExist()
             val filtersApply = bundle.getBoolean(FILTERS_EXTRA)
             if (filtersApply) {
                 viewModel.filterApply()
@@ -198,6 +199,14 @@ class SearchFragment : Fragment() {
 
     private fun showToast(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun checkFilterExist() {
+        if (viewModel.isEmptyFilter()) {
+            binding.ivFilter.setImageResource(R.drawable.ic_filter_off)
+        } else {
+            binding.ivFilter.setImageResource(R.drawable.ic_filter_on)
+        }
     }
 
     companion object {

@@ -94,7 +94,7 @@ class FilterFragment : Fragment() {
         }
         binding.ivClear.setOnClickListener {
             binding.etSalary.text?.clear()
-            viewModel.setSalary("")
+            viewModel.salary = null
         }
         binding.checkBox.setOnCheckedChangeListener { _, isChecked ->
             viewModel.onlyWithSalary = isChecked

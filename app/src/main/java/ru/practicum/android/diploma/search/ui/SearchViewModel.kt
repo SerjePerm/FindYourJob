@@ -87,6 +87,10 @@ class SearchViewModel(
         }
     }
 
+    fun isEmptyFilter(): Boolean {
+        return filterInteractor.loadFilter() == Filter()
+    }
+
     private fun searchRequest(searchText: String) {
         if (searchText.isNotEmpty() && !cancelJob) {
             _screenState.postValue(SearchState.Loading(currentPage > 0))
