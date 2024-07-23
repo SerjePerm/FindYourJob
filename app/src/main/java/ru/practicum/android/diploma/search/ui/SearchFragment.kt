@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
-import ru.practicum.android.diploma.filter.domain.models.Filter
 import ru.practicum.android.diploma.search.domain.utils.ResponseData
 import ru.practicum.android.diploma.search.ui.adapter.VacanciesAdapter
 import ru.practicum.android.diploma.utils.Placeholder
@@ -203,18 +202,10 @@ class SearchFragment : Fragment() {
     }
 
     private fun checkFilterExist() {
-        println("----------------checking filter")
-        println("current filter: ${viewModel.filter}")
-        println("country: ${viewModel.filter.location.country}")
-        println("region: ${viewModel.filter.location.region}")
-        println("sector: ${viewModel.filter.sector}")
-        println("salary: ${viewModel.filter.salary}")
-        println("onlySalary: ${viewModel.filter.onlyWithSalary}")
-        println("----------------checking filter")
-        if (viewModel.filter != Filter()) {
-            binding.ivFilter.setImageResource(R.drawable.ic_filter_on)
-        } else {
+        if (viewModel.isEmptyFilter()) {
             binding.ivFilter.setImageResource(R.drawable.ic_filter_off)
+        } else {
+            binding.ivFilter.setImageResource(R.drawable.ic_filter_on)
         }
     }
 
