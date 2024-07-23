@@ -58,34 +58,6 @@
             tools:ignore="ContentDescription" />
     </FrameLayout>
 
-    <TextView
-        android:id="@+id/tvPlaceholder"
-        style="@style/Medium_22"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginVertical="@dimen/margin16"
-        android:gravity="center"
-        app:drawableTopCompat="@drawable/placeholder_no_internet"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_default="wrap"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/flSearch"
-        app:layout_constraintVertical_bias="0.45"
-        tools:text="placeholder text" />
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="@style/ProgressBarStyle"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvRegions"
         android:layout_width="match_parent"
@@ -94,8 +66,7 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@id/flSearch"
         tools:itemCount="5"
-        tools:listitem="@layout/item_country"
-        app:layout_constraintTop_toBottomOf="@id/flSearch"/>
+        tools:listitem="@layout/item_country" />
 
     <TextView
         android:id="@+id/tvPlaceholder"
@@ -113,7 +84,7 @@
         app:layout_constraintTop_toBottomOf="@id/flSearch"
         app:layout_constraintVertical_bias="0.45"
         tools:text="placeholder text"
-        tools:visibility="visible"/>
+        tools:visibility="visible" />
 
     <ProgressBar
         android:id="@+id/progressBar"
