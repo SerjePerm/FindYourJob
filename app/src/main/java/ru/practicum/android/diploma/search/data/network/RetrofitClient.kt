@@ -38,9 +38,9 @@ class RetrofitClient(
                 when (dto) {
                     is VacancyRequest -> getVacancyResponse(dto)
                     is SearchRequest -> getSearchResponse(dto)
-                    is CountriesRequest -> getCountriesResponse(dto)
+                    is CountriesRequest -> getCountriesResponse()
                     is RegionsRequest -> getRegionsResponse(dto)
-                    is SectorsRequest -> getSectorsResponse(dto)
+                    is SectorsRequest -> getSectorsResponse()
                     else -> {
                         Response().apply { resultCode = RESULT_CODE_BAD_REQUEST }
                     }
@@ -63,7 +63,7 @@ class RetrofitClient(
         return response.apply { resultCode = RESULT_CODE_SUCCESS }
     }
 
-    private suspend fun getCountriesResponse(dto: CountriesRequest): Response {
+    private suspend fun getCountriesResponse(): Response {
         val networkResponse = jobApiService.getCountries()
         if (networkResponse.isSuccessful) {
             val countriesResponse = CountriesResponse(networkResponse.body() ?: emptyList())
@@ -85,7 +85,7 @@ class RetrofitClient(
         }
     }
 
-    private suspend fun getSectorsResponse(dto: SectorsRequest): Response {
+    private suspend fun getSectorsResponse(): Response {
         val networkResponse = jobApiService.getSectors()
         if (networkResponse.isSuccessful) {
             val sectorsResponse = SectorsResponse(networkResponse.body() ?: emptyList())
@@ -95,5 +95,4 @@ class RetrofitClient(
             return Response().apply { resultCode = networkResponse.code() }
         }
     }
-
 }

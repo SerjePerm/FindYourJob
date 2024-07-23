@@ -21,5 +21,4 @@ class FavouritesInteractorImpl(private val favouritesRepository: FavouritesRepos
             favouritesRepository.deleteVacancy(vacancyFull.id)
         }
     }
-
 }

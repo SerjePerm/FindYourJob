@@ -44,5 +44,4 @@ class CountriesAdapter(
     fun clearItems() {
         setItems(emptyList())
     }
-
 }

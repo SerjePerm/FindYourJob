@@ -26,5 +26,4 @@ interface JobApiService {
 
     @GET("industries")
     suspend fun getSectors(): Response<List<SectorDto>>
-
 }

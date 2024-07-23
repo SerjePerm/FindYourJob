@@ -71,5 +71,4 @@ val dataModule = module {
             gson = get()
         )
     }
-
 }
