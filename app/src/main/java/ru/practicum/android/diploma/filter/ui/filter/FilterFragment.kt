@@ -41,7 +41,8 @@ class FilterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initializeListeners()
+        initializeLocationAndSectorListeners()
+        initializeOtherListeners()
         initializeObservers()
         initializeFragmentResultListeners()
     }
@@ -51,19 +52,31 @@ class FilterFragment : Fragment() {
         _binding = null
     }
 
-    private fun initializeListeners() {
+    private fun initializeLocationAndSectorListeners() {
         binding.etLocationName.setOnClickListener {
-            findNavController().navigate(
-                resId = R.id.action_filterFragment_to_locationFragment,
-                args = LocationFragment.createArguments(viewModel.location)
-            )
+            navigateToLocation()
         }
         binding.etSectorName.setOnClickListener {
-            findNavController().navigate(
-                resId = R.id.action_filterFragment_to_sectorFragment,
-                args = SectorFragment.createArguments(viewModel.sector)
-            )
+            navigateToSector()
         }
+        binding.ivLocationEndIcon.setOnClickListener {
+            if (viewModel.location.country == null) {
+                navigateToLocation()
+            } else {
+                viewModel.location = Location(country = null, region = null)
+            }
+        }
+        binding.ivSectorEndIcon.setOnClickListener {
+            if (viewModel.sector == null) {
+                navigateToSector()
+            } else {
+                viewModel.sector = null
+                renderSector(null)
+            }
+        }
+    }
+
+    private fun initializeOtherListeners() {
         binding.tbSettingsFilter.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
@@ -71,13 +84,17 @@ class FilterFragment : Fragment() {
             setFragmentResult(SearchFragment.FILTERS_KEY, bundleOf(SearchFragment.FILTERS_EXTRA to true))
             findNavController().popBackStack()
         }
-
         binding.btFilterReset.setOnClickListener {
             viewModel.resetFilter()
             findNavController().popBackStack()
         }
         binding.etSalary.doOnTextChanged { text, _, _, _ ->
             viewModel.setSalary(text.toString())
+            binding.ivClear.isVisible = !text.isNullOrEmpty()
+        }
+        binding.ivClear.setOnClickListener {
+            binding.etSalary.text?.clear()
+            viewModel.setSalary("")
         }
         binding.checkBox.setOnCheckedChangeListener { _, isChecked ->
             viewModel.onlyWithSalary = isChecked
@@ -135,6 +152,14 @@ class FilterFragment : Fragment() {
             binding.tilLocationLabel.defaultHintTextColor =
                 ContextCompat.getColorStateList(requireContext(), getOnPrimaryColor())
         }
+        if (country == null) {
+            binding.tilLocationLabel.defaultHintTextColor =
+                ContextCompat.getColorStateList(requireContext(), R.color.gray)
+            binding.etLocationName.text?.clear()
+            binding.ivLocationEndIcon.setImageDrawable(requireContext().getDrawable(R.drawable.ic_arrow_forward))
+        } else {
+            binding.ivLocationEndIcon.setImageDrawable(requireContext().getDrawable(R.drawable.ic_clear_for_button))
+        }
     }
 
     private fun renderSector(sector: String?) {
@@ -143,6 +168,12 @@ class FilterFragment : Fragment() {
                 ContextCompat.getColorStateList(requireContext(), getOnPrimaryColor())
             binding.tilSectorLabel.isEnabled = true
             binding.etSectorName.setText(sector)
+            binding.ivSectorEndIcon.setImageDrawable(requireContext().getDrawable(R.drawable.ic_clear_for_button))
+        } else {
+            binding.tilSectorLabel.defaultHintTextColor =
+                ContextCompat.getColorStateList(requireContext(), R.color.gray)
+            binding.etSectorName.text?.clear()
+            binding.ivSectorEndIcon.setImageDrawable(requireContext().getDrawable(R.drawable.ic_arrow_forward))
         }
     }
 
@@ -158,4 +189,19 @@ class FilterFragment : Fragment() {
         requireContext().theme.resolveAttribute(com.google.android.material.R.attr.colorOnPrimary, typedValue, true)
         return typedValue.resourceId
     }
+
+    private fun navigateToLocation() {
+        findNavController().navigate(
+            resId = R.id.action_filterFragment_to_locationFragment,
+            args = LocationFragment.createArguments(viewModel.location)
+        )
+    }
+
+    private fun navigateToSector() {
+        findNavController().navigate(
+            resId = R.id.action_filterFragment_to_sectorFragment,
+            args = SectorFragment.createArguments(viewModel.sector)
+        )
+    }
+
 }
