@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentRegionBinding
 import ru.practicum.android.diploma.filter.domain.models.Location
 import ru.practicum.android.diploma.filter.ui.region.adapter.RegionsAdapter
@@ -89,27 +90,44 @@ class RegionFragment : Fragment() {
     }
 
     private fun showContent(screenState: RegionState.Content) {
-        if (screenState.regionsList.isNotEmpty()) {
-            regionsAdapter.setItems(screenState.regionsList)
-            // placeholder hide
-        } else {
-            regionsAdapter.clearItems()
-            // placeholder empty results
+        with(binding) {
+            if (screenState.regionsList.isNotEmpty()) {
+                regionsAdapter.setItems(screenState.regionsList)
+                tvPlaceholder.isVisible = false
+            } else {
+                regionsAdapter.clearItems()
+                tvPlaceholder.setText(R.string.region_no_region)
+                tvPlaceholder.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.placeholder_no_results_cat, 0, 0)
+                tvPlaceholder.isVisible = true
+            }
+            flSearch.isVisible = true
+            rvRegions.isVisible = true
+            progressBar.isVisible = false
         }
-        // progressBar hide
     }
 
     private fun showError() {
-        println("error")
+        with(binding) {
+            tvPlaceholder.setText(R.string.region_error)
+            tvPlaceholder.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.placeholder_no_results_carpet, 0, 0)
+            tvPlaceholder.isVisible = true
+            flSearch.isVisible = true
+            rvRegions.isVisible = false
+            progressBar.isVisible = false
+        }
     }
 
     private fun showLoading() {
-        println("loading")
+        with(binding) {
+            progressBar.isVisible = true
+            flSearch.isVisible = false
+            rvRegions.isVisible = false
+            tvPlaceholder.isVisible = false
+        }
     }
 
     companion object {
         const val LOCATION_EXTRA = "location"
         const val REGION_REQUEST_KEY = "region_request"
     }
-
 }

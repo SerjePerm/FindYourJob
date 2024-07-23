@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,7 +15,8 @@
         android:minHeight="64dp"
         android:navigationIcon="@drawable/ic_arrow_back"
         android:title="@string/region_title"
-        android:titleTextAppearance="@style/Medium_22" />
+        android:titleTextAppearance="@style/Medium_22"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
         android:id="@+id/flSearch"
@@ -25,7 +26,7 @@
         android:layout_marginVertical="@dimen/margin8"
         android:background="@drawable/rounded_edittext"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tbSector">
+        app:layout_constraintTop_toBottomOf="@id/tbRegion">
 
         <EditText
             android:id="@+id/etSearchRegion"
@@ -55,16 +56,44 @@
             android:src="@drawable/ic_clear"
             android:visibility="gone"
             tools:ignore="ContentDescription" />
-
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/tvPlaceholder"
+        style="@style/Medium_22"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginVertical="@dimen/margin16"
+        android:gravity="center"
+        app:drawableTopCompat="@drawable/placeholder_no_internet"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_default="wrap"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/flSearch"
+        app:layout_constraintVertical_bias="0.45"
+        tools:text="placeholder text" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/ProgressBarStyle"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvRegions"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin12"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:itemCount="5"
-        tools:listitem="@layout/item_country" />
+        tools:listitem="@layout/item_country"
+        app:layout_constraintTop_toBottomOf="@id/flSearch"/>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
