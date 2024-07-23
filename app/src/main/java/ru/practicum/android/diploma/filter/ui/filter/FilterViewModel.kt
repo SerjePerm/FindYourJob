@@ -44,11 +44,11 @@ class FilterViewModel(
             }
         }
 
-    var salary: String
-        get() = filter.salary.toString()
+    var salary: Int?
+        get() = filter.salary
         set(value) {
             if (salary != value) {
-                filter = filter.copy(salary = value.toIntOrNull())
+                filter = filter.copy(salary = value)
                 saveFilter()
             }
         }
@@ -62,9 +62,13 @@ class FilterViewModel(
             }
         }
 
+    fun setSalary(salaryString: String) {
+        salary = salaryString.toIntOrNull()
+    }
+
     private fun saveFilter() {
         filterInteractor.saveFilter(filter)
-        screenState = screenState.copy(filter = filter, modified = true)
+        screenState = screenState.copy(filter = filter, modified = true, isEmpty = isEmpty())
     }
 
     private fun isEmpty() = filter == Filter()

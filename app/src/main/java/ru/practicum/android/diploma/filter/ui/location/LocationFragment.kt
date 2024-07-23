@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
@@ -37,9 +38,7 @@ class LocationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setLocationFromBundle()
-
         initializeListeners()
         initializeObservers()
         initializeFragmentResultListeners()
@@ -136,6 +135,8 @@ class LocationFragment : Fragment() {
         } else {
             clearRegionUI()
         }
+
+        binding.btLocationSelect.isVisible = location != Location()
     }
 
     private fun navigateToCountry() {

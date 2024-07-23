@@ -109,6 +109,7 @@ class RegionFragment : Fragment() {
         }
     }
 
+
     private fun showError(screenState: RegionState.Error) {
         with(binding) {
             if (screenState.error == ResponseData.ResponseError.NO_INTERNET) {
