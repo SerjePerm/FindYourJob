@@ -94,5 +94,4 @@ class FilterRepositoryImpl(
                 else -> ResponseData.ResponseError.SERVER_ERROR
             }
         )
-
 }

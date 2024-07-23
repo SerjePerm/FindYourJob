@@ -30,5 +30,4 @@ val repositoryModule = module {
     single<FavouritesRepository> {
         FavouritesRepositoryImpl(db = get())
     }
-
 }

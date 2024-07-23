@@ -44,5 +44,4 @@ class SectorsAdapter(
     fun clearItems() {
         setItems(emptyList())
     }
-
 }

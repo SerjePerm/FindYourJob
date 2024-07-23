@@ -23,5 +23,4 @@ interface FavouritesDao {
 
     @Query("DELETE FROM vacancies_table WHERE id = :id")
     suspend fun delete(id: Int)
-
 }

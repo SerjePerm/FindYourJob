@@ -32,5 +32,4 @@ class FilterInteractorImpl(
 
     override fun getSectors(): Flow<ResponseData<List<Sector>>> =
         filterRepository.getSectors()
-
 }

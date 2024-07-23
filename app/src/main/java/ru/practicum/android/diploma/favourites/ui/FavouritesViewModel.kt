@@ -28,5 +28,4 @@ class FavouritesViewModel(private val favouritesInteractor: FavouritesInteractor
 
         }
     }
-
 }
