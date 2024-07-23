@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
+import ru.practicum.android.diploma.filter.domain.models.Filter
 import ru.practicum.android.diploma.search.domain.utils.ResponseData
 import ru.practicum.android.diploma.search.ui.adapter.VacanciesAdapter
 import ru.practicum.android.diploma.utils.Placeholder
@@ -51,11 +52,11 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initializeObservers()
         initializeAdapter()
         initializeScroll()
         initializeOther()
+        checkFilterExist()
     }
 
     override fun onDestroyView() {
@@ -119,6 +120,7 @@ class SearchFragment : Fragment() {
         }
 
         setFragmentResultListener(FILTERS_KEY) { _, bundle ->
+            checkFilterExist()
             val filtersApply = bundle.getBoolean(FILTERS_EXTRA)
             if (filtersApply) {
                 viewModel.filterApply()
@@ -198,6 +200,22 @@ class SearchFragment : Fragment() {
 
     private fun showToast(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun checkFilterExist() {
+        println("----------------checking filter")
+        println("current filter: ${viewModel.filter}")
+        println("country: ${viewModel.filter.location.country}")
+        println("region: ${viewModel.filter.location.region}")
+        println("sector: ${viewModel.filter.sector}")
+        println("salary: ${viewModel.filter.salary}")
+        println("onlySalary: ${viewModel.filter.onlyWithSalary}")
+        println("----------------checking filter")
+        if (viewModel.filter != Filter()) {
+            binding.ivFilter.setImageResource(R.drawable.ic_filter_on)
+        } else {
+            binding.ivFilter.setImageResource(R.drawable.ic_filter_off)
+        }
     }
 
     companion object {

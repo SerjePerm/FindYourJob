@@ -33,7 +33,7 @@ class SearchViewModel(
     private var maxPages = 0
     private var isNextPageLoading = false
 
-    var filter = Filter()
+    var filter = filterInteractor.loadFilter()
 
     private val searchDebounce = debounce<String>(
         delayMillis = SEARCH_DEBOUNCE_DELAY_MILLIS,
