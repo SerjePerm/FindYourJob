@@ -23,10 +23,28 @@ class CountryViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             filterInteractor.getCountries().collect { data ->
                 when (data) {
-                    is ResponseData.Data -> _screenState.postValue(CountryState.Content(data.value))
+                    is ResponseData.Data -> sortAndPostData(data)
                     is ResponseData.Error -> _screenState.postValue(CountryState.Error(data.error))
                 }
             }
         }
     }
+
+    private fun sortAndPostData(data: ResponseData.Data<List<Country>>) {
+        val firstList: MutableList<Country> = ArrayList()
+        val secondList: MutableList<Country> = ArrayList()
+        for (item in data.value) {
+            if (item.id < COUNTRIES_FILTER_ID) {
+                firstList.add(item)
+            } else {
+                secondList.add(item)
+            }
+        }
+        _screenState.postValue(CountryState.Content(firstList + secondList))
+    }
+
+    private companion object {
+        const val COUNTRIES_FILTER_ID = 1000
+    }
+
 }
