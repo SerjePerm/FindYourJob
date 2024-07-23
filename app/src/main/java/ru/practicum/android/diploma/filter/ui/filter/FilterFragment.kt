@@ -77,7 +77,7 @@ class FilterFragment : Fragment() {
             findNavController().popBackStack()
         }
         binding.etSalary.doOnTextChanged { text, _, _, _ ->
-            viewModel.salary = text.toString()
+            viewModel.setSalary(text.toString())
         }
         binding.checkBox.setOnCheckedChangeListener { _, isChecked ->
             viewModel.onlyWithSalary = isChecked
