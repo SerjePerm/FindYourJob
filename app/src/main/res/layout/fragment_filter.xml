@@ -99,6 +99,7 @@
                 style="@style/Regular_16"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/margin22"
                 android:background="@color/transparent"
                 android:hint="@string/filter_enter_amount"
                 android:inputType="number"
