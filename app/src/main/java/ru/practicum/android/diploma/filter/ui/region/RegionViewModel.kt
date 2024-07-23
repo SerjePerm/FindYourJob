@@ -54,7 +54,7 @@ class RegionViewModel(
                 filterInteractor.getRegions(country.id).collect { data ->
                     when (data) {
                         is ResponseData.Data -> {
-                            _screenState.postValue(RegionState.Content(data.value))
+                            _screenState.postValue(RegionState.Content(data.value.sortedBy { it.name }))
                             originalList.addAll(data.value)
                         }
 
@@ -65,7 +65,7 @@ class RegionViewModel(
                 filterInteractor.getAllRegions().collect { data ->
                     when (data) {
                         is ResponseData.Data -> {
-                            _screenState.postValue(RegionState.Content(data.value))
+                            _screenState.postValue(RegionState.Content(data.value.sortedBy { it.name }))
                             originalList.addAll(data.value)
                         }
 
