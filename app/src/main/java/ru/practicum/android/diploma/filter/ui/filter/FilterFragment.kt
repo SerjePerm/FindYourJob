@@ -203,5 +203,4 @@ class FilterFragment : Fragment() {
             args = SectorFragment.createArguments(viewModel.sector)
         )
     }
-
 }

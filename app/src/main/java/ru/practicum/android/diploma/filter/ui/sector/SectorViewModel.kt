@@ -69,7 +69,6 @@ class SectorViewModel(
                 filteredList[indexChecked] = item.copy(isChecked = true)
             }
         }
-        _screenState.postValue(SectorState.Content(filteredList))
+        _screenState.postValue(SectorState.Content(filteredList.sortedBy { it.name }))
     }
-
 }

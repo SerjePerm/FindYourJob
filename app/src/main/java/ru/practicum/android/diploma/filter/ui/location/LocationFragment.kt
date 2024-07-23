@@ -182,5 +182,4 @@ class LocationFragment : Fragment() {
         const val LOCATION_REQUEST_KEY = "location_request"
         fun createArguments(location: Location): Bundle = bundleOf(LOCATION_EXTRA to location)
     }
-
 }

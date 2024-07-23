@@ -11,5 +11,4 @@ class SearchInteractorImpl(private val searchRepository: SearchRepository) : Sea
 
     override fun search(options: Options): Flow<ResponseData<VacanciesResponse>> =
         searchRepository.search(options)
-
 }

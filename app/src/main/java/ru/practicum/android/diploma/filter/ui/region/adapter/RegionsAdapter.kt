@@ -44,5 +44,4 @@ class RegionsAdapter(
     fun clearItems() {
         setItems(emptyList())
     }
-
 }

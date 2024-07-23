@@ -69,6 +69,9 @@
         <item name="android:clickable">true</item>
         <item name="android:focusable">false</item>
         <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:lines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_marginEnd">56dp</item>
     </style>
 
     <style name="Regular_12.BottomNavigationText">
