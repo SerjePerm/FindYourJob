@@ -15,6 +15,7 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentRegionBinding
 import ru.practicum.android.diploma.filter.domain.models.Location
 import ru.practicum.android.diploma.filter.ui.region.adapter.RegionsAdapter
+import ru.practicum.android.diploma.search.domain.utils.ResponseData
 import ru.practicum.android.diploma.utils.DeprecationUtils.serializable
 
 class RegionFragment : Fragment() {
@@ -60,7 +61,9 @@ class RegionFragment : Fragment() {
             }
 
             etSearchRegion.doOnTextChanged { text, _, _, _ ->
-                viewModel.search(text.toString())
+                if (viewModel.screenState.value is RegionState.Content) {
+                    viewModel.search(text.toString())
+                }
                 ivClear.isVisible = !text.isNullOrEmpty()
                 ivSearch.isVisible = text.isNullOrEmpty()
             }
@@ -79,7 +82,7 @@ class RegionFragment : Fragment() {
         viewModel.screenState.observe(viewLifecycleOwner) { screenState ->
             when (screenState) {
                 is RegionState.Content -> showContent(screenState)
-                RegionState.Error -> showError()
+                is RegionState.Error -> showError(screenState)
                 RegionState.Loading -> showLoading()
             }
         }
@@ -106,10 +109,16 @@ class RegionFragment : Fragment() {
         }
     }
 
-    private fun showError() {
+    private fun showError(screenState: RegionState.Error) {
         with(binding) {
-            tvPlaceholder.setText(R.string.region_error)
-            tvPlaceholder.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.placeholder_no_results_carpet, 0, 0)
+            if (screenState.error == ResponseData.ResponseError.NO_INTERNET) {
+                tvPlaceholder.setText(R.string.search_no_internet)
+                tvPlaceholder.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.placeholder_no_internet, 0, 0)
+
+            } else {
+                tvPlaceholder.setText(R.string.sector_error)
+                tvPlaceholder.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.placeholder_no_results_carpet, 0, 0)
+            }
             tvPlaceholder.isVisible = true
             flSearch.isVisible = true
             rvRegions.isVisible = false

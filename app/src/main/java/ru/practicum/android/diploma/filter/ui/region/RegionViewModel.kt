@@ -57,7 +57,8 @@ class RegionViewModel(
                             _screenState.postValue(RegionState.Content(data.value))
                             originalList.addAll(data.value)
                         }
-                        is ResponseData.Error -> _screenState.postValue(RegionState.Error)
+
+                        is ResponseData.Error -> _screenState.postValue(RegionState.Error(data.error))
                     }
                 }
             } else {
@@ -67,11 +68,11 @@ class RegionViewModel(
                             _screenState.postValue(RegionState.Content(data.value))
                             originalList.addAll(data.value)
                         }
-                        is ResponseData.Error -> _screenState.postValue(RegionState.Error)
+
+                        is ResponseData.Error -> _screenState.postValue(RegionState.Error(data.error))
                     }
                 }
             }
-
         }
     }
 
@@ -95,5 +96,4 @@ class RegionViewModel(
             return result
         }
     }
-
 }

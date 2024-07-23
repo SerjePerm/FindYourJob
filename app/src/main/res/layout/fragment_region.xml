@@ -58,6 +58,16 @@
             tools:ignore="ContentDescription" />
     </FrameLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvRegions"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin16"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@id/flSearch"
+        tools:itemCount="5"
+        tools:listitem="@layout/item_country" />
+
     <TextView
         android:id="@+id/tvPlaceholder"
         style="@style/Medium_22"
@@ -65,6 +75,7 @@
         android:layout_height="0dp"
         android:layout_marginVertical="@dimen/margin16"
         android:gravity="center"
+        android:visibility="gone"
         app:drawableTopCompat="@drawable/placeholder_no_internet"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -72,7 +83,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/flSearch"
         app:layout_constraintVertical_bias="0.45"
-        tools:text="placeholder text" />
+        tools:text="placeholder text"
+        tools:visibility="visible" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -83,17 +95,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tbRegion"
         tools:visibility="visible" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvRegions"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin12"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:itemCount="5"
-        tools:listitem="@layout/item_country"
-        app:layout_constraintTop_toBottomOf="@id/flSearch"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

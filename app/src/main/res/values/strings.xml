@@ -50,6 +50,7 @@
     <string name="location_select">Выбрать</string>
     <!-- filter country -->
     <string name="country_title">Выбор страны</string>
+    <string name="country_error">Не удалось получить\nсписок</string>
     <!-- filter region -->
     <string name="region_title">Выбор региона</string>
     <string name="region_enter_region">Введите регион</string>

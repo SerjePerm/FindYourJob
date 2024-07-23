@@ -24,7 +24,7 @@ class CountryViewModel(
             filterInteractor.getCountries().collect { data ->
                 when (data) {
                     is ResponseData.Data -> _screenState.postValue(CountryState.Content(data.value))
-                    is ResponseData.Error -> _screenState.postValue(CountryState.Error)
+                    is ResponseData.Error -> _screenState.postValue(CountryState.Error(data.error))
                 }
             }
         }
