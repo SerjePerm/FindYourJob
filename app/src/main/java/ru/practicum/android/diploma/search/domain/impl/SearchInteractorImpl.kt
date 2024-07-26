@@ -8,7 +8,7 @@ import ru.practicum.android.diploma.search.domain.utils.Options
 import ru.practicum.android.diploma.search.domain.utils.ResponseData
 
 class SearchInteractorImpl(private val searchRepository: SearchRepository) : SearchInteractor {
-    override fun search(options: Options): Flow<ResponseData<VacanciesResponse>> {
-        return searchRepository.search(options)
-    }
+
+    override fun search(options: Options): Flow<ResponseData<VacanciesResponse>> =
+        searchRepository.search(options)
 }

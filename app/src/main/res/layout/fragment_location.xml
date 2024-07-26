@@ -18,28 +18,71 @@
         android:titleTextAppearance="@style/Medium_22"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btCountry"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilCountryLabel"
+        style="@style/TextInputLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Страна"
-        app:layout_constraintTop_toBottomOf="@id/tbLocation" />
+        android:layout_height="60dp"
+        android:layout_marginTop="@dimen/margin16"
+        android:hint="@string/location_country"
+        app:layout_constraintTop_toBottomOf="@id/tbLocation">
 
-    <Button
-        android:id="@+id/btRegion"
-        android:layout_width="match_parent"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etCountryName"
+            style="@style/Regular_16.TextInputEditTextLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/ivCountryEndIcon"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Регион"
-        app:layout_constraintTop_toBottomOf="@id/btCountry" />
+        android:layout_marginEnd="@dimen/margin4"
+        android:clickable="false"
+        android:src="@drawable/ic_arrow_forward"
+        app:layout_constraintBottom_toBottomOf="@id/tilCountryLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tilCountryLabel" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilRegionLabel"
+        style="@style/TextInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:hint="@string/location_region"
+        app:layout_constraintTop_toBottomOf="@id/tilCountryLabel">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etRegionName"
+            style="@style/Regular_16.TextInputEditTextLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/ivRegionEndIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin4"
+        android:clickable="false"
+        android:src="@drawable/ic_arrow_forward"
+        app:layout_constraintBottom_toBottomOf="@id/tilRegionLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tilRegionLabel" />
 
     <Button
         android:id="@+id/btLocationSelect"
-        style="@style/Medium_16.Blue_button"
+        style="@style/Medium_16_Filter_Btns"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_marginHorizontal="@dimen/margin16"
         android:layout_marginBottom="@dimen/margin24"
+        android:backgroundTint="@color/blue"
         android:text="@string/location_select"
-        android:visibility="gone"
+        android:textColor="@color/white"
+        app:cornerRadius="12dp"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

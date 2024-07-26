@@ -28,6 +28,7 @@
     <string name="vacancy_title">Вакансия</string>
     <string name="vacancy_server_error">Ошибка сервера</string>
     <string name="vacancy_not_found">Вакансия не найдена или\nудалена</string>
+    <string name="vacancy_employment">%1$s, %2$s</string>
     <string name="salary_not_specified">Зарплата не указана</string>
     <string name="salary_from">от %1$s %2$s</string>
     <string name="salary_to">до %1$s %2$s</string>
@@ -41,6 +42,7 @@
     <string name="filter_only_with_salary">Не показывать без зарплаты</string>
     <string name="filter_apply">Применить</string>
     <string name="filter_reset">Сбросить</string>
+    <string name="filter_location">%1$s, %2$s</string>
     <!-- filter location -->
     <string name="location_title">Выбор места работы</string>
     <string name="location_country">Страна</string>
@@ -48,6 +50,7 @@
     <string name="location_select">Выбрать</string>
     <!-- filter country -->
     <string name="country_title">Выбор страны</string>
+    <string name="country_error">Не удалось получить\nсписок</string>
     <!-- filter region -->
     <string name="region_title">Выбор региона</string>
     <string name="region_enter_region">Введите регион</string>
@@ -57,6 +60,9 @@
     <string name="sector_title">Выбор отрасли</string>
     <string name="sector_enter_sector">Введите отрасль</string>
     <string name="sector_select">Выбрать</string>
+    <string name="sector_query">Введите отрасль</string>
+    <string name="sector_no_sector">Такой отрасли нет</string>
+    <string name="sector_error">Не удалось получить\nсписок</string>
     <!-- strings for openEmail -->
     <string name="email_subject">Тема письма</string>
     <string name="email_text">Текст письма</string>
@@ -68,9 +74,9 @@
     <string name="vacancy_contacts_employer">Контакты</string>
 
     <plurals name="vacancies">
-        <item quantity="one">Найдена %d вакансия</item>
-        <item quantity="few">Найдено %d вакансии</item>
-        <item quantity="many">Найдено %d вакансий</item>
-        <item quantity="other">Найдено %d вакансий</item>
+        <item quantity="one">Найдена %s вакансия</item>
+        <item quantity="few">Найдено %s вакансии</item>
+        <item quantity="many">Найдено %s вакансий</item>
+        <item quantity="other">Найдено %s вакансий</item>
     </plurals>
 </resources>

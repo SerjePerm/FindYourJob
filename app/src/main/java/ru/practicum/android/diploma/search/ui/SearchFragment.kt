@@ -6,20 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.TextView
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
 import ru.practicum.android.diploma.search.domain.utils.ResponseData
 import ru.practicum.android.diploma.search.ui.adapter.VacanciesAdapter
 import ru.practicum.android.diploma.utils.Placeholder
+import ru.practicum.android.diploma.utils.formatNumber
 import ru.practicum.android.diploma.vacancy.ui.VacancyFragment
 
 class SearchFragment : Fragment() {
@@ -31,8 +32,8 @@ class SearchFragment : Fragment() {
     private val vacanciesAdapter: VacanciesAdapter by lazy {
         VacanciesAdapter { vacancy ->
             findNavController().navigate(
-                R.id.action_searchFragment_to_vacancyFragment,
-                VacancyFragment.createArguments(vacancy.id)
+                resId = R.id.action_searchFragment_to_vacancyFragment,
+                args = VacancyFragment.createArguments(vacancy.id)
             )
         }
     }
@@ -54,6 +55,7 @@ class SearchFragment : Fragment() {
         initializeAdapter()
         initializeScroll()
         initializeOther()
+        checkFilterExist()
     }
 
     override fun onDestroyView() {
@@ -67,7 +69,7 @@ class SearchFragment : Fragment() {
                 is SearchState.Content -> showContent(screenState)
                 is SearchState.Error -> showError(screenState)
                 is SearchState.Loading -> showLoading(screenState.isNewPage)
-                is SearchState.Empty -> showEmpty()
+                SearchState.Empty -> showEmpty()
             }
         }
     }
@@ -95,7 +97,9 @@ class SearchFragment : Fragment() {
     private fun initializeOther() {
         with(binding) {
             ivFilter.setOnClickListener {
-                findNavController().navigate(R.id.action_searchFragment_to_filterFragment)
+                findNavController().navigate(
+                    resId = R.id.action_searchFragment_to_filterFragment,
+                )
             }
 
             etSearch.doOnTextChanged { text, _, _, _ ->
@@ -112,6 +116,14 @@ class SearchFragment : Fragment() {
             }
 
             placeholder = Placeholder(tvPlaceholder)
+        }
+
+        setFragmentResultListener(FILTERS_KEY) { _, bundle ->
+            checkFilterExist()
+            val filtersApply = bundle.getBoolean(FILTERS_EXTRA)
+            if (filtersApply) {
+                viewModel.filterApply()
+            }
         }
     }
 
@@ -148,7 +160,7 @@ class SearchFragment : Fragment() {
 
         if (screenState.isNewPage) {
             placeholder?.hide()
-            showSnackBar(getString(R.string.search_no_internet_paging))
+            showToast(getString(R.string.search_no_internet_paging))
         } else {
             placeholder?.show(imageAndText.first, imageAndText.second)
             vacanciesAdapter.clearItems()
@@ -182,19 +194,24 @@ class SearchFragment : Fragment() {
         inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
-    private fun getVacanciesText(context: Context, count: Int): String {
-        return context.resources.getQuantityString(R.plurals.vacancies, count, count)
+    private fun getVacanciesText(context: Context, count: Int): String =
+        context.resources.getQuantityString(R.plurals.vacancies, count, formatNumber(count))
+
+    private fun showToast(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
-    private fun showSnackBar(message: String) {
-        val snackBar = Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT)
-        val tvText = snackBar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
-        tvText.textAlignment = View.TEXT_ALIGNMENT_CENTER
-        snackBar.setAnchorView(binding.vAnchor)
-        snackBar.show()
+    private fun checkFilterExist() {
+        if (viewModel.isEmptyFilter()) {
+            binding.ivFilter.setImageResource(R.drawable.ic_filter_off)
+        } else {
+            binding.ivFilter.setImageResource(R.drawable.ic_filter_on)
+        }
     }
 
-    private companion object {
-        const val ITEM_COUNT_TO_GET_NEW_PAGE = 2
+    companion object {
+        private const val ITEM_COUNT_TO_GET_NEW_PAGE = 2
+        const val FILTERS_KEY = "filters_key"
+        const val FILTERS_EXTRA = "filters_extra"
     }
 }

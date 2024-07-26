@@ -15,7 +15,7 @@ import ru.practicum.android.diploma.vacancy.domain.impl.VacancyInteractorImpl
 val interactorModule = module {
 
     factory<SearchInteractor> {
-        SearchInteractorImpl(get())
+        SearchInteractorImpl(searchRepository = get())
     }
 
     factory<VacancyInteractor> {
@@ -23,7 +23,10 @@ val interactorModule = module {
     }
 
     factory<FilterInteractor> {
-        FilterInteractorImpl()
+        FilterInteractorImpl(
+            filterRepository = get(),
+            filterStoreRepository = get()
+        )
     }
 
     factory<FavouritesInteractor> {
@@ -31,6 +34,6 @@ val interactorModule = module {
     }
 
     factory<SharingInteractor> {
-        SharingInteractorImpl(get())
+        SharingInteractorImpl(externalNavigator = get())
     }
 }

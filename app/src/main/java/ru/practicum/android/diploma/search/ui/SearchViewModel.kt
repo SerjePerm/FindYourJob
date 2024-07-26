@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import ru.practicum.android.diploma.filter.domain.api.FilterInteractor
+import ru.practicum.android.diploma.filter.domain.models.Filter
 import ru.practicum.android.diploma.search.domain.api.SearchInteractor
 import ru.practicum.android.diploma.search.domain.models.VacanciesResponse
 import ru.practicum.android.diploma.search.domain.models.Vacancy
@@ -14,33 +16,50 @@ import ru.practicum.android.diploma.search.domain.utils.Options
 import ru.practicum.android.diploma.search.domain.utils.ResponseData
 import ru.practicum.android.diploma.utils.debounce
 
-class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewModel() {
+class SearchViewModel(
+    private val searchInteractor: SearchInteractor,
+    private val filterInteractor: FilterInteractor
+) : ViewModel() {
 
     private val _screenState = MutableLiveData<SearchState>(SearchState.Empty)
     val screenState: LiveData<SearchState> = _screenState
 
+    private val vacanciesList = mutableListOf<Vacancy>()
     private var latestSearchText: String? = null
+    private var searchJob: Job? = null
+    private var cancelJob = false
 
     private var currentPage = -1
     private var maxPages = 0
-    private val vacanciesList = mutableListOf<Vacancy>()
+    private var isNextPageLoading = false
+
+    var filter = Filter()
 
     private val searchDebounce = debounce<String>(
         delayMillis = SEARCH_DEBOUNCE_DELAY_MILLIS,
         coroutineScope = viewModelScope,
         useLastParam = true
     ) { changedText ->
-        currentPage = 0
-        maxPages = 0
-        vacanciesList.clear()
-        searchRequest(changedText)
+        newSearchRequest(changedText)
     }
 
-    private var isNextPageLoading = false
+    private val pageErrorDebounce = debounce<ResponseData.ResponseError>(
+        delayMillis = PAGE_LOADING_ERROR_DELAY_MILLIS,
+        coroutineScope = viewModelScope,
+        useLastParam = false,
+    ) { responseError ->
+        _screenState.postValue(SearchState.Error(responseError, true))
+    }
 
-    private var searchJob: Job? = null
+    private fun loadFilter() {
+        filter = filterInteractor.loadFilter()
+    }
 
-    private var cancelJob = false
+    fun filterApply() {
+        latestSearchText?.let {
+            newSearchRequest(it)
+        }
+    }
 
     fun onLastItemReached() {
         if (isNextPageLoading) {
@@ -68,18 +87,33 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
         }
     }
 
+    fun isEmptyFilter(): Boolean {
+        return filterInteractor.loadFilter() == Filter()
+    }
+
     private fun searchRequest(searchText: String) {
         if (searchText.isNotEmpty() && !cancelJob) {
             _screenState.postValue(SearchState.Loading(currentPage > 0))
             searchJob = viewModelScope.launch(Dispatchers.IO) {
+                if (!isNextPageLoading) {
+                    loadFilter()
+                }
                 val options = Options(
                     searchText = searchText,
                     itemsPerPage = VACANCIES_PER_PAGE,
                     page = currentPage,
+                    filter = filter
                 )
                 searchInteractor.search(options).collect(::processResponse)
             }
         }
+    }
+
+    private fun newSearchRequest(searchText: String) {
+        currentPage = 0
+        maxPages = 0
+        vacanciesList.clear()
+        searchRequest(searchText)
     }
 
     private fun processResponse(vacanciesData: ResponseData<VacanciesResponse>) {
@@ -95,7 +129,11 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
             }
 
             is ResponseData.Error -> {
-                _screenState.postValue(SearchState.Error(vacanciesData.error, isNextPageLoading))
+                if (isNextPageLoading) {
+                    pageErrorDebounce(vacanciesData.error)
+                } else {
+                    _screenState.postValue(SearchState.Error(vacanciesData.error, false))
+                }
             }
         }
 
@@ -105,5 +143,6 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
     private companion object {
         const val VACANCIES_PER_PAGE = 20
         const val SEARCH_DEBOUNCE_DELAY_MILLIS = 2000L
+        const val PAGE_LOADING_ERROR_DELAY_MILLIS = 4000L
     }
 }

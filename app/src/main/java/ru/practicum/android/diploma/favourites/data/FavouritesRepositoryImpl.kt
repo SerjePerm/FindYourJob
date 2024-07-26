@@ -12,19 +12,16 @@ import ru.practicum.android.diploma.vacancy.domain.models.VacancyFull
 
 class FavouritesRepositoryImpl(private val db: MainDB) : FavouritesRepository {
 
-    override fun favouriteVacancies(): Flow<List<Vacancy>> {
-        return db.favouritesDao().getAll().map { list ->
+    override fun favouriteVacancies(): Flow<List<Vacancy>> =
+        db.favouritesDao().getAll().map { list ->
             list.map { it.toVacancy() }
         }
-    }
 
-    override fun favouriteIds(): Flow<List<Int>> {
-        return db.favouritesDao().getIds()
-    }
+    override fun favouriteIds(): Flow<List<Int>> =
+        db.favouritesDao().getIds()
 
-    override suspend fun getById(vacancyId: Int): VacancyFull? {
-        return db.favouritesDao().getById(vacancyId)?.toVacancyFull()
-    }
+    override suspend fun getById(vacancyId: Int): VacancyFull? =
+        db.favouritesDao().getById(vacancyId)?.toVacancyFull()
 
     override suspend fun upsertVacancy(vacancyFull: VacancyFull) {
         db.favouritesDao().upsert(vacancyFull.toVacancyEntity(System.currentTimeMillis()))

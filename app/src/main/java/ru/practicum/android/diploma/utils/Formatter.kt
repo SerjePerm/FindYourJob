@@ -3,6 +3,7 @@ package ru.practicum.android.diploma.utils
 import android.content.Context
 import ru.practicum.android.diploma.R
 import java.text.NumberFormat
+import java.util.Locale
 
 fun formattingSalary(salaryFrom: Int?, salaryTo: Int?, currency: String, context: Context): String {
     return when {
@@ -29,13 +30,13 @@ fun formattingSalary(salaryFrom: Int?, salaryTo: Int?, currency: String, context
     }
 }
 
-private fun formatNumber(number: Int): String {
-    return NumberFormat.getInstance().format(number)
+fun formatNumber(number: Int): String {
+    return NumberFormat.getInstance(Locale("RU")).format(number)
 }
 
 private fun formatCurrency(currency: String): String {
     return when (currency) {
-        "RUR", "RUB" -> " ₽"
+        "RUR", "RUB" -> "₽"
         "BYR" -> "Br"
         "USD" -> "$"
         "EUR" -> "€"

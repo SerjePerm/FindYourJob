@@ -14,7 +14,10 @@ import ru.practicum.android.diploma.vacancy.ui.VacancyViewModel
 val viewModelModule = module {
 
     viewModel {
-        SearchViewModel(get())
+        SearchViewModel(
+            searchInteractor = get(),
+            filterInteractor = get()
+        )
     }
 
     viewModel {
@@ -30,7 +33,7 @@ val viewModelModule = module {
     }
 
     viewModel {
-        FilterViewModel()
+        FilterViewModel(filterInteractor = get())
     }
 
     viewModel {
@@ -38,14 +41,14 @@ val viewModelModule = module {
     }
 
     viewModel {
-        CountryViewModel()
+        CountryViewModel(filterInteractor = get())
     }
 
     viewModel {
-        RegionViewModel()
+        RegionViewModel(filterInteractor = get())
     }
 
     viewModel {
-        SectorViewModel()
+        SectorViewModel(filterInteractor = get())
     }
 }
