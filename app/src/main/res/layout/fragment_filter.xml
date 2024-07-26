@@ -30,7 +30,9 @@
             android:id="@+id/etLocationName"
             style="@style/Regular_16.TextInputEditTextLocation"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:editable="false"
+            tools:ignore="Deprecated" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
@@ -56,8 +58,12 @@
             style="@style/Regular_16.TextInputEditTextLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:editable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
             android:ellipsize="end"
-            android:hint="@string/filter_sector" />
+            android:hint="@string/filter_sector"
+            tools:ignore="Deprecated" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
