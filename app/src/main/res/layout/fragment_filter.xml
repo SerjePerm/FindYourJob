@@ -59,8 +59,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:editable="false"
-            android:cursorVisible="false"
-            android:focusable="false"
             android:ellipsize="end"
             android:hint="@string/filter_sector"
             tools:ignore="Deprecated" />
