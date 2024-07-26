@@ -90,6 +90,7 @@
             android:paddingTop="@dimen/padding8"
             android:textColorHint="?attr/hint_text_c"
             app:boxBackgroundMode="none"
+            app:cursorColor="@color/blue"
             app:expandedHintEnabled="false"
             app:hintTextAppearance="@style/Regular_12"
             app:hintTextColor="@color/blue">
