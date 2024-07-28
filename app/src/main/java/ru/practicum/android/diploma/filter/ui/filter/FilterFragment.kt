@@ -86,6 +86,7 @@ class FilterFragment : Fragment() {
         }
         binding.btFilterReset.setOnClickListener {
             viewModel.resetFilter()
+            setFragmentResult(SearchFragment.FILTERS_KEY, bundleOf(SearchFragment.FILTERS_EXTRA to true))
             findNavController().popBackStack()
         }
         binding.etSalary.doOnTextChanged { text, _, _, _ ->
