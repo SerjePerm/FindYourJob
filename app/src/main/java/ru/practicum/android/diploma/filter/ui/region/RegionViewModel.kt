@@ -65,8 +65,10 @@ class RegionViewModel(
                 filterInteractor.getAllRegions().collect { data ->
                     when (data) {
                         is ResponseData.Data -> {
-                            _screenState.postValue(RegionState.Content(data.value.sortedBy { it.name }))
-                            originalList.addAll(data.value)
+                            val result = data.value
+                                .filter { it.parentId < COUNTRIES_FILTER_ID }.sortedBy { it.name }
+                            _screenState.postValue(RegionState.Content(result))
+                            originalList.addAll(result)
                         }
 
                         is ResponseData.Error -> _screenState.postValue(RegionState.Error(data.error))
@@ -96,4 +98,9 @@ class RegionViewModel(
             return result
         }
     }
+
+    private companion object {
+        const val COUNTRIES_FILTER_ID = 1000
+    }
+
 }
