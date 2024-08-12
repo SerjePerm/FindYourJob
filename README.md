@@ -22,5 +22,6 @@
 
 ## Скриншоты
 
-<img src="./docs/img/1.png" width=30% height=30%><img src="./docs/img/2.png" width=30% height=30%>
-<img src="./docs/img/3.png" width=30% height=30%><img src="./docs/img/4.png" width=30% height=30%>
+<img src="./docs/img/1.png" width=30% height=30%>   <img src="./docs/img/2.png" width=30% height=30%>
+
+<img src="./docs/img/3.png" width=30% height=30%>   <img src="./docs/img/4.png" width=30% height=30%>
