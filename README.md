@@ -1,4 +1,5 @@
-# Дипломный проект Яндекс.Практикума по курсу "Android-разработчик"
+# Приложение для поиска вакансий
+(Дипломный проект Яндекс.Практикума по курсу "Android-разработчик")
 
 ## Основной функционал
 
@@ -21,7 +22,5 @@
 
 ## Скриншоты
 
-<img src="./docs/img/1.png" width=30% height=30%>
-<img src="./docs/img/2.png" width=30% height=30%>
-<img src="./docs/img/3.png" width=30% height=30%>
-<img src="./docs/img/4.png" width=30% height=30%>
+<img src="./docs/img/1.png" width=30% height=30%><img src="./docs/img/2.png" width=30% height=30%>
+<img src="./docs/img/3.png" width=30% height=30%><img src="./docs/img/4.png" width=30% height=30%>
