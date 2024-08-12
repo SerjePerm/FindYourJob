@@ -21,6 +21,11 @@
 
 ## Скриншоты
 
+<img src="./docs/img/1.png" width=50% height=50%>
+<img src="./docs/img/2.png" width=50% height=50%>
+<img src="./docs/img/3.png" width=50% height=50%>
+<img src="./docs/img/4.png" width=50% height=50%>
+
 <div style="width: 50%; height: 50%">
 ![Скриншот 1](./docs/img/1.png)
 </div>
